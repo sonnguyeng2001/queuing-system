@@ -1,0 +1,92 @@
+.wrapper {
+   height: 100%;
+   position: relative;
+}
+.logo {
+   display: flex;
+
+   & svg {
+      margin: 0 auto;
+   }
+}
+.navbar {
+   width: 100%;
+   margin-top: 40px;
+}
+
+.navbar-item {
+   height: 50px;
+   margin: 2px 0px;
+   display: flex;
+   align-items: center;
+   background-color: transparent;
+   text-decoration: none;
+   transition: 0.1s linear;
+
+   & .navbar-item-logo {
+      width: 20px;
+      height: 20px;
+      margin: 0px 16px 0px 20px;
+      display: inline-block;
+   }
+
+   & .navbar-item-logo svg path {
+      stroke: var(--color-gray-200);
+   }
+   & .navbar-item-title {
+      color: var(--color-gray-300);
+      font-weight: 600;
+      flex: 1;
+      font-size: 16px;
+   }
+
+   &:hover {
+      background-color: var(--color-orange-50);
+   }
+
+   &:hover .navbar-item-logo svg path {
+      stroke: var(--color-orange-500);
+   }
+   &:hover .navbar-item-title {
+      color: var(--color-orange-500);
+   }
+}
+
+.navbar-item.active,
+.navbar-item.active:hover {
+   background-color: var(--color-orange-500);
+   color: white;
+   & .navbar-item-logo path {
+      stroke: white;
+   }
+   & .navbar-item-title {
+      color: white;
+   }
+}
+.logout {
+   width: 100%;
+   position: absolute;
+   bottom: 0;
+   display: flex;
+}
+.btnLogout {
+   width: 176px;
+   display: flex;
+   align-items: center;
+   padding: 12px;
+   border-radius: 8px;
+   background-color: var(--color-orange-50);
+   border: none;
+   outline: none;
+   margin: auto;
+   cursor: pointer;
+
+   & span {
+      font-size: 16px;
+      color: var(--color-orange-500);
+      flex: 1;
+      text-align: left;
+      margin-left: 12px;
+      font-weight: 600;
+   }
+}

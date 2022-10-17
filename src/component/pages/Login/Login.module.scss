@@ -1,0 +1,108 @@
+:root {
+   --width-left-content: 592px;
+}
+
+.wrapper {
+   height: 100vh;
+   width: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.leftContent {
+   width: var(--width-left-content);
+   height: 100%;
+   background-color: var(--color-bg-content);
+   display: flex;
+   align-items: center;
+   flex-direction: column;
+   color: #37474f;
+   font-weight: 500;
+
+   & .logo {
+      margin: 70px 0px 50px 0px;
+   }
+   & .form {
+      width: 400px;
+   }
+   & .label {
+      margin-bottom: 6px;
+   }
+   & .input {
+      width: 400px;
+      border: 1px solid #ccc;
+      outline: none;
+      background-color: white;
+      padding: 6px 8px;
+      font-size: 16px;
+      border-radius: 4px;
+      color: #535261;
+   }
+
+   & div:nth-child(2) {
+      margin-top: 16px;
+   }
+
+   & .errorMessage {
+      opacity: 0;
+      margin-top: 10px;
+      color: var(--color-red);
+      font-size: 14px;
+      font-weight: 500;
+   }
+   & .errorMessage.showError {
+      opacity: 1;
+   }
+}
+
+.btnLogin {
+   padding: 8px 40px;
+   color: #fff;
+   background-color: var(--color-orange-400);
+   border-radius: 8px;
+   border: none;
+   outline: none;
+   font-weight: 500;
+   font-size: 14px;
+   margin-top: 20px;
+   cursor: pointer;
+}
+.rightContent {
+   position: relative;
+   height: 100%;
+   flex: 1;
+   background-color: white;
+   & svg {
+      position: absolute;
+      top: 50%;
+      left: 30%;
+      transform: translate(-30%, -50%);
+   }
+
+   & .text {
+      position: absolute;
+      top: 48%;
+      left: 52%;
+   }
+   & .text .first-text {
+      font-size: 34px;
+      color: var(--color-orange-500);
+      font-weight: 400;
+   }
+   & .text .second-text {
+      font-size: 36px;
+      color: var(--color-orange-500);
+      font-weight: 800;
+      text-transform: uppercase;
+   }
+}
+
+.forgotPassWord {
+   margin-top: 10px;
+   color: var(--color-red);
+   text-decoration: none;
+}
+.forgotPassWord:hover {
+   text-decoration: underline;
+}
