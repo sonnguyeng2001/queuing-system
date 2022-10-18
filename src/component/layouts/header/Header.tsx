@@ -99,7 +99,7 @@ export const Header = () => {
          }
       } else {
          setCurrentPage([pathName]);
-         window.localStorage.setItem('currentPage', JSON.stringify(pathName));
+         window.localStorage.setItem('currentPage', JSON.stringify([pathName]));
       }
 
       return () => {

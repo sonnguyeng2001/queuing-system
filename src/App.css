@@ -23,7 +23,7 @@
 
    --space-header-footer: 30px;
    --width-app: 1500px;
-   --height-app: 720px;
+   --height-app: calc(100vh - 20px);
    --width-sidebar: 200px;
    --width-table-content: 1160px;
 }
@@ -91,7 +91,7 @@ h6 {
    justify-content: center;
    align-items: center;
    width: 100%;
-   height: 753px;
+   height: 100vh;
    background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
 }
 
@@ -100,6 +100,17 @@ h6 {
    height: var(--height-app);
    border-radius: 12px;
    overflow: hidden;
+   animation: fade 0.4s ease-in-out;
+}
+@keyframes fade {
+   from {
+      transform: scale(0.8);
+      opacity: 0;
+   }
+   to {
+      transform: scale(1);
+      opacity: 1;
+   }
 }
 
 /* Customize body scroll */

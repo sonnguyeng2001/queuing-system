@@ -114,13 +114,13 @@ export const userSlice = createSlice({
 
       [userLogin.fulfilled.toString()]: (state, action) => {
          state.isLoggedIn = action.payload;
-         window.localStorage.setItem('isLoggedIn', `${action.payload}`);
+         window.localStorage.setItem('isLoggedIn', 'true');
       },
 
       // ------------------------- Logout
       [userLogout.fulfilled.toString()]: (state, action) => {
          state.isLoggedIn = !action.payload;
-         window.localStorage.setItem('isLoggedIn', `${!action.payload}`);
+         window.localStorage.removeItem('isLoggedIn');
       },
    },
 });
