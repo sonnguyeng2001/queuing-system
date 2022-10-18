@@ -13,4 +13,7 @@ export const routesConfig = {
    login: '/',
    forgotPassword: '/forgotPassword',
    resetPassword: '/resetPassword',
+
+   // ------------------------------ 404 routes
+   page404: '*',
 };

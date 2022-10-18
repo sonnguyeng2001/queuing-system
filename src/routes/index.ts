@@ -8,6 +8,7 @@ import { routesConfig } from './routeConfig';
 import { AddDevices } from '../component/pages/Devices/AddDevices/AddDevices';
 import { ListDevices } from '../component/pages/Devices/ListDevices/ListDevices';
 import { DeleteDevices } from '../component/pages/Devices/DeleteDevices/DeleteDevices';
+import { Page404 } from '../component/pages/Page404/Page404';
 
 export type RouteProps = {
    path: string;
@@ -48,8 +49,6 @@ const privateRoutes: RouteProps[] = [
       translate: 'Dịch vụ',
    },
 ];
-
-
 
 const publicRoutes: RouteProps[] = [
    {

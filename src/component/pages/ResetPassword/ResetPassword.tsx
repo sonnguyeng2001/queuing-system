@@ -2,12 +2,10 @@ import classNames from 'classnames/bind';
 import style from './ResetPassword.module.scss';
 import { Logo } from '../../../assets/svg/Logo';
 import { GroupPeoplePassword } from '../../../assets/svg/GroupPeoplePassword';
-import { Button } from 'antd';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useRef, useEffect } from 'react';
 import { updatePassword } from '../../../redux/features/UserSlice';
-import { State } from '../../../redux/store';
 
 const cx = classNames.bind(style);
 export const ResetPassword = () => {
@@ -23,6 +21,7 @@ export const ResetPassword = () => {
       if (!location.state?.email) {
          navigate('/forgotPassword');
       }
+   // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
 
    const handleClickConfirm = () => {
@@ -62,9 +61,9 @@ export const ResetPassword = () => {
                   Hai mật khẩu phải giống nhau
                </p>
             </div>
-            <Button onClick={handleClickConfirm} className={cx('btnLogin')}>
+            <button onClick={handleClickConfirm} className={cx('btnLogin')}>
                Xác nhận
-            </Button>
+            </button>
          </div>
          <div className={cx('rightContent')}>
             <GroupPeoplePassword />

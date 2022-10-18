@@ -1,7 +1,7 @@
+import './CardNoName.css';
 import classNames from 'classnames/bind';
 import style from './CardNoName.module.scss';
-import { Progress } from 'antd';
-import { LogoDevices } from '../../../assets/svg/LogoDevices';
+import { Progress, Card } from 'antd';
 import { CardNoNameType } from '../../propsType/CardNoNameProps';
 
 const cx = classNames.bind(style);
@@ -13,7 +13,7 @@ type CardType = {
 export const CardNoName = (props: CardType) => {
    const percentActive = Math.floor((props.children.activeNumber / props.children.total) * 100);
    return (
-      <div className={cx('wrapper')}>
+      <Card hoverable={true} className={cx('wrapper')}>
          <div className={cx('progress-circle')}>
             <div className={cx('circle')}>
                <Progress
@@ -56,6 +56,6 @@ export const CardNoName = (props: CardType) => {
                <span style={{ color: props.children.color }}>{props.children.stopNumber}</span>
             </p>
          </div>
-      </div>
+      </Card>
    );
 };

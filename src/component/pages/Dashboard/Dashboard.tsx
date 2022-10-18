@@ -18,7 +18,7 @@ import { LogoDevices } from '../../../assets/svg/LogoDevices';
 import { LogoServices } from '../../../assets/svg/LogoServices';
 import { LogoLevel } from '../../../assets/svg/LogoLevel';
 import Calendar from 'react-calendar';
- 
+import { HeaderContent } from '../../componentChild/HeaderContent/HeaderContent';
 
 const cx = classNames.bind(style);
 
@@ -105,7 +105,7 @@ export const DashboardPage = () => {
    return (
       <div className={cx('wrapper')}>
          <div className={cx('leftContent')}>
-            <h2 className={cx('heading')}>Biểu đồ cấp số</h2>
+            <HeaderContent title="Biểu đồ cấp số" />
             <div className={cx('cartList')}>
                {cardList.map((card, index) => {
                   return <CardItem key={index} children={card} />;

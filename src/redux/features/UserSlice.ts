@@ -79,7 +79,7 @@ export const userSlice = createSlice({
    name: 'user',
    initialState: {
       data: [],
-      isLoggedIn: false,
+      isLoggedIn: window.localStorage.getItem('isLoggedIn') || false,
       isSuccess: false,
       message: '',
    } as UserType,
@@ -114,11 +114,13 @@ export const userSlice = createSlice({
 
       [userLogin.fulfilled.toString()]: (state, action) => {
          state.isLoggedIn = action.payload;
+         window.localStorage.setItem('isLoggedIn', `${action.payload}`);
       },
 
       // ------------------------- Logout
       [userLogout.fulfilled.toString()]: (state, action) => {
          state.isLoggedIn = !action.payload;
+         window.localStorage.setItem('isLoggedIn', `${!action.payload}`);
       },
    },
 });

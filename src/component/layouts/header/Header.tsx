@@ -73,7 +73,12 @@ export const Header = () => {
    const location = useLocation();
    const logoRef = useRef<HTMLDivElement | null>(null);
    const pathName: string = location.pathname.toString();
-   const [currentPage, setCurrentPage] = useState<string[] | []>([]);
+   const [currentPage, setCurrentPage] = useState<string[] | []>(() => {
+      if (window.localStorage.getItem('currentPage')) {
+         return JSON.parse(window.localStorage.getItem('currentPage')!);
+      }
+      return ['/dashboard'];
+   });
    let num: number = currentPage.indexOf(pathName as never);
 
    useEffect(() => {
@@ -83,13 +88,23 @@ export const Header = () => {
          const Exists = currentPage.find((page) => page === pathName);
          if (!Exists) {
             setCurrentPage((prev) => [...prev, pathName]);
+            window.localStorage.setItem('currentPage', JSON.stringify([...currentPage, pathName]));
          } else if (currentPage[num++].length > 0) {
             // Kiểm tra phần tử kế tiếp có tồn tại hay không
             setCurrentPage((prev) => [...prev.filter((ele: string) => ele !== currentPage[num])]);
+            window.localStorage.setItem(
+               'currentPage',
+               JSON.stringify([...currentPage.filter((ele: string) => ele !== currentPage[num])]),
+            );
          }
       } else {
          setCurrentPage([pathName]);
+         window.localStorage.setItem('currentPage', JSON.stringify(pathName));
       }
+
+      return () => {
+         window.localStorage.removeItem('currentPage');
+      };
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [pathName]);

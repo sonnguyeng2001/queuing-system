@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
-import React, { useEffect } from 'react';
- 
+import React from 'react';
+
 import { Header } from '../header/Header';
 import { Sidebar } from '../sidebar/Sidebar';
 import style from './DefaultLayout.module.scss';
@@ -11,7 +11,6 @@ type ComponentProps = {
 };
 
 export const DefaultLayout = (children: ComponentProps) => {
-   
    return (
       <div className={cx('wrapper')}>
          <div className={cx('sidebar')}>
