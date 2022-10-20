@@ -1,0 +1,40 @@
+.ant-select.ant-select-multiple.ant-select-show-search {
+   width: 100%;
+   border: 1.5px solid var(--color-orange-400);
+   border-radius: 8px;
+   overflow: hidden;
+}
+.ant-select.ant-select-multiple.ant-select-show-search .ant-select-selector {
+   min-height: 60px;
+   cursor: pointer;
+}
+
+.ant-select-multiple .ant-select-selector {
+   display: flex;
+   align-items: flex-start;
+   cursor: pointer;
+   padding: 4px 6px;
+}
+.ant-select-selection-overflow-item {
+   color: white;
+   background-color: red;
+   background-color: white !important;
+}
+.ant-select-selection-overflow-item {
+   margin: 0px 6px;
+}
+.ant-select-multiple .ant-select-selection-item {
+   height: unset;
+   padding: 6px 12px;
+   gap: 10px;
+   background-color: var(--color-orange-400);
+   color: #fff;
+   box-shadow: 0px 0px 6px #e7e9f2;
+   border-radius: 8px;
+}
+.ant-select-multiple .ant-select-selection-item-remove svg {
+   fill: #fff;
+}
+.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+   border: none;
+}

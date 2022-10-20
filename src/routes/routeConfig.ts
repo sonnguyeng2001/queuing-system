@@ -1,10 +1,13 @@
+const devicesPage = '/devices';
+
 export const routesConfig = {
    // ------------------------------private routes
    dashboard: '/dashboard',
 
    devices: '/devices',
    addDevices: '/devices/addDevices',
-   deleteDevices: '/devices/deleteDevices',
+   detailsDevices: '/devices/detailsDevices/:id',
+   updateDevices: '/devices/updateDevices/:id',
    listDevices: '/devices/listDevices',
 
    services: '/services',

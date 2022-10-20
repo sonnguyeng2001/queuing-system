@@ -88,7 +88,7 @@ export const userSlice = createSlice({
       // ------------------------- getUsers
       [getUsers.fulfilled.toString()]: (state, action) => {
          state.isSuccess = true;
-         state.message = 'Load data successfully';
+         state.message = 'Load data users successfully';
          Object.values(action.payload).map((user: any) => {
             return (state.data = [...state.data, user]);
          });

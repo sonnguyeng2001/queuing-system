@@ -2,12 +2,11 @@ import classNames from 'classnames/bind';
 import { LogoNotification } from '../../../assets/svg/LogoNotification';
 import style from './Header.module.scss';
 import imgUser from '../../../assets/images/imgUser.png';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { privateRoutes } from '../../../routes';
 import { useRef, useState, useEffect } from 'react';
 import HeadlessTippy from '@tippyjs/react/headless';
 import { CardNotification } from '../../componentChild/CardNotification/CardNotification';
-
 const cx = classNames.bind(style);
 
 const notificationList = [
@@ -69,6 +68,7 @@ const notificationList = [
    },
 ];
 export const Header = () => {
+   const { id } = useParams();
    const [stateLogo, setStateLogo] = useState<boolean>(false);
    const location = useLocation();
    const logoRef = useRef<HTMLDivElement | null>(null);
@@ -88,13 +88,20 @@ export const Header = () => {
          const Exists = currentPage.find((page) => page === pathName);
          if (!Exists) {
             setCurrentPage((prev) => [...prev, pathName]);
-            window.localStorage.setItem('currentPage', JSON.stringify([...currentPage, pathName]));
-         } else if (currentPage[num++].length > 0) {
-            // Kiểm tra phần tử kế tiếp có tồn tại hay không
-            setCurrentPage((prev) => [...prev.filter((ele: string) => ele !== currentPage[num])]);
             window.localStorage.setItem(
                'currentPage',
-               JSON.stringify([...currentPage.filter((ele: string) => ele !== currentPage[num])]),
+               JSON.stringify([...currentPage, pathName]),
+            );
+         } else if (currentPage[num++].length > 0) {
+            // Kiểm tra phần tử kế tiếp có tồn tại hay không
+            setCurrentPage((prev) => [
+               ...prev.filter((ele: string) => ele !== currentPage[num]),
+            ]);
+            window.localStorage.setItem(
+               'currentPage',
+               JSON.stringify([
+                  ...currentPage.filter((ele: string) => ele !== currentPage[num]),
+               ]),
             );
          }
       } else {
@@ -114,7 +121,11 @@ export const Header = () => {
    };
 
    const handleDisable = (event: any, index: number) => {
-      index === 0 && event.preventDefault();
+      if (index === 0 || index === currentPage.length - 1) {
+         // Đang đứng ở trang nào thì disable thẻ link pageHeader trang đó để tránh click và re-render
+         event.preventDefault();
+         event.stopPropagation();
+      }
    };
 
    return (
@@ -125,16 +136,23 @@ export const Header = () => {
                   return (
                      <Link
                         onClick={(event) => handleDisable(event, index)}
-                        className={cx('link')}
+                        className={cx('link', pathName === page && 'active')}
                         key={index}
                         to={page}
                      >
-                        <span>{'>'}</span>
-                        <span className={cx(pathName === page && 'active')}>
-                           {privateRoutes.map((route) => {
-                              return route.path === page && route.translate;
-                           })}
-                        </span>
+                        {privateRoutes.map((route) => {
+                           if (route.pageHeader === page?.replace(`/${id}`, ''))
+                              return (
+                                 <span key={`${route}${Math.random()}`}>
+                                    <span className={cx('link-arrow')}>{'>'}</span>
+                                    <span className={cx('link-title')}>
+                                       {route.translate}
+                                    </span>
+                                 </span>
+                              );
+
+                           return true;
+                        })}
                      </Link>
                   );
                })}
@@ -158,7 +176,9 @@ export const Header = () => {
          >
             <div
                className={
-                  pathName === '/dashboard' ? cx('rightContent', 'dashboard') : cx('rightContent')
+                  pathName === '/dashboard'
+                     ? cx('rightContent', 'dashboard')
+                     : cx('rightContent')
                }
             >
                <div

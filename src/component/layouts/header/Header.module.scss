@@ -9,25 +9,21 @@
    & .link {
       text-decoration: none;
    }
-
-   & .link:nth-child(1) span:nth-child(1) {
+   & .link:first-child .link-arrow {
       display: none;
    }
-
-   & .link span:nth-child(2) {
+   & .link .link-arrow {
+      font-weight: 700;
+      color: var(--color-gray-300);
+      margin: 0px 10px;
+   }
+   & .link .link-title {
       font-size: 20px;
       font-weight: 700;
       color: var(--color-gray-300);
-      margin-left: 10px;
    }
-   & .link span:nth-child(2).active {
+   & .link.active .link-title {
       color: var(--color-orange-500);
-   }
-   & .link span:nth-child(1) {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--color-gray-300);
-      margin-left: 10px;
    }
 }
 .rightContent {

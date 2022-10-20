@@ -49,8 +49,16 @@
    -webkit-box-orient: vertical;
    overflow: hidden;
 }
+.text-underline {
+   color: var(--color-blue);
+}
 .text-underline:hover {
    text-decoration: underline;
+}
+.seemore {
+   width: 300px;
+   height: 100px;
+   background-color: var(--color-blue);
 }
 
 /* Antd Select tag */
@@ -126,4 +134,29 @@
    border-radius: 4px;
    border-color: var(--color-orange-500);
    color: var(--color-orange-500);
+}
+
+/* Popover */
+.ant-popover {
+   width: 400px;
+   overflow: hidden;
+   border-radius: 8px;
+}
+.ant-popover .ant-popover-arrow {
+   left: 34%;
+}
+.ant-popover-inner {
+   border-radius: 8px;
+   background-color: var(--color-orange-500);
+   box-shadow: unset;
+}
+
+.ant-popover-inner-content {
+   padding: 8px 12px;
+   color: white;
+   font-weight: 600;
+   text-transform: capitalize;
+}
+.ant-popover-arrow-content {
+   --antd-arrow-background-color: var(--color-orange-500);
 }

@@ -56,7 +56,8 @@
 .navbar-item.active:hover {
    background-color: var(--color-orange-500);
    color: white;
-   & .navbar-item-logo path {
+   & .navbar-item-logo path,
+   & .navbar-item-logo svg {
       stroke: white;
    }
    & .navbar-item-title {

@@ -10,12 +10,14 @@ import { publicRoutes, privateRoutes } from './routes';
 import { useDispatch, useSelector } from 'react-redux';
 import { State } from '../src/redux/store';
 import { getUsers } from './redux/features/UserSlice';
+ 
 
 function App() {
    const dispatch = useDispatch<any>();
    const dataUser = useSelector((state: State) => state.user);
    useEffect(() => {
       dispatch(getUsers());
+       
    }, [dispatch]);
 
    return (

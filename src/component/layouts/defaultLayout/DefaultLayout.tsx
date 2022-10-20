@@ -1,5 +1,8 @@
 import classNames from 'classnames/bind';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getDevices } from '../../../redux/features/DeviceSlice';
+import { State } from '../../../redux/store';
 
 import { Header } from '../header/Header';
 import { Sidebar } from '../sidebar/Sidebar';
@@ -11,6 +14,10 @@ type ComponentProps = {
 };
 
 export const DefaultLayout = (children: ComponentProps) => {
+   const dispatch = useDispatch<any>();
+   useEffect(() => {
+      dispatch(getDevices());
+   }, [dispatch]);
    return (
       <div className={cx('wrapper')}>
          <div className={cx('sidebar')}>

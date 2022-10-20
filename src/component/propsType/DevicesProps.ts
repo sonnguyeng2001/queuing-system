@@ -6,6 +6,6 @@ export type DevicesType = {
    statusActive: boolean;
    statusConnect: boolean;
    useDevices: string;
-   details: string;
-   update: string;
+   actionDetails?: string;
+   actionUpdate?: string;
 };

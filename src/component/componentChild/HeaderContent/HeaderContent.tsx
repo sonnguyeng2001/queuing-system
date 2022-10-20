@@ -6,6 +6,10 @@ const cx = classNames.bind(style);
 type TitleProps = {
    title: string;
 };
-export const HeaderContent = (props: TitleProps) => {
-   return <h2 className={cx('title')}>{props.title}</h2>;
+export const HeaderContent = (props: TitleProps, anyProps: any) => {
+   return (
+      <h2 className={cx('title')} {...anyProps}>
+         {props.title}
+      </h2>
+   );
 };

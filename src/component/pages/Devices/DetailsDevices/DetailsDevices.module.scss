@@ -1,0 +1,50 @@
+.wrapper {
+   position: relative;
+}
+.table-content {
+   position: relative;
+}
+.content {
+   padding: 20px 30px;
+   width: var(--width-table-content);
+   height: 550px;
+   background: #ffffff;
+   box-shadow: 2px 2px 8px rgba(232, 239, 244, 0.8);
+   border-radius: 16px;
+
+   & .header-content {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--color-orange-500);
+      line-height: 30px;
+   }
+   .info-devices {
+   }
+   .double-object {
+      display: flex;
+      margin: 4px 0px;
+   }
+   .object {
+      width: 100%;
+   }
+   .key {
+      display: inline-block;
+      width: 160px;
+      text-align: left;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 24px;
+      color: var(--color-gray-500);
+      padding: 10px 0px;
+   }
+   .value {
+      width: 100%;
+      text-align: left;
+      text-align: left;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      color: var(--color-gray-400);
+      padding: 4px 0px;
+   }
+}
