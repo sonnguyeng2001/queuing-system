@@ -10,14 +10,12 @@ import { publicRoutes, privateRoutes } from './routes';
 import { useDispatch, useSelector } from 'react-redux';
 import { State } from '../src/redux/store';
 import { getUsers } from './redux/features/UserSlice';
- 
 
 function App() {
    const dispatch = useDispatch<any>();
    const dataUser = useSelector((state: State) => state.user);
    useEffect(() => {
       dispatch(getUsers());
-       
    }, [dispatch]);
 
    return (
@@ -46,7 +44,9 @@ function App() {
                      {dataUser.data.length > 0 &&
                         publicRoutes.map((route, index) => {
                            const Page = route.component;
-                           return <Route key={index} path={route.path} element={<Page />} />;
+                           return (
+                              <Route key={index} path={route.path} element={<Page />} />
+                           );
                         })}
                   </Routes>
                )}

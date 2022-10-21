@@ -1,22 +1,22 @@
 import { useEffect, useState } from 'react';
 import './UpdateDevices.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { State } from '../../../../redux/store';
-import { privateRoutes } from '../../../../routes';
-import { routesConfig } from '../../../../routes/routeConfig';
+import { Select } from 'antd';
 import { DevicesType } from '../../../propsType/DevicesProps';
 import style from './UpdateDevices.module.scss';
 import classNames from 'classnames/bind';
 import { HeaderContent } from '../../../componentChild/HeaderContent/HeaderContent';
-import { Select } from 'antd';
 import { getDevices } from '../../../../redux/features/DeviceSlice';
+import { LogoArrow } from '../../../../assets/svg/LogoArrow';
 
 const cx = classNames.bind(style);
 
 export const UpdateDevices = () => {
    const [devices, setDevices] = useState<DevicesType | undefined>({} as DevicesType);
    const { id } = useParams();
+   const navigate = useNavigate();
    const dispatch = useDispatch<any>();
    const dataDevices = useSelector((state: State) => state.device);
 
@@ -39,14 +39,25 @@ export const UpdateDevices = () => {
          });
       }
    }, []);
-   const handleClick = () => {
+   const handleClickSubmit = () => {
       const inputID = document.getElementById('inputID') as HTMLInputElement | null;
+      const inputKindOfDevices = document.getElementById(
+         'inputKindOfDevices',
+      ) as HTMLInputElement | null;
+      const inputNameDevices = document.getElementById(
+         'inputNameDevices',
+      ) as HTMLInputElement | null;
+      const inputAddressDevices = document.getElementById(
+         'inputAddressDevices',
+      ) as HTMLInputElement | null;
+      alert(
+         `ID: ${inputID?.value} - ${inputKindOfDevices?.value} - ${inputNameDevices?.value} - ${inputAddressDevices?.value}`,
+      );
    };
    return (
       <div className={cx('wrapper')}>
          <HeaderContent title="Thông tin thiết bị" />
          <div className={cx('table-content')}>
-            <button onClick={handleClick}>Click me</button>
             <div className={cx('content')}>
                <header className={cx('header-content')}>Thông tin thiết bị</header>
                <div className={cx('info-devices')}>
@@ -66,12 +77,24 @@ export const UpdateDevices = () => {
                         <p className={cx('label')}>
                            Loại thiết bị: <span className={cx('required')}>*</span>
                         </p>
-                        <input
-                           id="inputID"
-                           className={cx('input-field')}
-                           defaultValue={devices?.name}
-                           type="text"
-                        />
+                        <div className="wrapper-select-inputKindOfDevices">
+                           <Select
+                              id="inputKindOfDevices"
+                              loading={devices?.name ? false : true}
+                              defaultValue={devices?.name || 'Error'}
+                              // value={devices?.name}
+                              popupClassName="popupClassName"
+                           >
+                              {dataDevices.dataDevices.map((devices) => {
+                                 return (
+                                    <Select.Option key={devices.id} value={devices.id}>
+                                       {devices.name}
+                                    </Select.Option>
+                                 );
+                              })}
+                           </Select>
+                           <LogoArrow className="logo-arrow" />
+                        </div>
                      </div>
                   </div>
                   <div className={cx('double-object')}>
@@ -80,7 +103,7 @@ export const UpdateDevices = () => {
                            Tên thiết bị: <span className={cx('required')}>*</span>
                         </p>
                         <input
-                           id="inputID"
+                           id="inputNameDevices"
                            className={cx('input-field')}
                            defaultValue={devices?.name}
                            type="text"
@@ -91,7 +114,7 @@ export const UpdateDevices = () => {
                            Tên đăng nhập: <span className={cx('required')}>*</span>
                         </p>
                         <input
-                           id="inputID"
+                           id="inputUserName"
                            className={cx('input-field')}
                            defaultValue="LinhKyo011"
                            type="text"
@@ -104,7 +127,7 @@ export const UpdateDevices = () => {
                            Địa chỉ IP: <span className={cx('required')}>*</span>
                         </p>
                         <input
-                           id="inputID"
+                           id="inputAddressDevices"
                            className={cx('input-field')}
                            defaultValue={devices?.address}
                            type="text"
@@ -115,7 +138,6 @@ export const UpdateDevices = () => {
                            Mật khẩu: <span className={cx('required')}>*</span>
                         </p>
                         <input
-                           id="inputID"
                            className={cx('input-field')}
                            defaultValue="CMS"
                            type="text"
@@ -127,29 +149,39 @@ export const UpdateDevices = () => {
                      <p className={cx('label')}>
                         Dịch vụ sử dụng <span className={cx('required')}>*</span>
                      </p>
-                     <Select
-                        mode="multiple"
-                        placeholder="Please select"
-                        defaultValue={['item 1', 'item 2']}
-                     >
-                        <Select.Option value="1">Hello</Select.Option>
-                        <Select.Option value="2">Hello123</Select.Option>
-                        <Select.Option value="3">Hello456</Select.Option>
-                        <Select.Option value="4">
-                           Hello456dasdasdasdasdasdsa
-                        </Select.Option>
-                        <Select.Option value="9">
-                           Hello45dasdasdasdasdasdadasdasdasdasdasdasd6
-                        </Select.Option>
-                        <Select.Option value="8">
-                           Hello45dasdasdasdasdasdasdadasdasdasdas6
-                        </Select.Option>
-                        <Select.Option value="3">
-                           asdasdasdasdasdasdasdasdasdasdasdsad
-                        </Select.Option>
-                     </Select>
+                     <div className="wrapper-select-listUseDevices">
+                        <Select
+                           mode="multiple"
+                           placeholder="Please select"
+                           defaultValue={['item 1', 'item 2']}
+                        >
+                           <Select.Option value="1">Khám răng hàm mặt</Select.Option>
+                           <Select.Option value="2">Khám tai mũi họng</Select.Option>
+                        </Select>
+                     </div>
                   </div>
+                  <p className={cx('label')}>
+                     <span className={cx('required')}>*</span>
+                     <span style={{ color: 'var(--color-gray-300)', marginLeft: '10px' }}>
+                        Là trường thông tin bắt buộc
+                     </span>
+                  </p>
                </div>
+            </div>
+            <div className={cx('wrapper-btn')}>
+               <button
+                  onClick={() => navigate(-1)}
+                  className={cx('btn', 'btn-btnCancel')}
+               >
+                  Hủy bỏ
+               </button>
+               <button
+                  onClick={handleClickSubmit}
+                  type="submit"
+                  className={cx('btn', 'btn-btnUpdate')}
+               >
+                  Cập nhật
+               </button>
             </div>
          </div>
       </div>

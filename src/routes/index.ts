@@ -8,9 +8,10 @@ import { AddDevices } from '../component/pages/Devices/AddDevices/AddDevices';
 import { DetailsDevices } from '../component/pages/Devices/DetailsDevices/DetailsDevices';
 import { UpdateDevices } from '../component/pages/Devices/UpdateDevices/UpdateDevices';
 
-
 // Services
 import { ServicesPage } from './../component/pages/Services/Services';
+import { ListServices } from './../component/pages/Services/ListServices/ListServices';
+import { DetailsServices } from './../component/pages/Services/DetailsServices/DetailsServices';
 
 // User Account
 import { ForgotPasswordPage } from '../component/pages/ForgotPassword/ForgotPassword';
@@ -18,7 +19,6 @@ import { ResetPassword } from '../component/pages/ResetPassword/ResetPassword';
 import { LoginPage } from '../component/pages/Login/Login';
 
 import { routesConfig } from './routeConfig';
-
 
 export type RouteProps = {
    path: string;
@@ -29,12 +29,15 @@ export type RouteProps = {
 };
 
 const privateRoutes: RouteProps[] = [
+   // Dashboard
    {
       path: routesConfig.dashboard,
       component: DashboardPage,
       translate: 'Dashboard',
       pageHeader: routesConfig.dashboard,
    },
+
+   // Devices
    {
       path: routesConfig.devices,
       component: DevicesPage,
@@ -65,11 +68,31 @@ const privateRoutes: RouteProps[] = [
       translate: 'Danh sách thiết bị',
       pageHeader: routesConfig.listDevices,
    },
+
+   // Services
    {
       path: routesConfig.services,
       component: ServicesPage,
       translate: 'Dịch vụ',
       pageHeader: routesConfig.services,
+   },
+   {
+      path: routesConfig.listServices,
+      component: ListServices,
+      translate: 'Danh sách dịch vụ',
+      pageHeader: routesConfig.listServices,
+   },
+   {
+      path: routesConfig.detailsServices,
+      component: DetailsServices,
+      translate: 'Chi tiết dịch vụ',
+      pageHeader: '/services/detailsServices',
+   },
+   {
+      path: routesConfig.updateServices,
+      component: UpdateDevices,
+      translate: 'Cập nhật thiết bị',
+      pageHeader: '/services/updateServices',
    },
 ];
 

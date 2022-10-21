@@ -1,9 +1,9 @@
-import './ListDevices.css';
+import classNames from 'classnames/bind';
+import './ListServices.css';
+import style from './ListServices.module.scss';
 import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
-import style from './ListDevices.module.scss';
-import classNames from 'classnames/bind';
-import { Table, Select, Pagination, Popover } from 'antd';
+import { Select, DatePicker } from 'antd';
 import { routesConfig } from '../../../../routes/routeConfig';
 import { HeaderContent } from '../../../componentChild/HeaderContent/HeaderContent';
 import { LogoArrow } from '../../../../assets/svg/LogoArrow';
@@ -14,22 +14,40 @@ import { useDispatch } from 'react-redux';
 import { getDevices } from '../../../../redux/features/DeviceSlice';
 import useDebounce from '../../../../Hooks/useDebound';
 import { LinkAction } from '../../../componentChild/LinkAction/LinkAction';
+import moment from 'moment';
 import { CustomizeTable } from '../../../componentChild/CustomizeTable/CustomizeTable';
 
 const cx = classNames.bind(style);
 
 const columns: any = [
    {
-      title: 'Mã thiết bị',
+      title: 'Mã dịch vụ',
       dataIndex: 'id',
    },
    {
-      title: 'Tên thiết bị',
+      title: 'Tên dịch vụ',
       dataIndex: 'name',
    },
    {
-      title: 'Địa chỉ IP',
-      dataIndex: 'address',
+      title: 'Mô tả',
+      dataIndex: 'statusConnect',
+      render: (status: boolean) => {
+         return status ? (
+            <>
+               <span style={{ color: 'var(--color-green)', marginRight: '10px' }}>
+                  &#9679;
+               </span>
+               <span> Hoạt động</span>
+            </>
+         ) : (
+            <>
+               <span style={{ color: 'var(--color-red)', marginRight: '10px' }}>
+                  &#9679;
+               </span>
+               <span> Ngưng hoạt động</span>
+            </>
+         );
+      },
    },
    {
       title: 'Trạng thái hoạt động',
@@ -53,41 +71,6 @@ const columns: any = [
       },
    },
    {
-      title: 'Trạng thái kết nối',
-      dataIndex: 'statusConnect',
-      render: (status: boolean) => {
-         return status ? (
-            <>
-               <span style={{ color: 'var(--color-green)', marginRight: '10px' }}>
-                  &#9679;
-               </span>
-               <span> Kết nối</span>
-            </>
-         ) : (
-            <>
-               <span style={{ color: 'var(--color-red)', marginRight: '10px' }}>
-                  &#9679;
-               </span>
-               <span> Mất kết nối</span>
-            </>
-         );
-      },
-   },
-   {
-      title: 'Dịch vụ sử dụng',
-      dataIndex: 'useDevices',
-      render: (data: string) => {
-         return (
-            <>
-               <div className="text-devices">{data}</div>
-               <Popover className="popover" content={data} trigger="click">
-                  <p className="text-underline">Xem thêm</p>
-               </Popover>
-            </>
-         );
-      },
-   },
-   {
       title: '',
       dataIndex: 'detailsAction',
       render: (data: string) => {
@@ -95,7 +78,7 @@ const columns: any = [
             <>
                <Link
                   className="text-underline"
-                  to={`${routesConfig.detailsDevices.replace('/:id', '')}/${data.replace(
+                  to={`${routesConfig.detailsServices.replace('/:id', '')}/${data.replace(
                      'Chi tiết',
                      '',
                   )}`}
@@ -114,7 +97,7 @@ const columns: any = [
             <>
                <Link
                   className="text-underline"
-                  to={`${routesConfig.updateDevices.replace('/:id', '')}/${data.replace(
+                  to={`${routesConfig.updateServices.replace('/:id', '')}/${data.replace(
                      'Cập nhật',
                      '',
                   )}`}
@@ -127,7 +110,7 @@ const columns: any = [
    },
 ];
 
-export const ListDevices = () => {
+export const ListServices = () => {
    const dispatch = useDispatch<any>();
    const [dataSource, setDataSource] = useState<DevicesType[] | []>([]);
    const [inputSearch, setInputSearch] = useState<string>('');
@@ -151,25 +134,15 @@ export const ListDevices = () => {
       });
    }, [dispatch]);
 
- 
-
    const handleChangeSelect = (value: string) => {
       if (value === 'all') {
          setDataSource(dataRef.current);
       } else {
-         if (value.startsWith('stateActive/')) {
-            const booleanValue =
-               value.replace('stateActive/', '') === 'active' ? true : false;
-            setDataSource(
-               dataRef.current.filter((active) => active.statusActive === booleanValue),
-            );
-         } else if (value.startsWith('stateConnect/')) {
-            const booleanValue =
-               value.replace('stateConnect/', '') === 'connected' ? true : false;
-            setDataSource(
-               dataRef.current.filter((active) => active.statusConnect === booleanValue),
-            );
-         }
+         const booleanValue =
+            value.replace('stateActive/', '') === 'active' ? true : false;
+         setDataSource(
+            dataRef.current.filter((active) => active.statusActive === booleanValue),
+         );
       }
    };
 
@@ -188,8 +161,8 @@ export const ListDevices = () => {
          setInputSearch(e.target.value);
       }
    };
-
-   const pageSize = 6;
+   const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
+   const pageSize = 7;
    return (
       <div className={cx('wrapper')}>
          <HeaderContent title="Danh sách thiết bị" />
@@ -207,17 +180,22 @@ export const ListDevices = () => {
                   <LogoArrow className={cx('logo-arrow')} />
                </div>
             </div>
-            <div className={cx('select', 'selectConnect')}>
-               <div>
-                  <h3 className={cx('title')}>Trạng thái kết nối</h3>
-                  <Select defaultValue="all" onSelect={handleChangeSelect}>
-                     <Select.Option value="all">Tất cả</Select.Option>
-                     <Select.Option value="stateConnect/connected">Kết nối</Select.Option>
-                     <Select.Option value="stateConnect/disconnected">
-                        Mất kết nối
-                     </Select.Option>
-                  </Select>
-                  <LogoArrow className={cx('logo-arrow')} />
+            <div className={cx('select')}>
+               <h3 className={cx('title')}>Chọn thời gian</h3>
+               <div className="selectDateGroup">
+                  <DatePicker
+                     className="selectDate"
+                     defaultValue={moment(moment().format('DD/MM/YYYY'), 'DD/MM/YYYY')}
+                     format={dateFormatList}
+                     popupClassName="popup-date"
+                  />
+                  <LogoArrow className="selectDate-logoArrow" />
+                  <DatePicker
+                     className="selectDate"
+                     defaultValue={moment(moment().format('DD/MM/YYYY'), 'DD/MM/YYYY')}
+                     format={dateFormatList}
+                     popupClassName="popup-date"
+                  />
                </div>
             </div>
             <div className={cx('select', 'search')}>
@@ -234,7 +212,7 @@ export const ListDevices = () => {
                </div>
             </div>
          </div>
-         <div className="table-devices">
+         <div className={cx('table-services')}>
             <CustomizeTable
                columns={columns}
                dataSource={dataSource}
@@ -242,7 +220,7 @@ export const ListDevices = () => {
             />
 
             <LinkAction
-               title="Thêm thiết bị"
+               title="Thêm dịch vụ"
                to={routesConfig.addDevices}
                logo={<LogoPlus />}
             />

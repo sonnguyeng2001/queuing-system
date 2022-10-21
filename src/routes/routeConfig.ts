@@ -5,12 +5,15 @@ export const routesConfig = {
    dashboard: '/dashboard',
 
    devices: '/devices',
+   listDevices: '/devices/listDevices',
    addDevices: '/devices/addDevices',
    detailsDevices: '/devices/detailsDevices/:id',
    updateDevices: '/devices/updateDevices/:id',
-   listDevices: '/devices/listDevices',
 
    services: '/services',
+   listServices: '/services/listServices',
+   detailsServices: '/services/detailsServices/:id',
+   updateServices: '/services/updateServices/:id',
 
    // ------------------------------public routes
    login: '/',
