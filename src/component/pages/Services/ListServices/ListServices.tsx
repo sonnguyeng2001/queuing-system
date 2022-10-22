@@ -22,36 +22,19 @@ const cx = classNames.bind(style);
 const columns: any = [
    {
       title: 'Mã dịch vụ',
-      dataIndex: 'id',
+      dataIndex: 'deviceId',
    },
    {
       title: 'Tên dịch vụ',
-      dataIndex: 'name',
+      dataIndex: 'deviceName',
    },
    {
       title: 'Mô tả',
-      dataIndex: 'statusConnect',
-      render: (status: boolean) => {
-         return status ? (
-            <>
-               <span style={{ color: 'var(--color-green)', marginRight: '10px' }}>
-                  &#9679;
-               </span>
-               <span> Hoạt động</span>
-            </>
-         ) : (
-            <>
-               <span style={{ color: 'var(--color-red)', marginRight: '10px' }}>
-                  &#9679;
-               </span>
-               <span> Ngưng hoạt động</span>
-            </>
-         );
-      },
+      dataIndex: 'deviceName',
    },
    {
       title: 'Trạng thái hoạt động',
-      dataIndex: 'statusActive',
+      dataIndex: 'deviceActive',
       render: (status: boolean) => {
          return status ? (
             <>
@@ -121,8 +104,8 @@ export const ListServices = () => {
       var arr = await response.payload.map((device: DevicesType) => {
          return {
             ...device,
-            detailsAction: `Chi tiết${device.id}`,
-            updateAction: `Cập nhật${device.id}`,
+            detailsAction: `Chi tiết${device.deviceId}`,
+            updateAction: `Cập nhật${device.deviceId}`,
          };
       });
       return arr;
@@ -141,7 +124,7 @@ export const ListServices = () => {
          const booleanValue =
             value.replace('stateActive/', '') === 'active' ? true : false;
          setDataSource(
-            dataRef.current.filter((active) => active.statusActive === booleanValue),
+            dataRef.current.filter((active) => active.deviceActive === booleanValue),
          );
       }
    };
@@ -150,7 +133,10 @@ export const ListServices = () => {
    useEffect(() => {
       setDataSource(
          dataRef.current.filter((key) =>
-            key.name.toString().toLowerCase().includes(debouncedValue.toLowerCase()),
+            key.deviceName
+               .toString()
+               .toLowerCase()
+               .includes(debouncedValue.toLowerCase()),
          ),
       );
    }, [debouncedValue]);
@@ -221,7 +207,7 @@ export const ListServices = () => {
 
             <LinkAction
                title="Thêm dịch vụ"
-               to={routesConfig.addDevices}
+               to={routesConfig.addServices}
                logo={<LogoPlus />}
             />
          </div>

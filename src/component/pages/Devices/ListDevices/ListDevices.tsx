@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import style from './ListDevices.module.scss';
 import classNames from 'classnames/bind';
-import { Table, Select, Pagination, Popover } from 'antd';
+import { Select, Popover } from 'antd';
 import { routesConfig } from '../../../../routes/routeConfig';
 import { HeaderContent } from '../../../componentChild/HeaderContent/HeaderContent';
 import { LogoArrow } from '../../../../assets/svg/LogoArrow';
@@ -21,19 +21,19 @@ const cx = classNames.bind(style);
 const columns: any = [
    {
       title: 'Mã thiết bị',
-      dataIndex: 'id',
+      dataIndex: 'deviceId',
    },
    {
       title: 'Tên thiết bị',
-      dataIndex: 'name',
+      dataIndex: 'deviceName',
    },
    {
       title: 'Địa chỉ IP',
-      dataIndex: 'address',
+      dataIndex: 'deviceAddress',
    },
    {
       title: 'Trạng thái hoạt động',
-      dataIndex: 'statusActive',
+      dataIndex: 'deviceActive',
       render: (status: boolean) => {
          return status ? (
             <>
@@ -54,7 +54,7 @@ const columns: any = [
    },
    {
       title: 'Trạng thái kết nối',
-      dataIndex: 'statusConnect',
+      dataIndex: 'deviceConnected',
       render: (status: boolean) => {
          return status ? (
             <>
@@ -75,12 +75,12 @@ const columns: any = [
    },
    {
       title: 'Dịch vụ sử dụng',
-      dataIndex: 'useDevices',
-      render: (data: string) => {
+      dataIndex: 'deviceUsed',
+      render: (data: string[] | []) => {
          return (
             <>
-               <div className="text-devices">{data}</div>
-               <Popover className="popover" content={data} trigger="click">
+               <div className="text-devices">{data.join(', ')}</div>
+               <Popover className="popover" content={data.join(', ')} trigger="click">
                   <p className="text-underline">Xem thêm</p>
                </Popover>
             </>
@@ -138,8 +138,8 @@ export const ListDevices = () => {
       var arr = await response.payload.map((device: DevicesType) => {
          return {
             ...device,
-            detailsAction: `Chi tiết${device.id}`,
-            updateAction: `Cập nhật${device.id}`,
+            detailsAction: `Chi tiết${device?.deviceId}`,
+            updateAction: `Cập nhật${device?.deviceId}`,
          };
       });
       return arr;
@@ -151,8 +151,6 @@ export const ListDevices = () => {
       });
    }, [dispatch]);
 
- 
-
    const handleChangeSelect = (value: string) => {
       if (value === 'all') {
          setDataSource(dataRef.current);
@@ -161,13 +159,13 @@ export const ListDevices = () => {
             const booleanValue =
                value.replace('stateActive/', '') === 'active' ? true : false;
             setDataSource(
-               dataRef.current.filter((active) => active.statusActive === booleanValue),
+               dataRef.current.filter((active) => active.deviceActive === booleanValue),
             );
          } else if (value.startsWith('stateConnect/')) {
             const booleanValue =
                value.replace('stateConnect/', '') === 'connected' ? true : false;
             setDataSource(
-               dataRef.current.filter((active) => active.statusConnect === booleanValue),
+               dataRef.current.filter((active) => active.deviceConnected === booleanValue),
             );
          }
       }
@@ -177,7 +175,10 @@ export const ListDevices = () => {
    useEffect(() => {
       setDataSource(
          dataRef.current.filter((key) =>
-            key.name.toString().toLowerCase().includes(debouncedValue.toLowerCase()),
+            key.deviceName
+               .toString()
+               .toLowerCase()
+               .includes(debouncedValue.toLowerCase()),
          ),
       );
    }, [debouncedValue]);
@@ -189,7 +190,7 @@ export const ListDevices = () => {
       }
    };
 
-   const pageSize = 6;
+   const pageSize = 5;
    return (
       <div className={cx('wrapper')}>
          <HeaderContent title="Danh sách thiết bị" />
@@ -234,7 +235,7 @@ export const ListDevices = () => {
                </div>
             </div>
          </div>
-         <div className="table-devices">
+         <div className={cx('tableDevice')}>
             <CustomizeTable
                columns={columns}
                dataSource={dataSource}

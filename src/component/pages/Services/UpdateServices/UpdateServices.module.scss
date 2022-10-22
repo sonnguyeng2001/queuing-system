@@ -1,0 +1,105 @@
+.wrapper {
+   position: relative;
+}
+.table-content {
+   position: relative;
+}
+.content {
+   padding: 20px 30px;
+   width: var(--width-table-content);
+   height: 520px;
+   background: #ffffff;
+   box-shadow: 2px 2px 8px rgba(232, 239, 244, 0.8);
+   border-radius: 16px;
+
+   & .header-content {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--color-orange-500);
+      line-height: 30px;
+   }
+
+   .double-object {
+      display: flex;
+      margin: 4px 0px;
+      gap: 60px;
+   }
+   .object {
+      width: 100%;
+   }
+   .label {
+      text-align: left;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 24px;
+      color: var(--color-gray-500);
+      padding: 10px 0px;
+
+      & .required {
+         color: var(--color-red);
+      }
+   }
+   .input-field {
+      width: 100%;
+      background: #ffffff;
+      font-weight: 600;
+      font-size: 16px;
+      color: var(--color-gray-400);
+      padding: 8px 16px;
+      border: 2px solid #d4d4d7;
+      border-radius: 8px;
+      outline: none;
+   }
+   .key {
+      display: inline-block;
+      min-width: 140px;
+      text-align: left;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 24px;
+      color: var(--color-gray-500);
+      padding: 10px 0px;
+   }
+   .value {
+      width: 100%;
+      text-align: left;
+      text-align: left;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      color: var(--color-gray-400);
+      padding: 4px 0px;
+   }
+   .text-special {
+      padding: 6px 8px;
+      border: 2px solid var(--color-gray-100);
+      border-radius: 6px;
+   }
+}
+
+.wrapper-btn {
+   width: var(--width-table-content);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 20px;
+   margin-top: 12px;
+
+   & .btn {
+      padding: 10px 24px;
+      border: 1.5px solid #ff9138;
+      box-shadow: 0px 0px 6px #e7e9f2;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+   }
+   & .btn.btn-btnCancel {
+      background-color: var(--color-orange-50);
+      color: var(--color-orange-500);
+   }
+   & .btn.btn-btnUpdate {
+      background-color: var(--color-orange-500);
+      color: #fff;
+   }
+}

@@ -1,8 +1,6 @@
-
-
 /* Antd Select tag */
 .ant-select.ant-select-single.ant-select-show-arrow {
-   width: 300px;
+   width: 100%;
 }
 .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
    height: unset;
@@ -75,67 +73,27 @@
    color: var(--color-orange-500);
 }
 
-/* Select Date */
-.selectDateGroup {
-   display: flex;
-   align-items: center;
-   gap: 6px;
-   width: 100%;
+/* Popover */
+.ant-popover {
+   width: 400px;
+   overflow: hidden;
+   border-radius: 8px;
 }
-.selectDateGroup .selectDate-logoArrow {
-   transform: rotate(270deg);
+.ant-popover .ant-popover-arrow {
+   left: 34%;
 }
-.selectDate.ant-picker {
+.ant-popover-inner {
+   border-radius: 8px;
+   background-color: var(--color-orange-500);
+   box-shadow: unset;
+}
+
+.ant-popover-inner-content {
    padding: 8px 12px;
-   border-radius: 8px;
-   border: 2px solid var(--color-gray-100);
-   cursor: pointer;
-}
-.selectDate .ant-picker-input > input {
-   color: var(--color-orange-500);
+   color: white;
    font-weight: 600;
-   font-size: 16px;
+   text-transform: capitalize;
 }
-
-.selectDate .anticon > * {
-   line-height: 1;
-   font-size: 16px;
-   color: var(--color-orange-500);
-}
-
-/* Popup */
-.ant-picker-panel-container {
-   border-radius: 8px;
-}
-.ant-picker-header {
-   padding: 4px 8px;
-}
-.ant-picker-header-view button,
-.ant-picker-header button {
-   color: var(--color-orange-400);
-   font-size: 16px;
-   font-weight: 700;
-}
-.ant-picker-header-view button:hover,
-.ant-picker-header button:hover {
-   opacity: 0.8;
-   color: var(--color-orange-500);
-}
-.ant-picker-cell-inner {
-   font-weight: 600;
-}
-.ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner,
-.ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner,
-.ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner {
-   color: #fff;
-   background: var(--color-orange-500);
-   border-radius: 2px;
-}
-.ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner:before {
-   border: none;
-}
-.ant-picker-today-btn {
-   color: var(--color-orange-500);
-   font-weight: 600;
-   font-size: 16px;
+.ant-popover-arrow-content {
+   --antd-arrow-background-color: var(--color-orange-500);
 }

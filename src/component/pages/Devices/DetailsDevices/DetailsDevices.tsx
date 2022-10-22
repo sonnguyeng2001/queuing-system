@@ -22,14 +22,14 @@ export const DetailsDevices = () => {
    const fetchData = async () => {
       const response = await dispatch(getDevices());
       var infoDevices = await response.payload.find((device: DevicesType) => {
-         return device?.id === id && device;
+         return device?.deviceId === id && device;
       });
       return infoDevices;
    };
    useEffect(() => {
       if (dataDevices.dataDevices.length > 0) {
          var infoDevices = dataDevices.dataDevices.find((device: DevicesType) => {
-            return device?.id === id && device;
+            return device?.deviceId === id && device;
          });
          setDevices(infoDevices);
       } else {
@@ -49,17 +49,17 @@ export const DetailsDevices = () => {
                   <div className={cx('double-object')}>
                      <div className={cx('object')}>
                         <span className={cx('key')}>Mã thiết bị:</span>
-                        <span className={cx('value')}>{devices?.id}</span>
+                        <span className={cx('value')}>{devices?.deviceId}</span>
                      </div>
                      <div className={cx('object')}>
                         <span className={cx('key')}>Loại thiết bị:</span>
-                        <span className={cx('value')}>{devices?.name}</span>
+                        <span className={cx('value')}>{devices?.deviceName}</span>
                      </div>
                   </div>
                   <div className={cx('double-object')}>
                      <div className={cx('object')}>
                         <span className={cx('key')}>Tên thiết bị:</span>
-                        <span className={cx('value')}>{devices?.name}</span>
+                        <span className={cx('value')}>{devices?.deviceName}</span>
                      </div>
                      <div className={cx('object')}>
                         <span className={cx('key')}>Tên đăng nhập:</span>
@@ -69,7 +69,7 @@ export const DetailsDevices = () => {
                   <div className={cx('double-object')}>
                      <div className={cx('object')}>
                         <span className={cx('key')}>Địa chỉ IP:</span>
-                        <span className={cx('value')}>{devices?.address}</span>
+                        <span className={cx('value')}>{devices?.deviceAddress}</span>
                      </div>
                      <div className={cx('object')}>
                         <span className={cx('key')}>Mật khẩu:</span>
@@ -79,7 +79,7 @@ export const DetailsDevices = () => {
 
                   <div className={cx('object')}>
                      <p className={cx('key')}>Dịch vụ sử dụng</p>
-                     <p className={cx('value')}>{devices?.useDevices}</p>
+                     <p className={cx('value')}>{devices?.deviceUsed}</p>
                   </div>
                </div>
             </div>

@@ -12,6 +12,11 @@ import { UpdateDevices } from '../component/pages/Devices/UpdateDevices/UpdateDe
 import { ServicesPage } from './../component/pages/Services/Services';
 import { ListServices } from './../component/pages/Services/ListServices/ListServices';
 import { DetailsServices } from './../component/pages/Services/DetailsServices/DetailsServices';
+import { AddServices } from './../component/pages/Services/AddServices/AddServices';
+
+// CustomerService
+import { CustomerService } from '../component/pages/CustomerService/CustomerService';
+import { ListCustomerService } from '../component/pages/CustomerService/ListCustomerService/ListCustomerService';
 
 // User Account
 import { ForgotPasswordPage } from '../component/pages/ForgotPassword/ForgotPassword';
@@ -19,6 +24,7 @@ import { ResetPassword } from '../component/pages/ResetPassword/ResetPassword';
 import { LoginPage } from '../component/pages/Login/Login';
 
 import { routesConfig } from './routeConfig';
+import { UpdateServices } from '../component/pages/Services/UpdateServices/UpdateServices';
 
 export type RouteProps = {
    path: string;
@@ -90,9 +96,29 @@ const privateRoutes: RouteProps[] = [
    },
    {
       path: routesConfig.updateServices,
-      component: UpdateDevices,
-      translate: 'Cập nhật thiết bị',
+      component: UpdateServices,
+      translate: 'Cập nhật dịch vụ',
       pageHeader: '/services/updateServices',
+   },
+   {
+      path: routesConfig.addServices,
+      component: AddServices,
+      translate: 'Thêm dịch vụ',
+      pageHeader: routesConfig.addServices,
+   },
+
+   // CustomerService
+   {
+      path: routesConfig.customerService,
+      component: CustomerService,
+      translate: 'Cấp số',
+      pageHeader: routesConfig.customerService,
+   },
+   {
+      path: routesConfig.listCustomerService,
+      component: ListCustomerService,
+      translate: 'Danh sách cấp số',
+      pageHeader: routesConfig.listCustomerService,
    },
 ];
 

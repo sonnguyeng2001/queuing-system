@@ -8,10 +8,15 @@
 .listSelect {
    display: flex;
    width: var(--width-table-content);
-   gap: 50px;
+   justify-content: space-between;
+   gap: 10px;
    & .select {
-      width: 300px;
+      width: 200px;
    }
+   & .select.selectDate {
+      flex: 1;
+   }
+
    & .select .title {
       font-size: 16px;
       font-weight: 700;
@@ -20,7 +25,7 @@
       margin-bottom: 4px;
    }
    & .select div .content {
-      width: 300px;
+      width: 100%;
       padding: 8px 12px;
       border-radius: 8px;
       border: 2px solid var(--color-gray-100);
@@ -28,11 +33,6 @@
       font-weight: 600;
       outline: none;
       font-size: 16px;
-   }
-
-   & .select.search {
-      flex: 1;
-      text-align: right;
    }
 
    // Logo
@@ -67,8 +67,6 @@ select {
    outline: 0;
 }
 
-.tableDevice {
+.tableCustomerService {
    position: relative;
 }
-
-

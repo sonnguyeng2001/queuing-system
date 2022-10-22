@@ -23,14 +23,14 @@ export const UpdateDevices = () => {
    const fetchData = async () => {
       const response = await dispatch(getDevices());
       var infoDevices = await response.payload.find((device: DevicesType) => {
-         return device?.id === id && device;
+         return device?.deviceId === id && device;
       });
       return infoDevices;
    };
    useEffect(() => {
       if (dataDevices.dataDevices.length > 0) {
          var infoDevices = dataDevices.dataDevices.find((device: DevicesType) => {
-            return device?.id === id && device;
+            return device?.deviceId === id && device;
          });
          setDevices(infoDevices);
       } else {
@@ -69,7 +69,7 @@ export const UpdateDevices = () => {
                         <input
                            id="inputID"
                            className={cx('input-field')}
-                           defaultValue={devices?.id}
+                           defaultValue={devices?.deviceId}
                            type="text"
                         />
                      </div>
@@ -80,15 +80,18 @@ export const UpdateDevices = () => {
                         <div className="wrapper-select-inputKindOfDevices">
                            <Select
                               id="inputKindOfDevices"
-                              loading={devices?.name ? false : true}
-                              defaultValue={devices?.name || 'Error'}
+                              loading={devices?.deviceName ? false : true}
+                              defaultValue={devices?.deviceName || 'Error'}
                               // value={devices?.name}
                               popupClassName="popupClassName"
                            >
                               {dataDevices.dataDevices.map((devices) => {
                                  return (
-                                    <Select.Option key={devices.id} value={devices.id}>
-                                       {devices.name}
+                                    <Select.Option
+                                       key={devices.deviceId}
+                                       value={devices.deviceId}
+                                    >
+                                       {devices.deviceName}
                                     </Select.Option>
                                  );
                               })}
@@ -105,7 +108,7 @@ export const UpdateDevices = () => {
                         <input
                            id="inputNameDevices"
                            className={cx('input-field')}
-                           defaultValue={devices?.name}
+                           defaultValue={devices?.deviceName}
                            type="text"
                         />
                      </div>
@@ -129,7 +132,7 @@ export const UpdateDevices = () => {
                         <input
                            id="inputAddressDevices"
                            className={cx('input-field')}
-                           defaultValue={devices?.address}
+                           defaultValue={devices?.deviceAddress}
                            type="text"
                         />
                      </div>

@@ -10,6 +10,7 @@ import { publicRoutes, privateRoutes } from './routes';
 import { useDispatch, useSelector } from 'react-redux';
 import { State } from '../src/redux/store';
 import { getUsers } from './redux/features/UserSlice';
+import { getCustomerServices } from './redux/features/CustomerServicesSlice';
 
 function App() {
    const dispatch = useDispatch<any>();

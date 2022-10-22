@@ -34,7 +34,7 @@ const navbarList = [
    {
       title: 'Cấp số',
       logo: <LogoLevel />,
-      to: '/level',
+      to: routesConfig.customerService,
    },
    {
       title: 'Báo cáo',

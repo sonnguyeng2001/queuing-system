@@ -1,11 +1,11 @@
 export type DevicesType = {
    key: string;
-   id: string;
-   name: string;
-   address: string;
-   statusActive: boolean;
-   statusConnect: boolean;
-   useDevices: string;
+   deviceId: string;
+   deviceName: string;
+   deviceAddress: string;
+   deviceActive: boolean;
+   deviceConnected: boolean;
+   deviceUsed: string;
    actionDetails?: string;
    actionUpdate?: string;
 };

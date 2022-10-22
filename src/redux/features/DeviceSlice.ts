@@ -4,14 +4,17 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { ref, child, get } from 'firebase/database';
 import { database } from '../../firebase/index';
 
-export const getDevices = createAsyncThunk('devices/getDevices', (arg, { rejectWithValue }) => {
-   try {
-      const dbRef = ref(database);
-      return get(child(dbRef, `devices`)).then((snapshot) => snapshot.val());
-   } catch (error) {
-      rejectWithValue(error);
-   }
-});
+export const getDevices = createAsyncThunk(
+   'devices/getDevices',
+   (arg, { rejectWithValue }) => {
+      try {
+         const dbRef = ref(database);
+         return get(child(dbRef, `devices`)).then((snapshot) => snapshot.val());
+      } catch (error) {
+         rejectWithValue(error);
+      }
+   },
+);
 
 interface DevicesProps {
    dataDevices: DevicesType[];
@@ -19,7 +22,7 @@ interface DevicesProps {
    message: string;
 }
 export const deviceSlice = createSlice({
-   name: 'user',
+   name: 'device',
    initialState: {
       dataDevices: [],
       isSuccess: false,

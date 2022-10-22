@@ -20,13 +20,13 @@ const cx = classNames.bind(style);
 
 const columns: any = [
    {
-      title: 'Mã dịch vụ',
-      dataIndex: 'id',
+      title: 'Số thứ tự',
+      dataIndex: 'key',
    },
 
    {
-      title: 'Trạng thái hoạt động',
-      dataIndex: 'statusActive',
+      title: 'Trạng thái',
+      dataIndex: 'deviceActive',
       render: (status: boolean) => {
          return status ? (
             <>
@@ -62,7 +62,7 @@ export const DetailsServices = () => {
    useEffect(() => {
       if (dataDevices.dataDevices.length > 0) {
          const infoDevices = dataDevices.dataDevices.find((device: DevicesType) => {
-            return device?.id === id && device;
+            return device?.deviceId === id && device;
          });
          setDevices(infoDevices);
          setDataSource(dataDevices.dataDevices);
@@ -70,7 +70,7 @@ export const DetailsServices = () => {
       } else {
          fetchData().then((data) => {
             const infoDevices = data.find((device: DevicesType) => {
-               return device?.id === id && device;
+               return device?.deviceId === id && device;
             });
             setDevices(infoDevices);
             setDataSource(data);
@@ -86,7 +86,7 @@ export const DetailsServices = () => {
          const booleanValue =
             value.replace('stateActive/', '') === 'active' ? true : false;
          setDataSource(
-            dataRef.current.filter((active) => active.statusActive === booleanValue),
+            dataRef.current.filter((active) => active.deviceActive === booleanValue),
          );
       }
    };
@@ -102,15 +102,15 @@ export const DetailsServices = () => {
                   <header className={cx('header-content')}>Thông tin dịch vụ</header>
                   <div className={cx('object')}>
                      <span className={cx('key')}>Mã dịch vụ:</span>
-                     <span className={cx('value')}>{devices?.id}</span>
+                     <span className={cx('value')}>{devices?.deviceId}</span>
                   </div>
                   <div className={cx('object')}>
                      <span className={cx('key')}>Tên dịch vụ:</span>
-                     <span className={cx('value')}>{devices?.name}</span>
+                     <span className={cx('value')}>{devices?.deviceName}</span>
                   </div>
                   <div className={cx('object')}>
                      <span className={cx('key')}>Mô tả dịch vụ:</span>
-                     <span className={cx('value')}>{devices?.address}</span>
+                     <span className={cx('value')}>{devices?.deviceAddress}</span>
                   </div>
                   {/* --------------------------------------------------------------------------------------------------- */}
                   <br />
@@ -214,9 +214,9 @@ export const DetailsServices = () => {
                </div>
             </div>
             <LinkAction
-               title="Cập nhật thiết bị"
+               title="Cập nhật danh sách"
                logo={<LogoEdit />}
-               to={`${routesConfig.updateDevices.replace('/:id', '')}/${id}`}
+               to={`${routesConfig.updateServices.replace('/:id', '')}/${id}`}
                className={cx('editDevices')}
             />
          </div>

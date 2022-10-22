@@ -7,12 +7,13 @@ import classNames from 'classnames/bind';
 import { HeaderContent } from '../../../componentChild/HeaderContent/HeaderContent';
 import { LogoArrow } from '../../../../assets/svg/LogoArrow';
 import { DefaultOptionType } from 'antd/lib/select';
+import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(style);
 
 export const AddDevices = () => {
    const dataDevices = useSelector((state: State) => state.device);
-
+   const navigate = useNavigate();
    const handleChangeKindOfDevices = (
       value: string,
       option: DefaultOptionType | DefaultOptionType[] | any,
@@ -67,8 +68,11 @@ export const AddDevices = () => {
                            >
                               {dataDevices.dataDevices.map((devices) => {
                                  return (
-                                    <Select.Option key={devices.id} value={devices.id}>
-                                       {devices.name}
+                                    <Select.Option
+                                       key={devices.deviceId}
+                                       value={devices.deviceId}
+                                    >
+                                       {devices.deviceName}
                                     </Select.Option>
                                  );
                               })}
@@ -150,7 +154,10 @@ export const AddDevices = () => {
                </div>
             </div>
             <div className={cx('wrapper-btn')}>
-               <button type="submit" className={cx('btn', 'btn-btnCancel')}>
+               <button
+                  onClick={() => navigate(-1)}
+                  className={cx('btn', 'btn-btnCancel')}
+               >
                   Hủy bỏ
                </button>
                <button

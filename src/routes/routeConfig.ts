@@ -1,5 +1,3 @@
-const devicesPage = '/devices';
-
 export const routesConfig = {
    // ------------------------------private routes
    dashboard: '/dashboard',
@@ -12,8 +10,12 @@ export const routesConfig = {
 
    services: '/services',
    listServices: '/services/listServices',
+   addServices: '/services/addServices',
    detailsServices: '/services/detailsServices/:id',
    updateServices: '/services/updateServices/:id',
+
+   customerService: '/customerService',
+   listCustomerService: '/customerService/listCustomerService',
 
    // ------------------------------public routes
    login: '/',

@@ -1,0 +1,31 @@
+.ant-checkbox-group.updateServices-checkboxGroup {
+   display: flex;
+   flex-direction: column;
+}
+.ant-checkbox-group.updateServices-checkboxGroup
+   .ant-checkbox-wrapper
+   + .ant-checkbox-wrapper {
+   margin-left: 0;
+}
+.ant-checkbox-group.updateServices-checkboxGroup
+   .ant-checkbox.ant-checkbox-checked
+   .ant-checkbox-inner {
+   background-color: var(--color-orange-500);
+   border-color: var(--color-orange-500);
+   color: #fff;
+}
+.ant-checkbox-group.updateServices-checkboxGroup
+   .ant-checkbox.ant-checkbox-checked::after {
+   border-color: var(--color-orange-500);
+}
+
+.ant-checkbox-group.updateServices-checkboxGroup .ant-checkbox .ant-checkbox-inner {
+   width: 20px;
+   height: 20px;
+}
+.ant-checkbox-group.updateServices-checkboxGroup .ant-checkbox:hover .ant-checkbox-inner,
+.ant-checkbox-group.updateServices-checkboxGroup
+   .ant-checkbox-wrapper:hover
+   .ant-checkbox-inner {
+   border-color: var(--color-orange-500);
+}
