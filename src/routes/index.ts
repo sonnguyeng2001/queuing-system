@@ -2,21 +2,31 @@
 import { DashboardPage } from '../component/pages/Dashboard/Dashboard';
 
 // Devices
-import { DevicesPage } from '../component/pages/Devices/Devices';
-import { ListDevices } from '../component/pages/Devices/ListDevices/ListDevices';
-import { AddDevices } from '../component/pages/Devices/AddDevices/AddDevices';
-import { DetailsDevices } from '../component/pages/Devices/DetailsDevices/DetailsDevices';
-import { UpdateDevices } from '../component/pages/Devices/UpdateDevices/UpdateDevices';
+import DevicesPage from '../component/pages/Devices';
+import { ListDevices } from '../component/pages/Devices/List/ListDevices';
+import { AddDevices } from '../component/pages/Devices/Add/AddDevices';
+import { DetailsDevices } from '../component/pages/Devices/Details/DetailsDevices';
+import { UpdateDevices } from '../component/pages/Devices/Update/UpdateDevices';
 
 // Services
-import { ServicesPage } from './../component/pages/Services/Services';
-import { ListServices } from './../component/pages/Services/ListServices/ListServices';
-import { DetailsServices } from './../component/pages/Services/DetailsServices/DetailsServices';
-import { AddServices } from './../component/pages/Services/AddServices/AddServices';
+import ServicesPage from '../component/pages/Services';
+import { ListServices } from '../component/pages/Services/List/ListServices';
+import { DetailsServices } from '../component/pages/Services/Details/DetailsServices';
+import { AddServices } from '../component/pages/Services/Add/AddServices';
 
 // CustomerService
-import { CustomerService } from '../component/pages/CustomerService/CustomerService';
-import { ListCustomerService } from '../component/pages/CustomerService/ListCustomerService/ListCustomerService';
+import CustomerService from '../component/pages/CustomerService';
+import { ListCustomerService } from '../component/pages/CustomerService/List/ListCustomerService';
+import { AddCustomerService } from '../component/pages/CustomerService/Add/AddCustomerService';
+
+// Report
+import ReportPage from '../component/pages/Report';
+import { ListReport } from '../component/pages/Report/List/ListReport';
+
+// Setting
+import SettingPage from '../component/pages/Setting';
+import { SettingRole } from '../component/pages/Setting/Role/SettingRole';
+import { SettingAccount } from './../component/pages/Setting/Account/SettingAccount';
 
 // User Account
 import { ForgotPasswordPage } from '../component/pages/ForgotPassword/ForgotPassword';
@@ -24,7 +34,7 @@ import { ResetPassword } from '../component/pages/ResetPassword/ResetPassword';
 import { LoginPage } from '../component/pages/Login/Login';
 
 import { routesConfig } from './routeConfig';
-import { UpdateServices } from '../component/pages/Services/UpdateServices/UpdateServices';
+import { UpdateServices } from '../component/pages/Services/Update/UpdateServices';
 
 export type RouteProps = {
    path: string;
@@ -119,6 +129,47 @@ const privateRoutes: RouteProps[] = [
       component: ListCustomerService,
       translate: 'Danh sách cấp số',
       pageHeader: routesConfig.listCustomerService,
+   },
+   {
+      path: routesConfig.addCustomerService,
+      component: AddCustomerService,
+      translate: 'Cấp số mới',
+      pageHeader: routesConfig.addCustomerService,
+   },
+
+   // Report
+   {
+      path: routesConfig.report,
+      component: ReportPage,
+      translate: 'Báo cáo',
+      pageHeader: routesConfig.report,
+   },
+   {
+      path: routesConfig.listReport,
+      component: ListReport,
+      translate: 'Lập báo cáo',
+      pageHeader: routesConfig.listReport,
+   },
+
+   // Setting Page
+
+   {
+      path: routesConfig.setting,
+      component: SettingPage,
+      translate: 'Cài đặt hệ thống',
+      pageHeader: routesConfig.setting,
+   },
+   {
+      path: routesConfig.settingRole,
+      component: SettingRole,
+      translate: 'Quản lý vai trò',
+      pageHeader: routesConfig.settingRole,
+   },
+   {
+      path: routesConfig.settingAccount,
+      component: SettingAccount,
+      translate: 'Quản lý tài khoản',
+      pageHeader: routesConfig.settingAccount,
    },
 ];
 

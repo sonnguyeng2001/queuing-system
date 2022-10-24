@@ -9,6 +9,7 @@ import { LogoLogout } from '../../../assets/svg/LogoLogout';
 import { LogoReport } from '../../../assets/svg/LogoReport';
 import { LogoServices } from '../../../assets/svg/LogoServices';
 import { LogoSettings } from '../../../assets/svg/LogoSettings';
+import { LogoThreeDotVertical } from '../../../assets/svg/LogoThreeDotVertical';
 import { userLogout } from '../../../redux/features/UserSlice';
 import { routesConfig } from '../../../routes/routeConfig';
 import style from './Sidebar.module.scss';
@@ -18,33 +19,48 @@ const cx = classNames.bind(style);
 const navbarList = [
    {
       title: 'Dashboard',
-      logo: <LogoDashboard />,
+      logoLeft: <LogoDashboard />,
       to: routesConfig.dashboard,
    },
    {
       title: 'Thiết bị',
-      logo: <LogoDevices />,
+      logoLeft: <LogoDevices />,
       to: routesConfig.devices,
    },
    {
       title: 'Dịch vụ',
-      logo: <LogoServices />,
+      logoLeft: <LogoServices />,
       to: routesConfig.services,
    },
    {
       title: 'Cấp số',
-      logo: <LogoLevel />,
+      logoLeft: <LogoLevel />,
       to: routesConfig.customerService,
    },
    {
       title: 'Báo cáo',
-      logo: <LogoReport />,
-      to: '/report',
+      logoLeft: <LogoReport />,
+      to: routesConfig.report,
    },
    {
       title: 'Cài đặt hệ thống',
-      logo: <LogoSettings />,
-      to: '/settings',
+      logoLeft: <LogoSettings />,
+      to: routesConfig.setting,
+      logoRight: <LogoThreeDotVertical />,
+      subMenu: [
+         {
+            title: 'Quản lý vai trò',
+            subItemTo: routesConfig.settingRole,
+         },
+         {
+            title: 'Quản lý tài khoản',
+            subItemTo: routesConfig.settingAccount,
+         },
+         {
+            title: 'Nhật ký người dùng',
+            subItemTo: routesConfig.settingHistoryUser,
+         },
+      ],
    },
 ];
 
@@ -57,6 +73,7 @@ export const Sidebar = () => {
       dispatch(userLogout(true));
       navigate(routesConfig.login);
    };
+   
 
    return (
       <div className={cx('wrapper')}>
@@ -66,15 +83,46 @@ export const Sidebar = () => {
          <div className={cx('navbar')}>
             {navbarList.map((item, index) => {
                return (
-                  <NavLink
+                  <div
                      key={index}
-                     className={cx('navbar-item', path.startsWith(item.to) && 'active')}
-                     to={item.to}
-                     end
+                     className={cx(
+                        'navbar-item',
+                        path.startsWith(item.to) && 'active',
+                        item.subMenu && 'disable',
+                     )}
                   >
-                     <div className={cx('navbar-item-logo')}>{item.logo}</div>
-                     <p className={cx('navbar-item-title')}>{item.title}</p>
-                  </NavLink>
+                     <NavLink to={item.to} end className={cx('item')}>
+                        <div className={cx('item-logo')}>{item.logoLeft}</div>
+                        <p className={cx('item-title')}>{item.title}</p>
+                        {item.logoRight && (
+                           <div className={cx('item-logo', 'logoRight')}>
+                              {item.logoRight}
+                           </div>
+                        )}
+                     </NavLink>
+                     {item.subMenu && (
+                        <div className={cx('sub-menu')}>
+                           {item.subMenu.map((subItem, index) => {
+                              return (
+                                 <NavLink
+                                    key={index}
+                                    to={subItem.subItemTo}
+                                    className={cx(
+                                       'sub-menu-item',
+                                       path.endsWith(subItem.subItemTo) &&
+                                          'subItemActive',
+                                    )}
+                                    end
+                                 >
+                                    <p className={cx('sub-menu-title')}>
+                                       {subItem.title}
+                                    </p>
+                                 </NavLink>
+                              );
+                           })}
+                        </div>
+                     )}
+                  </div>
                );
             })}
          </div>

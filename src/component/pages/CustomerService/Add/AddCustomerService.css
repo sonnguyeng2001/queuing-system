@@ -1,0 +1,66 @@
+.ant-modal.modal-CustomerService {
+   width: 470px !important;
+   transform-origin: 0px 0px !important;
+   border-radius: 20px;
+   overflow: hidden;
+}
+
+.ant-modal.modal-CustomerService .ant-modal-close svg {
+   fill: var(--color-orange-500);
+}
+.ant-modal.modal-CustomerService .ant-modal-body {
+   text-align: center;
+   padding: 0;
+}
+.ant-modal.modal-CustomerService .ant-modal-body .infoService {
+   background-color: #fff;
+   padding: 24px 0px;
+}
+.ant-modal.modal-CustomerService .ant-modal-body .infoService .header {
+   font-size: 32px;
+   font-weight: 700;
+   color: var(--color-gray-400);
+   line-height: 48px;
+}
+
+.ant-modal.modal-CustomerService .ant-modal-body .infoService .number {
+   font-size: 56px;
+   font-weight: 800;
+   color: var(--color-orange-500);
+}
+.ant-modal.modal-CustomerService .ant-modal-body .infoService .nameService {
+   font-size: 18px;
+   color: var(--color-gray-500);
+   line-height: 27px;
+   font-weight: 400;
+}
+
+.ant-modal.modal-CustomerService .ant-modal-body .infoService .nameService .placeService {
+   font-size: 18px;
+   color: var(--color-gray-500);
+   line-height: 27px;
+   font-weight: 700;
+}
+
+.ant-modal.modal-CustomerService .ant-modal-body .timeService {
+   background-color: var(--color-orange-400);
+   padding: 14px 0px;
+   text-align: center;
+}
+.ant-modal.modal-CustomerService .ant-modal-body .timeService p {
+   width: calc(100% - 132px);
+   font-size: 20px;
+   margin: 0px auto;
+   font-weight: 700;
+   line-height: 33px;
+   color: #fff;
+   text-align: left;
+}
+.ant-modal.modal-CustomerService .ant-modal-body .timeService p span:first-child {
+   width: 140px;
+   display: inline-block;
+}
+
+.ant-modal.modal-CustomerService .ant-modal-body .timeService p + p {
+   margin-top: 10px;
+}

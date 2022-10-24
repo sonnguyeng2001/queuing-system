@@ -16,6 +16,15 @@ export const routesConfig = {
 
    customerService: '/customerService',
    listCustomerService: '/customerService/listCustomerService',
+   addCustomerService: '/customerService/addCustomerService',
+
+   report: '/report',
+   listReport: '/report/listReport',
+
+   setting: '/setting',
+   settingRole: '/setting/settingRole',
+   settingAccount: '/setting/settingAccount',
+   settingHistoryUser: '/setting/settingHistoryUser',
 
    // ------------------------------public routes
    login: '/',

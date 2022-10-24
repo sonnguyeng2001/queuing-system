@@ -171,16 +171,18 @@ export const ListServices = () => {
                <div className="selectDateGroup">
                   <DatePicker
                      className="selectDate"
-                     defaultValue={moment(moment().format('DD/MM/YYYY'), 'DD/MM/YYYY')}
+                     // defaultValue={moment(moment().format('DD/MM/YYYY'), 'DD/MM/YYYY')}
                      format={dateFormatList}
                      popupClassName="popup-date"
+                     placeholder="Từ ngày"
                   />
                   <LogoArrow className="selectDate-logoArrow" />
                   <DatePicker
                      className="selectDate"
-                     defaultValue={moment(moment().format('DD/MM/YYYY'), 'DD/MM/YYYY')}
+                     // defaultValue={moment(moment().format('DD/MM/YYYY'), 'DD/MM/YYYY')}
                      format={dateFormatList}
                      popupClassName="popup-date"
+                     placeholder="Đến ngày"
                   />
                </div>
             </div>

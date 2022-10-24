@@ -2,10 +2,11 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { routesConfig } from '../../../routes/routeConfig';
 
-export const ServicesPage = () => {
+function DevicesPage() {
    const navigate = useNavigate();
    useEffect(() => {
-      navigate(routesConfig.listServices);
+      navigate(routesConfig.listDevices);
    }, []);
    return <></>;
-};
+}
+export default DevicesPage;

@@ -216,13 +216,15 @@ export const ListCustomerService = () => {
                         format={dateFormatList}
                         popupClassName="popup-date"
                         onChange={(date) => console.log(date)}
+                        placeholder="Từ ngày"
                      />
                      <LogoArrow className="selectDate-logoArrow" />
                      <DatePicker
                         className="selectDate"
-                        defaultValue={moment(moment().format('DD/MM/YYYY'), 'DD/MM/YYYY')}
+                        // defaultValue={moment(moment().format('DD/MM/YYYY'), 'DD/MM/YYYY')}
                         format={dateFormatList}
                         popupClassName="popup-date"
+                        placeholder="Đến ngày"
                      />
                   </div>
                </div>
@@ -250,7 +252,7 @@ export const ListCustomerService = () => {
 
             <LinkAction
                title="Cấp số mới"
-               to={routesConfig.addDevices}
+               to={routesConfig.addCustomerService}
                logo={<LogoPlus />}
             />
          </div>

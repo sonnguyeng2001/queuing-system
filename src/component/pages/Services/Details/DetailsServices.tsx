@@ -168,21 +168,15 @@ export const DetailsServices = () => {
                         <div className="selectDateGroup">
                            <DatePicker
                               className="selectDate"
-                              defaultValue={moment(
-                                 moment().format('DD/MM/YYYY'),
-                                 'DD/MM/YYYY',
-                              )}
+                              placeholder="Từ ngày"
                               format={dateFormatList}
                               popupClassName="popup-date"
                            />
                            <LogoArrow className="selectDate-logoArrow" />
                            <DatePicker
                               className="selectDate"
-                              defaultValue={moment(
-                                 moment().format('DD/MM/YYYY'),
-                                 'DD/MM/YYYY',
-                              )}
                               format={dateFormatList}
+                              placeholder="Đến ngày"
                               popupClassName="popup-date"
                            />
                         </div>
