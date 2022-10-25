@@ -1,0 +1,42 @@
+.table-settingRole {
+      position: relative;
+}
+
+.actionHeader {
+      width: var(--width-table-content);
+      display: flex;
+      justify-content: flex-end;
+
+      & .searchArea {
+            width: 300px;
+      }
+
+      & .searchArea .title {
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 24px;
+            color: var(--color-gray-500);
+            margin-bottom: 4px;
+      }
+      & .searchArea .content {
+            width: 300px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 2px solid var(--color-gray-100);
+            color: var(--color-gray-400);
+            font-weight: 600;
+            outline: none;
+            font-size: 16px;
+      }
+      // Logo
+      & .searchArea {
+            position: relative;
+            right: 0;
+      }
+
+      & .searchArea .logo-arrow {
+            position: absolute;
+            top: 54%;
+            right: 6%;
+      }
+}

@@ -22,8 +22,12 @@ export const routesConfig = {
    listReport: '/report/listReport',
 
    setting: '/setting',
-   settingRole: '/setting/settingRole',
-   settingAccount: '/setting/settingAccount',
+
+   listRole: '/setting/listRole',
+   addRole: '/setting/addRole',
+   updateRole: '/setting/updateRole/:id',
+
+   listAccount: '/setting/listAccount',
    settingHistoryUser: '/setting/settingHistoryUser',
 
    // ------------------------------public routes

@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import { useDispatch } from 'react-redux';
-import { NavLink, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, NavLink } from 'react-router-dom';
 import { Logo } from '../../../assets/svg/Logo';
 import { LogoDashboard } from '../../../assets/svg/LogoDashboard';
 import { LogoDevices } from '../../../assets/svg/LogoDevices';
@@ -50,15 +50,18 @@ const navbarList = [
       subMenu: [
          {
             title: 'Quản lý vai trò',
-            subItemTo: routesConfig.settingRole,
+            to: routesConfig.setting,
+            navigateTo: routesConfig.listRole,
          },
          {
             title: 'Quản lý tài khoản',
-            subItemTo: routesConfig.settingAccount,
+            to: routesConfig.setting,
+            navigateTo: routesConfig.listAccount,
          },
          {
             title: 'Nhật ký người dùng',
-            subItemTo: routesConfig.settingHistoryUser,
+            to: routesConfig.setting,
+            navigateTo: routesConfig.settingHistoryUser,
          },
       ],
    },
@@ -73,8 +76,15 @@ export const Sidebar = () => {
       dispatch(userLogout(true));
       navigate(routesConfig.login);
    };
-   
-
+   const handleClickNavLink = (event: React.MouseEvent<HTMLAnchorElement>) => {
+      if (
+         event.currentTarget.parentElement?.className.includes('disable') ||
+         event.currentTarget.className.includes(cx('subItemActive'))
+      ) {
+         event.preventDefault();
+         event.stopPropagation();
+      }
+   };
    return (
       <div className={cx('wrapper')}>
          <div className={cx('logo')}>
@@ -91,7 +101,12 @@ export const Sidebar = () => {
                         item.subMenu && 'disable',
                      )}
                   >
-                     <NavLink to={item.to} end className={cx('item')}>
+                     <NavLink
+                        to={item.to}
+                        onClick={handleClickNavLink}
+                        end
+                        className={cx('item')}
+                     >
                         <div className={cx('item-logo')}>{item.logoLeft}</div>
                         <p className={cx('item-title')}>{item.title}</p>
                         {item.logoRight && (
@@ -105,11 +120,13 @@ export const Sidebar = () => {
                            {item.subMenu.map((subItem, index) => {
                               return (
                                  <NavLink
+                                    onClick={handleClickNavLink}
                                     key={index}
-                                    to={subItem.subItemTo}
+                                    state={{ navigateTo: subItem.navigateTo }}
+                                    to={{ pathname: subItem.to }}
                                     className={cx(
                                        'sub-menu-item',
-                                       path.endsWith(subItem.subItemTo) &&
+                                       path.endsWith(subItem.navigateTo) &&
                                           'subItemActive',
                                     )}
                                     end

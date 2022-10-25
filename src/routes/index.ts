@@ -18,6 +18,7 @@ import { AddServices } from '../component/pages/Services/Add/AddServices';
 import CustomerService from '../component/pages/CustomerService';
 import { ListCustomerService } from '../component/pages/CustomerService/List/ListCustomerService';
 import { AddCustomerService } from '../component/pages/CustomerService/Add/AddCustomerService';
+import { UpdateServices } from '../component/pages/Services/Update/UpdateServices';
 
 // Report
 import ReportPage from '../component/pages/Report';
@@ -25,8 +26,14 @@ import { ListReport } from '../component/pages/Report/List/ListReport';
 
 // Setting
 import SettingPage from '../component/pages/Setting';
-import { SettingRole } from '../component/pages/Setting/Role/SettingRole';
-import { SettingAccount } from './../component/pages/Setting/Account/SettingAccount';
+
+// Setting => Role
+import { ListRole } from '../component/pages/Setting/Role/ListRole/ListRole';
+import { AddRole } from '../component/pages/Setting/Role/AddRole/AddRole';
+import { UpdateRole } from '../component/pages/Setting/Role/UpdateRole/UpdateRole';
+
+// Setting => Account
+import { ListAccount } from '../component/pages/Setting/Account/ListAccount/ListAccount';
 
 // User Account
 import { ForgotPasswordPage } from '../component/pages/ForgotPassword/ForgotPassword';
@@ -34,7 +41,6 @@ import { ResetPassword } from '../component/pages/ResetPassword/ResetPassword';
 import { LoginPage } from '../component/pages/Login/Login';
 
 import { routesConfig } from './routeConfig';
-import { UpdateServices } from '../component/pages/Services/Update/UpdateServices';
 
 export type RouteProps = {
    path: string;
@@ -159,17 +165,31 @@ const privateRoutes: RouteProps[] = [
       translate: 'Cài đặt hệ thống',
       pageHeader: routesConfig.setting,
    },
+
+   // Role
    {
-      path: routesConfig.settingRole,
-      component: SettingRole,
+      path: routesConfig.listRole,
+      component: ListRole,
       translate: 'Quản lý vai trò',
-      pageHeader: routesConfig.settingRole,
+      pageHeader: routesConfig.listRole,
    },
    {
-      path: routesConfig.settingAccount,
-      component: SettingAccount,
+      path: routesConfig.addRole,
+      component: AddRole,
+      translate: 'Thêm vai trò',
+      pageHeader: routesConfig.addRole,
+   },
+   {
+      path: routesConfig.updateRole,
+      component: UpdateRole,
+      translate: 'Cập nhật vai trò',
+      pageHeader: '/setting/updateRole',
+   },
+   {
+      path: routesConfig.listAccount,
+      component: ListAccount,
       translate: 'Quản lý tài khoản',
-      pageHeader: routesConfig.settingAccount,
+      pageHeader: routesConfig.listAccount,
    },
 ];
 

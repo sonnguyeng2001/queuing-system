@@ -1,3 +1,4 @@
+import { roleSlice } from './features/RoleSlice';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 // import { createStore, applyMiddleware } from 'redux';
 // import thunk from 'redux-thunk';
@@ -10,6 +11,7 @@ const rootReducers = combineReducers({
    user: userSlice.reducer,
    device: deviceSlice.reducer,
    service: customerServiceSlice.reducer,
+   role: roleSlice.reducer,
 });
 
 export type State = ReturnType<typeof rootReducers>;

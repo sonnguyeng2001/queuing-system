@@ -1,45 +1,46 @@
 @import 'antd/dist/antd.min.css';
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 :root {
-   --color-orange-600: #bf5805;
-   --color-orange-500: #ff7506;
-   --color-orange-400: #ff9138;
-   --color-orange-300:  #ffAC6A;
-   --color-orange-200: #ffc89b;
-   --color-orange-100: #ffe3cd;
-   --color-orange-50: #fff2e7;
+      --color-orange-600: #bf5805;
+      --color-orange-500: #ff7506;
+      --color-orange-400: #ff9138;
+      --color-orange-300: #ffac6a;
+      --color-orange-200: #ffc89b;
+      --color-orange-100: #ffe3cd;
+      --color-orange-50: #fff2e7;
 
-   --color-gray-500: #282739;
-   --color-gray-400: #535261;
-   --color-gray-300: #7e7d88;
-   --color-gray-200: #a9a9b0;
-   --color-gray-100: #d4d4d7;
-   --color-gray-50: #eaeaec;
+      --color-gray-500: #282739;
+      --color-gray-400: #535261;
+      --color-gray-300: #7e7d88;
+      --color-gray-200: #a9a9b0;
+      --color-gray-100: #d4d4d7;
+      --color-gray-50: #eaeaec;
 
-   --color-bg-content: #f6f6f6;
+      --color-bg-content: #f6f6f6;
 
-   --color-blue: #4277ff;
-   --color-red: #e73f3f;
-   --color-green: #35c75a;
+      --color-blue: #4277ff;
+      --color-red: #e73f3f;
+      --color-green: #35c75a;
 
-   --space-header-footer: 30px;
-   --width-app: 1500px;
-   --height-app: calc(100vh - 20px);
-   --width-sidebar: 200px;
-   --width-table-content: 1160px;
+      --space-header-footer: 30px;
+      --width-app: 1500px;
+      --height-app: calc(100vh - 20px);
+      --width-sidebar: 200px;
+      --width-table-content: 1160px;
+      --width-full-content: calc(100% - 30px);
 }
 
 * {
-   margin: 0;
-   padding: 0;
-   box-sizing: border-box;
-   font-family: 'Nunito', sans-serif;
-   user-select: none;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Nunito', sans-serif;
+      user-select: none;
 }
 
 /* Reset CSS Antd */
 p {
-   margin: 0;
+      margin: 0;
 }
 h1,
 h2,
@@ -47,85 +48,85 @@ h3,
 h4,
 h5,
 h6 {
-   margin: 0;
-   margin-block-start: 0px;
-   margin-block-end: 0px;
-   margin-inline-start: 0px;
-   margin-inline-end: 0px;
+      margin: 0;
+      margin-block-start: 0px;
+      margin-block-end: 0px;
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
 }
 .ant-card-body {
-   padding: 0;
+      padding: 0;
 }
 .ant-btn {
-   line-height: unset;
-   font-weight: unset;
-   white-space: unset;
-   text-align: unset;
-   background-image: none;
-   box-shadow: unset;
-   cursor: unset;
-   transition: unset;
-   -webkit-user-select: none;
-   -moz-user-select: none;
-   -ms-user-select: none;
-   user-select: none;
-   touch-action: unset;
-   height: unset;
-   padding: unset;
-   font-size: unset;
-   border-radius: unset;
-   color: unset;
-   border: unset;
-   background: unset;
+      line-height: unset;
+      font-weight: unset;
+      white-space: unset;
+      text-align: unset;
+      background-image: none;
+      box-shadow: unset;
+      cursor: unset;
+      transition: unset;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      touch-action: unset;
+      height: unset;
+      padding: unset;
+      font-size: unset;
+      border-radius: unset;
+      color: unset;
+      border: unset;
+      background: unset;
 }
 .ant-btn:active,
 .ant-btn:focus,
 .ant-btn:hover {
-   background-color: unset;
-   text-decoration: unset;
-   color: unset;
-   border-color: unset;
+      background-color: unset;
+      text-decoration: unset;
+      color: unset;
+      border-color: unset;
 }
 
 .App {
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   width: 100%;
-   height: 100vh;
-   background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100vh;
+      background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
 }
 
 .wrapper {
-   width: var(--width-app);
-   height: var(--height-app);
-   border-radius: 12px;
-   overflow: hidden;
-   animation: fade 0.4s ease-in-out;
+      width: var(--width-app);
+      height: var(--height-app);
+      border-radius: 12px;
+      overflow: hidden;
+      animation: fade 0.4s ease-in-out;
 }
 @keyframes fade {
-   from {
-      transform: scale(0.8);
-      opacity: 0;
-   }
-   to {
-      transform: scale(1);
-      opacity: 1;
-   }
+      from {
+            transform: scale(0.8);
+            opacity: 0;
+      }
+      to {
+            transform: scale(1);
+            opacity: 1;
+      }
 }
 
 /* Customize body scroll */
 html *::-webkit-scrollbar {
-   border-radius: 0;
-   width: 4px;
+      border-radius: 0;
+      width: 4px;
 }
 
 html *::-webkit-scrollbar-thumb {
-   border-radius: 4px;
-   background-color: var(--color-orange-200);
+      border-radius: 4px;
+      background-color: var(--color-orange-200);
 }
 
 html *::-webkit-scrollbar-track {
-   border-radius: 0;
-   background-color: rgb(0 0 0 / 0%);
+      border-radius: 0;
+      background-color: rgb(0 0 0 / 0%);
 }
