@@ -1,7 +1,10 @@
-export type UserProps = {
-   fullName?: string;
-   username?: string;
-   password?: string;
-   email?: string;
-   id?: string;
+export type UserType = {
+      key: string;
+      fullName: string;
+      phone: string;
+      email: string;
+      roleName: string;
+      active: boolean;
+      userName: string;
+      password: string;
 };

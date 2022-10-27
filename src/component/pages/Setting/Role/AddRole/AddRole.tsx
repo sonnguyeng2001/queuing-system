@@ -7,6 +7,12 @@ const cx = classNames.bind(style);
 
 export const AddRole = () => {
       const navigate = useNavigate();
+      const nameRole = document.getElementById('nameRole') as HTMLInputElement | null;
+      const descRole = document.getElementById('descRole') as HTMLTextAreaElement | null;
+      const handleAddRole = () => {
+            // ---- button nhớ thêm type  = "submit" để có thể lấy được value khi sử dụng document.getElementById()
+            alert(nameRole?.value + '  ' + descRole?.value);
+      };
       return (
             <div className={cx('AddRole-Wrapper')}>
                   <HeaderContent title="Danh sách vai trò" />
@@ -21,7 +27,7 @@ export const AddRole = () => {
                                                       <span className={cx('required')}>*</span>
                                                 </p>
                                                 <input
-                                                      id="inputID"
+                                                      id="nameRole"
                                                       className={cx('input-field')}
                                                       type="text"
                                                       placeholder="Nhập tên vai trò"
@@ -33,7 +39,7 @@ export const AddRole = () => {
                                                 </p>
                                                 <div style={{ height: '76%' }}>
                                                       <textarea
-                                                            id="inputDescDevices"
+                                                            id="descRole"
                                                             style={{ height: '100%' }}
                                                             rows={4}
                                                             className={cx('input-field')}
@@ -167,8 +173,8 @@ export const AddRole = () => {
                         <button onClick={() => navigate(-1)} className={cx('btn', 'btn-btnCancel')}>
                               Hủy bỏ
                         </button>
-                        <button type="submit" className={cx('btn', 'btn-btnUpdate')}>
-                              Cập nhật
+                        <button onClick={handleAddRole} type="submit" className={cx('btn', 'btn-btnAdd')}>
+                              Thêm vai trò
                         </button>
                   </div>
             </div>

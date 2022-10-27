@@ -1,6 +1,6 @@
-export type RoleProps = {
-   key: string;
-   roleName: string;
-   roleUserCount: number;
-   roleDescription: string;
+export type RoleType = {
+      key: string;
+      roleName: string;
+      roleUserCount: number;
+      roleDescription: string;
 };

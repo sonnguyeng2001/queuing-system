@@ -4,7 +4,7 @@ import { HeaderContent } from '../../../../componentChild/HeaderContent/HeaderCo
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
 import { getRoles } from '../../../../../redux/features/RoleSlice';
-import { RoleProps } from '../../../../propsType/RoleProps';
+import { RoleType } from '../../../../propsType/RoleProps';
 import { CustomizeTable } from '../../../../componentChild/CustomizeTable/CustomizeTable';
 import { LinkAction } from '../../../../componentChild/LinkAction/LinkAction';
 import { LogoPlus } from '../../../../../assets/svg/LogoPlus';
@@ -35,10 +35,10 @@ const columns = [
                         <>
                               <Link
                                     className="text-underline"
-                                    to={`${routesConfig.updateRole.replace(
-                                          '/:id',
+                                    to={`${routesConfig.updateRole.replace('/:id', '')}/${data.replace(
+                                          'Cập nhật',
                                           '',
-                                    )}/${data.replace('Cập nhật', '')}`}
+                                    )}`}
                               >
                                     Cập nhật
                               </Link>
@@ -50,13 +50,13 @@ const columns = [
 
 export const ListRole = () => {
       const dispatch = useDispatch<any>();
-      const [dataSource, setDataSource] = useState<RoleProps[] | []>([]);
+      const [dataSource, setDataSource] = useState<RoleType[] | []>([]);
       const [inputSearch, setInputSearch] = useState<string>('');
-      const dataSourceRef = useRef<RoleProps[] | []>([]);
+      const dataSourceRef = useRef<RoleType[] | []>([]);
 
       const fetchData = async () => {
             const response = await dispatch(getRoles());
-            const newArray = response.payload.map((role: RoleProps) => {
+            const newArray = response.payload.map((role: RoleType) => {
                   return {
                         ...role,
                         updateAction: `Cập nhật${role.key}`,
@@ -76,10 +76,7 @@ export const ListRole = () => {
       useEffect(() => {
             setDataSource(
                   dataSourceRef.current.filter((key) =>
-                        key.roleName
-                              .toString()
-                              .toLowerCase()
-                              .includes(debouncedValue.toLowerCase()),
+                        key.roleName.toString().toLowerCase().includes(debouncedValue.toLowerCase()),
                   ),
             );
       }, [debouncedValue]);
@@ -109,17 +106,9 @@ export const ListRole = () => {
                         </div>
                   </div>
                   <div className={cx('table-settingRole')}>
-                        <CustomizeTable
-                              columns={columns}
-                              dataSource={dataSource}
-                              pageSize={pageSize}
-                        />
+                        <CustomizeTable columns={columns} dataSource={dataSource} pageSize={pageSize} />
 
-                        <LinkAction
-                              logo={<LogoPlus />}
-                              title="Thêm vai trò"
-                              to={routesConfig.addRole}
-                        />
+                        <LinkAction logo={<LogoPlus />} title="Thêm vai trò" to={routesConfig.addRole} />
                   </div>
             </div>
       );

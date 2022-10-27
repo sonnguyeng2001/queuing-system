@@ -10,53 +10,53 @@ import { useRef } from 'react';
 
 const cx = classNames.bind(style);
 export const ForgotPasswordPage = () => {
-   const dataUser = useSelector((state: State) => state.user);
+      const dataUser = useSelector((state: State) => state.user);
 
-   const emailRef = useRef<HTMLInputElement>(null);
-   const errorRef = useRef<HTMLParagraphElement>(null);
-   const navigate = useNavigate();
+      const emailRef = useRef<HTMLInputElement>(null);
+      const errorRef = useRef<HTMLParagraphElement>(null);
+      const navigate = useNavigate();
 
-   const hanleCheckExistsEmail = () => {
-      const checkUser = dataUser.data.find((user) => user.email === emailRef.current?.value);
-      if (checkUser) {
-         errorRef.current?.classList.remove(cx('showError'));
-         navigate('/resetPassword', {
-            state: {
-               email: checkUser.email,
-               id: checkUser.id
-            },
-         });
-      } else {
-         errorRef.current?.classList.add(cx('showError'));
-      }
-   };
+      const hanleCheckExistsEmail = () => {
+            const checkUser = dataUser.data.find((user) => user.email === emailRef.current?.value);
+            if (checkUser) {
+                  errorRef.current?.classList.remove(cx('showError'));
+                  navigate('/resetPassword', {
+                        state: {
+                              email: checkUser.email,
+                              key: checkUser.key,
+                        },
+                  });
+            } else {
+                  errorRef.current?.classList.add(cx('showError'));
+            }
+      };
 
-   return (
-      <div className={cx('wrapper')}>
-         <div className={cx('leftContent')}>
-            <Logo className={cx('logo')} />
-            <div className={cx('form')}>
-               <div>
-                  <p className={cx('heading')}>Đặt lại mật khẩu</p>
-                  <p className={cx('label')}>Vui lòng nhập email để đặt lại mật khẩu của bạn</p>
-                  <input ref={emailRef} className={cx('input')} type="email" />
-               </div>
-               <p ref={errorRef} className={cx('forgotPassWord')}>
-                  Email không tồn tại
-               </p>
+      return (
+            <div className={cx('wrapper')}>
+                  <div className={cx('leftContent')}>
+                        <Logo className={cx('logo')} />
+                        <div className={cx('form')}>
+                              <div>
+                                    <p className={cx('heading')}>Đặt lại mật khẩu</p>
+                                    <p className={cx('label')}>Vui lòng nhập email để đặt lại mật khẩu của bạn</p>
+                                    <input ref={emailRef} className={cx('input')} type="email" />
+                              </div>
+                              <p ref={errorRef} className={cx('forgotPassWord')}>
+                                    Email không tồn tại
+                              </p>
+                        </div>
+                        <div className={cx('wrapper-btn')}>
+                              <Link to="/" className={cx('btn', 'btnCancel')}>
+                                    Hủy
+                              </Link>
+                              <Button onClick={hanleCheckExistsEmail} className={cx('btn', 'btnContinue')}>
+                                    Tiếp tục
+                              </Button>
+                        </div>
+                  </div>
+                  <div className={cx('rightContent')}>
+                        <GroupPeoplePassword />
+                  </div>
             </div>
-            <div className={cx('wrapper-btn')}>
-               <Link to="/" className={cx('btn', 'btnCancel')}>
-                  Hủy
-               </Link>
-               <Button onClick={hanleCheckExistsEmail} className={cx('btn', 'btnContinue')}>
-                  Tiếp tục
-               </Button>
-            </div>
-         </div>
-         <div className={cx('rightContent')}>
-            <GroupPeoplePassword />
-         </div>
-      </div>
-   );
+      );
 };
