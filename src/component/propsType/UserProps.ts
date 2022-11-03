@@ -7,4 +7,5 @@ export type UserType = {
       active: boolean;
       userName: string;
       password: string;
+      img: string;
 };

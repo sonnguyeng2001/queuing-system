@@ -10,9 +10,9 @@ import { publicRoutes, privateRoutes } from './routes';
 import { useDispatch, useSelector } from 'react-redux';
 import { State } from '../src/redux/store';
 import { getUsers } from './redux/features/UserSlice';
-
-import axios from 'axios';
-import { UserType } from './component/propsType/UserProps';
+import { getDevices } from './redux/features/DeviceSlice';
+import { getRoles } from './redux/features/RoleSlice';
+import { getCustomerServices } from './redux/features/CustomerServicesSlice';
 
 // React lazy
 const DefaultLayout = React.lazy(() =>
@@ -25,6 +25,9 @@ function App() {
       const dataUser = useSelector((state: State) => state.user);
       useEffect(() => {
             dispatch(getUsers());
+            dispatch(getDevices());
+            dispatch(getRoles());
+            dispatch(getCustomerServices());
       }, [dispatch]);
 
       return (
@@ -52,11 +55,10 @@ function App() {
                                     </React.Suspense>
                               ) : (
                                     <Routes>
-                                          {dataUser.data.length > 0 &&
-                                                publicRoutes.map((route, index) => {
-                                                      const Page = route.component;
-                                                      return <Route key={index} path={route.path} element={<Page />} />;
-                                                })}
+                                          {publicRoutes.map((route, index) => {
+                                                const Page = route.component;
+                                                return <Route key={index} path={route.path} element={<Page />} />;
+                                          })}
                                     </Routes>
                               )}
                         </Router>

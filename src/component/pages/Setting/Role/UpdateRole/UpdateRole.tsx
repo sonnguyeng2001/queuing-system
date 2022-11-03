@@ -5,48 +5,29 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Checkbox } from 'antd';
 import { useEffect, useState } from 'react';
 import { RoleType } from '../../../../propsType/RoleProps';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { State } from '../../../../../redux/store';
-import { getRoles } from '../../../../../redux/features/RoleSlice';
 
 const cx = classNames.bind(style);
-
 export const UpdateRole = () => {
       const [role, setRole] = useState<RoleType | undefined>({} as RoleType);
       const navigate = useNavigate();
-      const nameRole = document.getElementById('nameRole') as HTMLInputElement | null;
-      const descRole = document.getElementById('descRole') as HTMLTextAreaElement | null;
+
       const dataRole = useSelector((state: State) => state.role);
-      const dispatch = useDispatch<any>();
       const { id } = useParams();
 
-      const fetchData = async () => {
-            const response = await dispatch(getRoles());
-            return response.payload;
-      };
       useEffect(() => {
-            if (dataRole.data.length > 0) {
-                  const currentRole = dataRole.data.find((itemRole: RoleType) => {
-                        return itemRole.key.toString() === id && itemRole;
-                  });
-                  setRole(currentRole);
-            } else {
-                  fetchData()
-                        .then((data) => {
-                              const currentRole = data.find((itemRole: RoleType) => {
-                                    return itemRole.key.toString() === id && itemRole;
-                              });
-                              setRole(currentRole);
-                        })
-                        .catch((error) => {
-                              console.log(error);
-                        });
-            }
-      }, [dispatch]);
+            const currentRole = dataRole.data.find((itemRole: RoleType) => {
+                  return itemRole.key.toString() === id && itemRole;
+            });
+            setRole(currentRole);
+      }, []);
 
       const handleChangeInfoRole = () => {};
 
       const handleUpdateRole = () => {
+            const nameRole = document.getElementById('nameRole') as HTMLInputElement | null;
+            const descRole = document.getElementById('descRole') as HTMLTextAreaElement | null;
             alert(nameRole?.value + ' ' + descRole?.value);
       };
       return (

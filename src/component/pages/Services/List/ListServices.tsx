@@ -10,12 +10,12 @@ import { LogoArrow } from '../../../../assets/svg/LogoArrow';
 import { LogoSearch } from '../../../../assets/svg/LogoSearch';
 import { LogoPlus } from '../../../../assets/svg/LogoPlus';
 import { DevicesType } from '../../../propsType/DevicesProps';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getDevices } from '../../../../redux/features/DeviceSlice';
 import useDebounce from '../../../../Hooks/useDebound';
 import { LinkAction } from '../../../componentChild/LinkAction/LinkAction';
-import moment from 'moment';
 import { CustomizeTable } from '../../../componentChild/CustomizeTable/CustomizeTable';
+import { State } from '../../../../redux/store';
 
 const cx = classNames.bind(style);
 
@@ -93,24 +93,19 @@ export const ListServices = () => {
       const dispatch = useDispatch<any>();
       const [dataSource, setDataSource] = useState<DevicesType[] | []>([]);
       const [inputSearch, setInputSearch] = useState<string>('');
+      const data = useSelector((state: State) => state.device);
       const dataRef = useRef<DevicesType[] | []>([]);
-
-      const fetchData = async () => {
-            const response = await dispatch(getDevices());
-            var arr = await response.payload.map((device: DevicesType) => {
+      
+      useEffect(() => {
+            var arr = data.dataDevices.map((device: DevicesType) => {
                   return {
                         ...device,
                         detailsAction: `Chi tiết${device.deviceId}`,
                         updateAction: `Cập nhật${device.deviceId}`,
                   };
             });
-            return arr;
-      };
-      useEffect(() => {
-            fetchData().then((data) => {
-                  dataRef.current = data;
-                  setDataSource(data);
-            });
+            dataRef.current = arr;
+            setDataSource(arr);
       }, [dispatch]);
 
       const handleChangeSelect = (value: string) => {
@@ -190,7 +185,6 @@ export const ListServices = () => {
                   </div>
                   <div className={cx('table-services')}>
                         <CustomizeTable columns={columns} dataSource={dataSource} pageSize={pageSize} />
-
                         <LinkAction title="Thêm dịch vụ" to={routesConfig.addServices} logo={<LogoPlus />} />
                   </div>
             </div>

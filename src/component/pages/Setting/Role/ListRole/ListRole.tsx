@@ -1,9 +1,8 @@
 import style from './ListRole.module.scss';
 import classNames from 'classnames/bind';
 import { HeaderContent } from '../../../../componentChild/HeaderContent/HeaderContent';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
-import { getRoles } from '../../../../../redux/features/RoleSlice';
 import { RoleType } from '../../../../propsType/RoleProps';
 import { CustomizeTable } from '../../../../componentChild/CustomizeTable/CustomizeTable';
 import { LinkAction } from '../../../../componentChild/LinkAction/LinkAction';
@@ -12,6 +11,7 @@ import { routesConfig } from '../../../../../routes/routeConfig';
 import { Link } from 'react-router-dom';
 import { LogoSearch } from '../../../../../assets/svg/LogoSearch';
 import useDebounce from '../../../../../Hooks/useDebound';
+import { State } from '../../../../../redux/store';
 const cx = classNames.bind(style);
 
 const columns = [
@@ -28,7 +28,7 @@ const columns = [
             dataIndex: 'roleDescription',
       },
       {
-            title: 'Update Action',
+            title: '',
             dataIndex: 'updateAction',
             render: (data: string) => {
                   return (
@@ -49,28 +49,21 @@ const columns = [
 ];
 
 export const ListRole = () => {
-      const dispatch = useDispatch<any>();
       const [dataSource, setDataSource] = useState<RoleType[] | []>([]);
       const [inputSearch, setInputSearch] = useState<string>('');
       const dataSourceRef = useRef<RoleType[] | []>([]);
+      const dataRole = useSelector((state: State) => state.role);
 
-      const fetchData = async () => {
-            const response = await dispatch(getRoles());
-            const newArray = response.payload.map((role: RoleType) => {
+      useEffect(() => {
+            const newArray = dataRole.data.map((role: RoleType) => {
                   return {
                         ...role,
                         updateAction: `Cập nhật${role.key}`,
                   };
             });
-
-            return newArray;
-      };
-      useEffect(() => {
-            fetchData().then((data) => {
-                  setDataSource(data);
-                  dataSourceRef.current = data;
-            });
-      }, [dispatch]);
+            setDataSource(newArray);
+            dataSourceRef.current = newArray;
+      }, []);
 
       const debouncedValue = useDebounce(inputSearch, 500);
       useEffect(() => {

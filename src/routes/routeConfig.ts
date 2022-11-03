@@ -1,40 +1,45 @@
 export const routesConfig = {
-   // ------------------------------private routes
-   dashboard: '/dashboard',
+      // ------------------------------private routes
+      dashboard: '/dashboard',
 
-   devices: '/devices',
-   listDevices: '/devices/listDevices',
-   addDevices: '/devices/addDevices',
-   detailsDevices: '/devices/detailsDevices/:id',
-   updateDevices: '/devices/updateDevices/:id',
+      devices: '/devices',
+      listDevices: '/devices/listDevices',
+      addDevices: '/devices/addDevices',
+      detailsDevices: '/devices/detailsDevices/:id',
+      updateDevices: '/devices/updateDevices/:id',
 
-   services: '/services',
-   listServices: '/services/listServices',
-   addServices: '/services/addServices',
-   detailsServices: '/services/detailsServices/:id',
-   updateServices: '/services/updateServices/:id',
+      services: '/services',
+      listServices: '/services/listServices',
+      addServices: '/services/addServices',
+      detailsServices: '/services/detailsServices/:id',
+      updateServices: '/services/updateServices/:id',
 
-   customerService: '/customerService',
-   listCustomerService: '/customerService/listCustomerService',
-   addCustomerService: '/customerService/addCustomerService',
+      customerService: '/customerService',
+      listCustomerService: '/customerService/listCustomerService',
+      addCustomerService: '/customerService/addCustomerService',
 
-   report: '/report',
-   listReport: '/report/listReport',
+      report: '/report',
+      listReport: '/report/listReport',
 
-   setting: '/setting',
+      setting: '/setting',
 
-   listRole: '/setting/listRole',
-   addRole: '/setting/addRole',
-   updateRole: '/setting/updateRole/:id',
+      listRole: '/setting/listRole',
+      addRole: '/setting/addRole',
+      updateRole: '/setting/updateRole/:id',
 
-   listAccount: '/setting/listAccount',
-   settingHistoryUser: '/setting/settingHistoryUser',
+      listAccount: '/setting/listAccount',
+      addAccount: '/setting/addAccount',
+      updateAccount: '/setting/updateAccount/:id',
 
-   // ------------------------------public routes
-   login: '/',
-   forgotPassword: '/forgotPassword',
-   resetPassword: '/resetPassword',
+      settingHistoryUser: '/setting/settingHistoryUser',
 
-   // ------------------------------ 404 routes
-   page404: '*',
+      infoUser: '/infoUser',
+
+      // ------------------------------public routes
+      login: '/',
+      forgotPassword: '/forgotPassword',
+      resetPassword: '/resetPassword',
+
+      // ------------------------------ 404 routes
+      page404: '*',
 };

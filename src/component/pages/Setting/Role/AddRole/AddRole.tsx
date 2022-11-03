@@ -7,10 +7,9 @@ const cx = classNames.bind(style);
 
 export const AddRole = () => {
       const navigate = useNavigate();
-      const nameRole = document.getElementById('nameRole') as HTMLInputElement | null;
-      const descRole = document.getElementById('descRole') as HTMLTextAreaElement | null;
       const handleAddRole = () => {
-            // ---- button nhớ thêm type  = "submit" để có thể lấy được value khi sử dụng document.getElementById()
+            const nameRole = document.getElementById('nameRole') as HTMLInputElement | null;
+            const descRole = document.getElementById('descRole') as HTMLTextAreaElement | null;
             alert(nameRole?.value + '  ' + descRole?.value);
       };
       return (
@@ -173,7 +172,7 @@ export const AddRole = () => {
                         <button onClick={() => navigate(-1)} className={cx('btn', 'btn-btnCancel')}>
                               Hủy bỏ
                         </button>
-                        <button onClick={handleAddRole} type="submit" className={cx('btn', 'btn-btnAdd')}>
+                        <button onClick={handleAddRole} className={cx('btn', 'btn-btnAdd')}>
                               Thêm vai trò
                         </button>
                   </div>

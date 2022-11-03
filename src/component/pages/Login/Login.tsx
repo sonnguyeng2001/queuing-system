@@ -10,18 +10,15 @@ import { useRef } from 'react';
 import { userLogin } from '../../../redux/features/UserSlice';
 import { routesConfig } from '../../../routes/routeConfig';
 import { UserType } from '../../propsType/UserProps';
-import axios from 'axios';
 
 const cx = classNames.bind(style);
 export const LoginPage = () => {
       const dataUser = useSelector((state: State) => state.user);
-
       const usernameRef = useRef<HTMLInputElement>(null);
       const passwordRef = useRef<HTMLInputElement>(null);
       const errorRef = useRef<HTMLParagraphElement>(null);
       const navigate = useNavigate();
       const dispatch = useDispatch<any>();
-
       const handleClickLogin = () => {
             const currentUser = dataUser.data.find((user: UserType) => {
                   return (
@@ -30,7 +27,6 @@ export const LoginPage = () => {
                         user
                   );
             });
-
             if (currentUser) {
                   errorRef.current?.classList.remove(cx('showError'));
                   dispatch(userLogin(currentUser));

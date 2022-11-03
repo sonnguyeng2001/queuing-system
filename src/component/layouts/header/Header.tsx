@@ -2,14 +2,18 @@ import classNames from 'classnames/bind';
 import { LogoNotification } from '../../../assets/svg/LogoNotification';
 import style from './Header.module.scss';
 import imgUser from '../../../assets/images/imgUser.png';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { privateRoutes } from '../../../routes';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, ReactEventHandler } from 'react';
 import HeadlessTippy from '@tippyjs/react/headless';
 import { CardNotification } from '../../componentChild/CardNotification/CardNotification';
-import { UserType } from '../../propsType/UserProps';
 import { useSelector } from 'react-redux';
 import { State } from '../../../redux/store';
+import { routesConfig } from '../../../routes/routeConfig';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
+import 'tippy.js/animations/scale.css';
+
 const cx = classNames.bind(style);
 
 const notificationList = [
@@ -73,8 +77,8 @@ const notificationList = [
 export const Header = () => {
       const { id } = useParams();
       const [stateLogo, setStateLogo] = useState<boolean>(false);
-      const [currentUser, setCurrentUser] = useState<UserType | {}>({} as UserType);
       const dataUser = useSelector((state: State) => state.user);
+      const navigate = useNavigate();
       const location = useLocation();
       const logoRef = useRef<HTMLDivElement | null>(null);
       const pathName: string = location.pathname.toString();
@@ -186,13 +190,21 @@ export const Header = () => {
                                     <LogoNotification />
                               </div>
 
-                              <div className={cx('info-user')}>
-                                    <img src={imgUser} alt="Error" />
-                                    <div className={cx('info-user-name')}>
-                                          <p>Xin chào</p>
-                                          <p>Lê Quỳnh Ái Vân</p>
+                              <Tippy animation="scale" content="Thông tin cá nhân" placement="bottom">
+                                    <div onClick={() => navigate(routesConfig.infoUser)} className={cx('info-user')}>
+                                          <img
+                                                src={dataUser.currentUser.img || imgUser}
+                                                alt="Error"
+                                                onError={(e: any) => {
+                                                      e.target.setAttribute('src', imgUser);
+                                                }}
+                                          />
+                                          <div className={cx('info-user-name')}>
+                                                <p>Xin chào</p>
+                                                <p>{dataUser.currentUser.fullName || 'No current user'}</p>
+                                          </div>
                                     </div>
-                              </div>
+                              </Tippy>
                         </div>
                   </HeadlessTippy>
             </div>

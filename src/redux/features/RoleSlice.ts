@@ -18,7 +18,7 @@ interface RoleProps {
       message: string;
 }
 export const roleSlice = createSlice({
-      name: 'user',
+      name: 'role',
       initialState: {
             data: [],
             isSuccess: false,

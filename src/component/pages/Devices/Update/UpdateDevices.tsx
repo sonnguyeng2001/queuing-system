@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './UpdateDevices.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { State } from '../../../../redux/store';
 import { Select } from 'antd';
@@ -8,7 +8,6 @@ import { DevicesType } from '../../../propsType/DevicesProps';
 import style from './UpdateDevices.module.scss';
 import classNames from 'classnames/bind';
 import { HeaderContent } from '../../../componentChild/HeaderContent/HeaderContent';
-import { getDevices } from '../../../../redux/features/DeviceSlice';
 import { LogoArrow } from '../../../../assets/svg/LogoArrow';
 
 const cx = classNames.bind(style);
@@ -17,27 +16,13 @@ export const UpdateDevices = () => {
       const [devices, setDevices] = useState<DevicesType | undefined>({} as DevicesType);
       const { id } = useParams();
       const navigate = useNavigate();
-      const dispatch = useDispatch<any>();
       const dataDevices = useSelector((state: State) => state.device);
 
-      const fetchData = async () => {
-            const response = await dispatch(getDevices());
-            var infoDevices = await response.payload.find((device: DevicesType) => {
+      useEffect(() => {
+            var infoDevices = dataDevices.dataDevices.find((device: DevicesType) => {
                   return device?.deviceId === id && device;
             });
-            return infoDevices;
-      };
-      useEffect(() => {
-            if (dataDevices.dataDevices.length > 0) {
-                  var infoDevices = dataDevices.dataDevices.find((device: DevicesType) => {
-                        return device?.deviceId === id && device;
-                  });
-                  setDevices(infoDevices);
-            } else {
-                  fetchData().then((data) => {
-                        setDevices(data);
-                  });
-            }
+            setDevices(infoDevices);
       }, []);
       const handleClickSubmit = () => {
             const inputID = document.getElementById('inputID') as HTMLInputElement | null;
@@ -75,7 +60,7 @@ export const UpdateDevices = () => {
                                                       <Select
                                                             id="inputKindOfDevices"
                                                             loading={devices?.deviceName ? false : true}
-                                                            defaultValue={devices?.deviceName || 'Error'}
+                                                            defaultValue={devices?.deviceName}
                                                             // value={devices?.name}
                                                             popupClassName="popupClassName"
                                                       >

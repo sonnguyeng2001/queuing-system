@@ -1,0 +1,57 @@
+.listSelect {
+      display: flex;
+      width: var(--width-table-content);
+      gap: 50px;
+      & .select {
+            width: 300px;
+      }
+      & .select .title {
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 24px;
+            color: var(--color-gray-500);
+            margin-bottom: 4px;
+      }
+      & .select div .content {
+            width: 300px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 2px solid var(--color-gray-100);
+            color: var(--color-gray-400);
+            font-weight: 600;
+            outline: none;
+            font-size: 16px;
+      }
+
+      & .select.search {
+            flex: 1;
+            text-align: right;
+      }
+
+      // Logo
+      & .select div {
+            position: relative;
+      }
+
+      & .select div .logo-arrow {
+            position: absolute;
+            top: 64%;
+            right: 6%;
+      }
+
+      //    Input Search
+      & .select.select.search .logo-arrow {
+            position: absolute;
+            top: 55%;
+            right: 6%;
+      }
+      & .select.search div {
+            display: inline-flex;
+            flex-direction: column;
+            text-align: left;
+      }
+}
+
+.table-account {
+      position: relative;
+}

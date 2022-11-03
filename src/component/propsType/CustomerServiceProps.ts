@@ -4,6 +4,6 @@ export type CustomerServiceType = {
       origin: string;
       serviceName: string[] | [];
       statusLevel: string[] | [];
-      timeStart: string;
-      timeEnd: string;
+      timeStart: Date;
+      timeEnd: Date;
 };
