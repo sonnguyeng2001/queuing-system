@@ -52,7 +52,7 @@ export const DetailsServices = () => {
 
       useEffect(() => {
             const infoDevices = data.dataDevices.find((device: DevicesType) => {
-                  return device?.deviceId === id && device;
+                  return device?.id === id && device;
             });
             setDevices(infoDevices);
             setDataSource(data.dataDevices);
@@ -64,7 +64,7 @@ export const DetailsServices = () => {
                   setDataSource(dataRef.current);
             } else {
                   const booleanValue = value.replace('stateActive/', '') === 'active' ? true : false;
-                  setDataSource(dataRef.current.filter((active) => active.deviceActive === booleanValue));
+                  setDataSource(dataRef.current.filter((active) => active.isActive === booleanValue));
             }
       };
 
@@ -79,15 +79,15 @@ export const DetailsServices = () => {
                                     <header className={cx('header-content')}>Thông tin dịch vụ</header>
                                     <div className={cx('object')}>
                                           <span className={cx('key')}>Mã dịch vụ:</span>
-                                          <span className={cx('value')}>{devices?.deviceId}</span>
+                                          <span className={cx('value')}>{devices?.id}</span>
                                     </div>
                                     <div className={cx('object')}>
                                           <span className={cx('key')}>Tên dịch vụ:</span>
-                                          <span className={cx('value')}>{devices?.deviceName}</span>
+                                          <span className={cx('value')}>{devices?.name}</span>
                                     </div>
                                     <div className={cx('object')}>
                                           <span className={cx('key')}>Mô tả dịch vụ:</span>
-                                          <span className={cx('value')}>{devices?.deviceAddress}</span>
+                                          <span className={cx('value')}>{devices?.ipAddress}</span>
                                     </div>
                                     {/* --------------------------------------------------------------------------------------------------- */}
                                     <br />

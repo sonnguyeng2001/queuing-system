@@ -19,7 +19,7 @@ export const UpdateServices = () => {
 
       useEffect(() => {
             const infoDevices = data.dataDevices.find((device: DevicesType) => {
-                  return device?.deviceId === id && device;
+                  return device?.id === id && device;
             });
             setDevices(infoDevices);
       }, []);
@@ -42,7 +42,7 @@ export const UpdateServices = () => {
                                     <input
                                           id="inputID"
                                           className={cx('input-field')}
-                                          defaultValue={devices?.deviceId}
+                                          defaultValue={devices?.id}
                                           type="text"
                                     />
                                     <br />
@@ -52,7 +52,7 @@ export const UpdateServices = () => {
                                     <input
                                           id="inputNameDevices"
                                           className={cx('input-field')}
-                                          defaultValue={devices?.deviceName}
+                                          defaultValue={devices?.name}
                                           type="text"
                                     />
                               </div>

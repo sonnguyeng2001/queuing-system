@@ -10,150 +10,221 @@ import classNames from 'classnames/bind';
 import { HeaderContent } from '../../../componentChild/HeaderContent/HeaderContent';
 import { LogoArrow } from '../../../../assets/svg/LogoArrow';
 
+//  import library handle form
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 const cx = classNames.bind(style);
+
+const schema: yup.SchemaOf<Partial<DevicesType>> = yup.object({
+      id: yup.string().trim().required('Vui lòng điền vào trường này'),
+      ipAddress: yup.string().trim().required('Vui lòng điền vào trường này'),
+      isActive: yup.boolean().notRequired(),
+      isConnected: yup.boolean().notRequired(),
+      key: yup.string().trim().notRequired(),
+      name: yup.string().trim().required('Vui lòng điền vào trường này'),
+      used: yup.array().min(1, 'Vui lòng chọn ít nhất 1 dịch vụ').required('Vui lòng ít nhất 1 dịch vụ'),
+});
 
 export const UpdateDevices = () => {
       const [devices, setDevices] = useState<DevicesType | undefined>({} as DevicesType);
+      const [deviceUsed, setDeviceUsed] = useState<string[] | []>([]);
+      const [deviceName, setDeviceName] = useState<string[] | []>([]);
       const { id } = useParams();
       const navigate = useNavigate();
       const dataDevices = useSelector((state: State) => state.device);
 
+      const {
+            register,
+            handleSubmit,
+            reset,
+            formState: { errors },
+            control,
+      } = useForm<DevicesType>({
+            defaultValues: devices,
+            resolver: yupResolver(schema),
+      });
+
+      const onSubmit: SubmitHandler<DevicesType> = (data) => {
+            console.log(data);
+      };
       useEffect(() => {
+            // ---- Xử lý lấy ra mảng các dịch vụ không trùng nhau để render cho thẻ Select
+            const listDeviceUsed: string[] = [];
+            dataDevices.dataDevices.map((device: DevicesType) => {
+                  device.used.map((deviceUsed) => {
+                        if (!listDeviceUsed.includes(deviceUsed)) {
+                              listDeviceUsed.push(deviceUsed);
+                        }
+                  });
+            });
+            setDeviceUsed(listDeviceUsed);
+
+            // ---- Xử lý lấy ra mảng các  tên dịch vụ không trùng nhau để render cho thẻ Select
+            const listDeviceName: string[] = [];
+            dataDevices.dataDevices.map((device: DevicesType) => {
+                  if (!listDeviceName.includes(device.name)) {
+                        listDeviceName.push(device.name);
+                  }
+            });
+            setDeviceName(listDeviceName);
+
+            // ---- Xử lý lấy ra thông tin 1 dịch vụ
             var infoDevices = dataDevices.dataDevices.find((device: DevicesType) => {
-                  return device?.deviceId === id && device;
+                  return device?.id === id && device;
             });
             setDevices(infoDevices);
+            reset(infoDevices);
       }, []);
-      const handleClickSubmit = () => {
-            const inputID = document.getElementById('inputID') as HTMLInputElement | null;
-            const inputKindOfDevices = document.getElementById('inputKindOfDevices') as HTMLInputElement | null;
-            const inputNameDevices = document.getElementById('inputNameDevices') as HTMLInputElement | null;
-            const inputAddressDevices = document.getElementById('inputAddressDevices') as HTMLInputElement | null;
-            alert(
-                  `ID: ${inputID?.value} - ${inputKindOfDevices?.value} - ${inputNameDevices?.value} - ${inputAddressDevices?.value}`,
-            );
-      };
+
       return (
             <div className={cx('wrapper')}>
                   <HeaderContent title="Thông tin thiết bị" />
                   <div className={cx('table-content')}>
-                        <div className={cx('content')}>
-                              <header className={cx('header-content')}>Thông tin thiết bị</header>
-                              <div className={cx('info-devices')}>
-                                    <div className={cx('double-object')}>
-                                          <div className={cx('object')}>
-                                                <p className={cx('label')}>
-                                                      Mã thiết bị: <span className={cx('required')}>*</span>
-                                                </p>
-                                                <input
-                                                      id="inputID"
-                                                      className={cx('input-field')}
-                                                      defaultValue={devices?.deviceId}
-                                                      type="text"
-                                                />
-                                          </div>
-                                          <div className={cx('object')}>
-                                                <p className={cx('label')}>
-                                                      Loại thiết bị: <span className={cx('required')}>*</span>
-                                                </p>
-                                                <div className="wrapper-select-inputKindOfDevices">
-                                                      <Select
-                                                            id="inputKindOfDevices"
-                                                            loading={devices?.deviceName ? false : true}
-                                                            defaultValue={devices?.deviceName}
-                                                            // value={devices?.name}
-                                                            popupClassName="popupClassName"
-                                                      >
-                                                            {dataDevices.dataDevices.map((devices) => {
-                                                                  return (
-                                                                        <Select.Option
-                                                                              key={devices.deviceId}
-                                                                              value={devices.deviceId}
-                                                                        >
-                                                                              {devices.deviceName}
-                                                                        </Select.Option>
-                                                                  );
-                                                            })}
-                                                      </Select>
-                                                      <LogoArrow className="logo-arrow" />
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                              <div className={cx('content')}>
+                                    <header className={cx('header-content')}>Thông tin thiết bị</header>
+                                    <div className={cx('info-devices')}>
+                                          <div className={cx('double-object')}>
+                                                <div className={cx('object')}>
+                                                      <p className={cx('label')}>
+                                                            Mã thiết bị: <span className={cx('required')}>*</span>{' '}
+                                                            {errors.id?.message && (
+                                                                  <span className={cx('errorMessage')}>
+                                                                        {errors.id?.message}
+                                                                  </span>
+                                                            )}
+                                                      </p>
+                                                      <input
+                                                            className={cx('input-field')}
+                                                            type="text"
+                                                            {...register('id')}
+                                                      />
+                                                </div>
+                                                <div className={cx('object')}>
+                                                      <p className={cx('label')}>
+                                                            Loại thiết bị: <span className={cx('required')}>*</span>{' '}
+                                                            {errors.name?.message && (
+                                                                  <span className={cx('errorMessage')}>
+                                                                        {errors.name?.message}
+                                                                  </span>
+                                                            )}
+                                                      </p>
+                                                      <div className="wrapper-select-inputKindOfDevices">
+                                                            <Controller
+                                                                  name="name"
+                                                                  rules={{ required: true }}
+                                                                  control={control}
+                                                                  render={({ field }) => (
+                                                                        <Select
+                                                                              placeholder="Nhập vai trò"
+                                                                              {...field}
+                                                                              options={deviceName.map((name) => {
+                                                                                    return {
+                                                                                          value: name,
+                                                                                          label: name,
+                                                                                    };
+                                                                              })}
+                                                                        />
+                                                                  )}
+                                                            />
+                                                            <LogoArrow className="logo-arrow" />
+                                                      </div>
                                                 </div>
                                           </div>
-                                    </div>
-                                    <div className={cx('double-object')}>
-                                          <div className={cx('object')}>
-                                                <p className={cx('label')}>
-                                                      Tên thiết bị: <span className={cx('required')}>*</span>
-                                                </p>
-                                                <input
-                                                      id="inputNameDevices"
-                                                      className={cx('input-field')}
-                                                      defaultValue={devices?.deviceName}
-                                                      type="text"
-                                                />
+                                          <div className={cx('double-object')}>
+                                                <div className={cx('object')}>
+                                                      <p className={cx('label')}>
+                                                            Tên thiết bị: <span className={cx('required')}>*</span>{' '}
+                                                            {errors.name?.message && (
+                                                                  <span className={cx('errorMessage')}>
+                                                                        {errors.name?.message}
+                                                                  </span>
+                                                            )}
+                                                      </p>
+                                                      <input
+                                                            className={cx('input-field')}
+                                                            type="text"
+                                                            {...register('name')}
+                                                      />
+                                                </div>
+                                                <div className={cx('object')}>
+                                                      <p className={cx('label')}>
+                                                            Tên đăng nhập: <span className={cx('required')}>*</span>
+                                                      </p>
+                                                      <input className={cx('input-field')} type="text" />
+                                                </div>
+                                          </div>
+                                          <div className={cx('double-object')}>
+                                                <div className={cx('object')}>
+                                                      <p className={cx('label')}>
+                                                            Địa chỉ IP: <span className={cx('required')}>*</span>{' '}
+                                                            {errors.ipAddress?.message && (
+                                                                  <span className={cx('errorMessage')}>
+                                                                        {errors.ipAddress?.message}
+                                                                  </span>
+                                                            )}
+                                                      </p>
+                                                      <input
+                                                            className={cx('input-field')}
+                                                            type="text"
+                                                            {...register('ipAddress')}
+                                                      />
+                                                </div>
+                                                <div className={cx('object')}>
+                                                      <p className={cx('label')}>
+                                                            Mật khẩu: <span className={cx('required')}>*</span>
+                                                      </p>
+                                                      <input className={cx('input-field')} type="text" />
+                                                </div>
                                           </div>
                                           <div className={cx('object')}>
                                                 <p className={cx('label')}>
-                                                      Tên đăng nhập: <span className={cx('required')}>*</span>
+                                                      Dịch vụ sử dụng <span className={cx('required')}>*</span>{' '}
+                                                      {errors.used?.message && (
+                                                            <span className={cx('errorMessage')}>
+                                                                  {errors.used?.message}
+                                                            </span>
+                                                      )}
                                                 </p>
-                                                <input
-                                                      id="inputUserName"
-                                                      className={cx('input-field')}
-                                                      defaultValue="LinhKyo011"
-                                                      type="text"
-                                                />
+                                                <div className="wrapper-select-listUseDevices">
+                                                      <Controller
+                                                            name="used"
+                                                            rules={{ required: true }}
+                                                            control={control}
+                                                            render={({ field }) => (
+                                                                  <Select
+                                                                        mode="multiple"
+                                                                        placeholder="Please select"
+                                                                        {...field}
+                                                                        options={deviceUsed.map((device) => {
+                                                                              return {
+                                                                                    value: device,
+                                                                                    label: device,
+                                                                              };
+                                                                        })}
+                                                                  />
+                                                            )}
+                                                      />
+                                                </div>
                                           </div>
-                                    </div>
-                                    <div className={cx('double-object')}>
-                                          <div className={cx('object')}>
-                                                <p className={cx('label')}>
-                                                      Địa chỉ IP: <span className={cx('required')}>*</span>
-                                                </p>
-                                                <input
-                                                      id="inputAddressDevices"
-                                                      className={cx('input-field')}
-                                                      defaultValue={devices?.deviceAddress}
-                                                      type="text"
-                                                />
-                                          </div>
-                                          <div className={cx('object')}>
-                                                <p className={cx('label')}>
-                                                      Mật khẩu: <span className={cx('required')}>*</span>
-                                                </p>
-                                                <input className={cx('input-field')} defaultValue="CMS" type="text" />
-                                          </div>
-                                    </div>
-
-                                    <div className={cx('object')}>
                                           <p className={cx('label')}>
-                                                Dịch vụ sử dụng <span className={cx('required')}>*</span>
+                                                <span className={cx('required')}>*</span>
+                                                <span style={{ color: 'var(--color-gray-300)', marginLeft: '10px' }}>
+                                                      Là trường thông tin bắt buộc
+                                                </span>
                                           </p>
-                                          <div className="wrapper-select-listUseDevices">
-                                                <Select
-                                                      mode="multiple"
-                                                      placeholder="Please select"
-                                                      defaultValue={['item 1', 'item 2']}
-                                                >
-                                                      <Select.Option value="1">Khám răng hàm mặt</Select.Option>
-                                                      <Select.Option value="2">Khám tai mũi họng</Select.Option>
-                                                </Select>
-                                          </div>
                                     </div>
-                                    <p className={cx('label')}>
-                                          <span className={cx('required')}>*</span>
-                                          <span style={{ color: 'var(--color-gray-300)', marginLeft: '10px' }}>
-                                                Là trường thông tin bắt buộc
-                                          </span>
-                                    </p>
                               </div>
-                        </div>
-                        <div className={cx('wrapper-btn')}>
-                              <button onClick={() => navigate(-1)} className={cx('btn', 'btn-btnCancel')}>
-                                    Hủy bỏ
-                              </button>
-                              <button onClick={handleClickSubmit} type="submit" className={cx('btn', 'btn-btnUpdate')}>
-                                    Cập nhật
-                              </button>
-                        </div>
+                              <div className={cx('wrapper-btn')}>
+                                    <button onClick={() => navigate(-1)} className={cx('btn', 'btn-btnCancel')}>
+                                          Hủy bỏ
+                                    </button>
+                                    <button type="submit" className={cx('btn', 'btn-btnUpdate')}>
+                                          Cập nhật
+                                    </button>
+                              </div>
+                        </form>
                   </div>
             </div>
       );

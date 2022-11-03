@@ -22,19 +22,19 @@ const cx = classNames.bind(style);
 const columns: any = [
       {
             title: 'Mã dịch vụ',
-            dataIndex: 'deviceId',
+            dataIndex: 'id',
       },
       {
             title: 'Tên dịch vụ',
-            dataIndex: 'deviceName',
+            dataIndex: 'name',
       },
       {
             title: 'Mô tả',
-            dataIndex: 'deviceName',
+            dataIndex: 'name',
       },
       {
             title: 'Trạng thái hoạt động',
-            dataIndex: 'deviceActive',
+            dataIndex: 'isActive',
             render: (status: boolean) => {
                   return status ? (
                         <>
@@ -100,8 +100,8 @@ export const ListServices = () => {
             var arr = data.dataDevices.map((device: DevicesType) => {
                   return {
                         ...device,
-                        detailsAction: `Chi tiết${device.deviceId}`,
-                        updateAction: `Cập nhật${device.deviceId}`,
+                        detailsAction: `Chi tiết${device.id}`,
+                        updateAction: `Cập nhật${device.id}`,
                   };
             });
             dataRef.current = arr;
@@ -113,7 +113,7 @@ export const ListServices = () => {
                   setDataSource(dataRef.current);
             } else {
                   const booleanValue = value.replace('stateActive/', '') === 'active' ? true : false;
-                  setDataSource(dataRef.current.filter((active) => active.deviceActive === booleanValue));
+                  setDataSource(dataRef.current.filter((active) => active.isActive === booleanValue));
             }
       };
 
@@ -121,7 +121,7 @@ export const ListServices = () => {
       useEffect(() => {
             setDataSource(
                   dataRef.current.filter((key) =>
-                        key.deviceName.toString().toLowerCase().includes(debouncedValue.toLowerCase()),
+                        key.name.toString().toLowerCase().includes(debouncedValue.toLowerCase()),
                   ),
             );
       }, [debouncedValue]);

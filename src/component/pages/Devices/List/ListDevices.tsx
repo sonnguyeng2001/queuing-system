@@ -21,19 +21,19 @@ const cx = classNames.bind(style);
 const columns: any = [
       {
             title: 'Mã thiết bị',
-            dataIndex: 'deviceId',
+            dataIndex: 'id',
       },
       {
             title: 'Tên thiết bị',
-            dataIndex: 'deviceName',
+            dataIndex: 'name',
       },
       {
             title: 'Địa chỉ IP',
-            dataIndex: 'deviceAddress',
+            dataIndex: 'ipAddress',
       },
       {
             title: 'Trạng thái hoạt động',
-            dataIndex: 'deviceActive',
+            dataIndex: 'isActive',
             render: (status: boolean) => {
                   return status ? (
                         <>
@@ -50,7 +50,7 @@ const columns: any = [
       },
       {
             title: 'Trạng thái kết nối',
-            dataIndex: 'deviceConnected',
+            dataIndex: 'isConnected',
             render: (status: boolean) => {
                   return status ? (
                         <>
@@ -67,7 +67,7 @@ const columns: any = [
       },
       {
             title: 'Dịch vụ sử dụng',
-            dataIndex: 'deviceUsed',
+            dataIndex: 'used',
             render: (data: string[] | []) => {
                   return (
                         <>
@@ -130,8 +130,8 @@ export const ListDevices = () => {
             var arr = data.dataDevices.map((device: DevicesType) => {
                   return {
                         ...device,
-                        detailsAction: `Chi tiết${device?.deviceId}`,
-                        updateAction: `Cập nhật${device?.deviceId}`,
+                        detailsAction: `Chi tiết${device?.id}`,
+                        updateAction: `Cập nhật${device?.id}`,
                   };
             });
             dataRef.current = arr;
@@ -144,10 +144,10 @@ export const ListDevices = () => {
             } else {
                   if (value.startsWith('stateActive/')) {
                         const booleanValue = value.replace('stateActive/', '') === 'active' ? true : false;
-                        setDataSource(dataRef.current.filter((active) => active.deviceActive === booleanValue));
+                        setDataSource(dataRef.current.filter((active) => active.isActive === booleanValue));
                   } else if (value.startsWith('stateConnect/')) {
                         const booleanValue = value.replace('stateConnect/', '') === 'connected' ? true : false;
-                        setDataSource(dataRef.current.filter((active) => active.deviceConnected === booleanValue));
+                        setDataSource(dataRef.current.filter((active) => active.isConnected === booleanValue));
                   }
             }
       };
@@ -155,9 +155,7 @@ export const ListDevices = () => {
       const debouncedValue = useDebounce(inputSearch, 500);
       useEffect(() => {
             setDataSource(
-                  dataRef.current.filter((key) =>
-                        key.deviceName.toString().toLowerCase().includes(debouncedValue.toLowerCase()),
-                  ),
+                  dataRef.current.filter((key) => key.name.toLowerCase().includes(debouncedValue.toLowerCase())),
             );
       }, [debouncedValue]);
 

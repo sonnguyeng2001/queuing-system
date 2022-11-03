@@ -1,142 +1,143 @@
 .wrapper {
-   height: 100%;
-   position: relative;
+      height: 100%;
+      position: relative;
 }
 .logo {
-   display: flex;
+      cursor: pointer;
+      display: flex;
 
-   & svg {
-      margin: 0 auto;
-   }
+      & svg {
+            margin: 0 auto;
+      }
 }
 .navbar {
-   width: 100%;
-   margin-top: 40px;
+      width: 100%;
+      margin-top: 40px;
 }
 
 .navbar-item {
-   position: relative;
-   display: block;
-   height: 50px;
-   margin: 2px 0px;
-   background-color: transparent;
-   text-decoration: none;
-   transition: 0.1s linear;
+      position: relative;
+      display: block;
+      height: 50px;
+      margin: 2px 0px;
+      background-color: transparent;
+      text-decoration: none;
+      transition: 0.1s linear;
 
-   & .item {
-      width: 100%;
-      height: 100%;
-      display: inline-flex;
-      align-items: center;
-   }
-   & .item .item-logo {
-      width: 20px;
-      height: 20px;
-      margin: 0px 13px 0px 18px;
-   }
-   & .item .item-logo.logoRight {
-      margin: 0px 2px;
-   }
+      & .item {
+            width: 100%;
+            height: 100%;
+            display: inline-flex;
+            align-items: center;
+      }
+      & .item .item-logo {
+            width: 20px;
+            height: 20px;
+            margin: 0px 13px 0px 18px;
+      }
+      & .item .item-logo.logoRight {
+            margin: 0px 2px;
+      }
 
-   & .item .item-logo svg path {
-      stroke: var(--color-gray-200);
-   }
-   & .item .item-title {
-      color: var(--color-gray-300);
-      font-weight: 600;
-      flex: 1;
-      font-size: 16px;
-   }
+      & .item .item-logo svg path {
+            stroke: var(--color-gray-200);
+      }
+      & .item .item-title {
+            color: var(--color-gray-300);
+            font-weight: 600;
+            flex: 1;
+            font-size: 16px;
+      }
 
-   &:hover {
-      background-color: var(--color-orange-50);
-   }
+      &:hover {
+            background-color: var(--color-orange-50);
+      }
 
-   &:hover .item .item-logo svg path {
-      stroke: var(--color-orange-500);
-   }
-   &:hover .item .item-title {
-      color: var(--color-orange-500);
-   }
+      &:hover .item .item-logo svg path {
+            stroke: var(--color-orange-500);
+      }
+      &:hover .item .item-title {
+            color: var(--color-orange-500);
+      }
 }
 
 .navbar-item.active,
 .navbar-item.active:hover {
-   background-color: var(--color-orange-500);
-   color: white;
-   & .item .item-logo path,
-   & .item .item-logo svg {
-      stroke: white;
-   }
-   & .item .item-title {
+      background-color: var(--color-orange-500);
       color: white;
-   }
+      & .item .item-logo path,
+      & .item .item-logo svg {
+            stroke: white;
+      }
+      & .item .item-title {
+            color: white;
+      }
 }
 // Sub menu
 .navbar-item:hover .sub-menu {
-   display: block;
+      display: block;
 }
 .sub-menu {
-   display: none;
-   position: absolute;
-   width: 200px;
-   background-color: white;
-   top: 0px;
-   right: -200px;
-   z-index: 2;
-   border-radius: 0px 12px 12px 0px;
+      display: none;
+      position: absolute;
+      width: 200px;
+      background-color: white;
+      top: 0px;
+      right: -200px;
+      z-index: 2;
+      border-radius: 0px 12px 12px 0px;
 }
 
 .sub-menu .sub-menu-item {
-   display: block;
-   width: 100%;
-   height: 50px;
-   line-height: 50px;
-   padding-left: 12px;
-   background-color: transparent;
-   text-decoration: none;
-   transition: 0.1s linear;
-   color: var(--color-gray-300);
-   font-weight: 600;
-   font-size: 16px;
+      display: block;
+      width: 100%;
+      height: 50px;
+      line-height: 50px;
+      padding-left: 12px;
+      background-color: transparent;
+      text-decoration: none;
+      transition: 0.1s linear;
+      color: var(--color-gray-300);
+      font-weight: 600;
+      font-size: 16px;
 }
 .sub-menu .sub-menu-item:hover {
-   background-color: var(--color-orange-50);
+      background-color: var(--color-orange-50);
 }
 .sub-menu .sub-menu-item:hover .sub-menu-title {
-   color: var(--color-orange-500);
+      color: var(--color-orange-500);
 }
 .sub-menu .sub-menu-item.subItemActive {
-   background-color: var(--color-orange-400);
+      background-color: var(--color-orange-400);
 }
 .sub-menu .sub-menu-item.subItemActive .sub-menu-title {
-   color: white;
+      color: white;
 }
 //
 .logout {
-   width: 100%;
-   position: absolute;
-   bottom: 0;
-   display: flex;
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      display: flex;
 }
 .btnLogout {
-   width: 176px;
-   display: flex;
-   align-items: center;
-   padding: 12px;
-   border-radius: 8px;
-   background-color: var(--color-orange-50);
-   border: none;
-   outline: none;
-   margin: auto;
-   cursor: pointer;
+      width: 176px;
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      border-radius: 8px;
+      background-color: var(--color-orange-50);
+      border: none;
+      outline: none;
+      margin: auto;
+      cursor: pointer;
 
-   & span {
-      font-size: 16px;
-      color: var(--color-orange-500);
-      flex: 1;
-      text-align: left;
-      margin-left: 12px;
-      font-weight: 600;
-   }
+      & span {
+            font-size: 16px;
+            color: var(--color-orange-500);
+            flex: 1;
+            text-align: left;
+            margin-left: 12px;
+            font-weight: 600;
+      }
 }

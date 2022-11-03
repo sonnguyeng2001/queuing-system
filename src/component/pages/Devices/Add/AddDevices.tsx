@@ -60,10 +60,10 @@ export const AddDevices = () => {
                                                             {dataDevices.dataDevices.map((devices) => {
                                                                   return (
                                                                         <Select.Option
-                                                                              key={devices.deviceId}
-                                                                              value={devices.deviceId}
+                                                                              key={devices.id}
+                                                                              value={devices.id}
                                                                         >
-                                                                              {devices.deviceName}
+                                                                              {devices.name}
                                                                         </Select.Option>
                                                                   );
                                                             })}
