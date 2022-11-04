@@ -102,7 +102,7 @@ const columns: any = [
 export const ListCustomerService = () => {
       const [dataSource, setDataSource] = useState<CustomerServiceType[] | []>([]);
       const [inputSearch, setInputSearch] = useState<string>('');
-      const data = useSelector((state: State) => state.service);
+      const data = useSelector((state: State) => state.customerService);
       const dataRef = useRef<CustomerServiceType[] | []>([]);
 
       useEffect(() => {
@@ -151,7 +151,7 @@ export const ListCustomerService = () => {
       const pageSize = 7;
       return (
             <div className={cx('wrapper')}>
-                  <HeaderContent title="Danh sách thiết bị" />
+                  <HeaderContent title="Quản lý cấp số" />
                   <div className={cx('listSelect')}>
                         <div className={cx('select', 'selectName')}>
                               <div>

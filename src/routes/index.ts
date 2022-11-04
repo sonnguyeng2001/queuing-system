@@ -1,49 +1,49 @@
 // Dashboard
-import { DashboardPage } from '../component/pages/Dashboard/Dashboard';
+import { DashboardPage } from '../components/pages/Dashboard/Dashboard';
 
 // Devices
-import DevicesPage from '../component/pages/Devices';
-import { ListDevices } from '../component/pages/Devices/List/ListDevices';
-import { AddDevices } from '../component/pages/Devices/Add/AddDevices';
-import { DetailsDevices } from '../component/pages/Devices/Details/DetailsDevices';
-import { UpdateDevices } from '../component/pages/Devices/Update/UpdateDevices';
+import DevicesPage from '../components/pages/Devices';
+import { ListDevices } from '../components/pages/Devices/List/ListDevices';
+import { AddDevices } from '../components/pages/Devices/Add/AddDevices';
+import { DetailsDevices } from '../components/pages/Devices/Details/DetailsDevices';
+import { UpdateDevices } from '../components/pages/Devices/Update/UpdateDevices';
 
 // Services
-import ServicesPage from '../component/pages/Services';
-import { ListServices } from '../component/pages/Services/List/ListServices';
-import { DetailsServices } from '../component/pages/Services/Details/DetailsServices';
-import { AddServices } from '../component/pages/Services/Add/AddServices';
+import ServicesPage from '../components/pages/Services';
+import { ListServices } from '../components/pages/Services/List/ListServices';
+import { DetailsServices } from '../components/pages/Services/Details/DetailsServices';
+import { AddServices } from '../components/pages/Services/Add/AddServices';
 
 // CustomerService
-import CustomerService from '../component/pages/CustomerService';
-import { ListCustomerService } from '../component/pages/CustomerService/List/ListCustomerService';
-import { AddCustomerService } from '../component/pages/CustomerService/Add/AddCustomerService';
-import { UpdateServices } from '../component/pages/Services/Update/UpdateServices';
+import CustomerService from '../components/pages/CustomerService';
+import { ListCustomerService } from '../components/pages/CustomerService/List/ListCustomerService';
+import { AddCustomerService } from '../components/pages/CustomerService/Add/AddCustomerService';
+import { UpdateServices } from '../components/pages/Services/Update/UpdateServices';
 
 // Report
-import ReportPage from '../component/pages/Report';
-import { ListReport } from '../component/pages/Report/List/ListReport';
+import ReportPage from '../components/pages/Report';
+import { ListReport } from '../components/pages/Report/List/ListReport';
 
 // Setting
-import SettingPage from '../component/pages/Setting';
+import SettingPage from '../components/pages/Setting';
 
 // Setting => Role
-import { ListRole } from '../component/pages/Setting/Role/ListRole/ListRole';
-import { AddRole } from '../component/pages/Setting/Role/AddRole/AddRole';
-import { UpdateRole } from '../component/pages/Setting/Role/UpdateRole/UpdateRole';
+import { ListRole } from '../components/pages/Setting/Role/ListRole/ListRole';
+import { AddRole } from '../components/pages/Setting/Role/AddRole/AddRole';
+import { UpdateRole } from '../components/pages/Setting/Role/UpdateRole/UpdateRole';
 
 // Setting => Account
-import { ListAccount } from '../component/pages/Setting/Account/ListAccount/ListAccount';
-import { UpdateAccount } from '../component/pages/Setting/Account/UpdateAccount/UpdateAccount';
+import { ListAccount } from '../components/pages/Setting/Account/ListAccount/ListAccount';
+import { UpdateAccount } from '../components/pages/Setting/Account/UpdateAccount/UpdateAccount';
 
 // User Account
-import { ForgotPasswordPage } from '../component/pages/ForgotPassword/ForgotPassword';
-import { ResetPassword } from '../component/pages/ResetPassword/ResetPassword';
-import { LoginPage } from '../component/pages/Login/Login';
+import { ForgotPasswordPage } from '../components/pages/ForgotPassword/ForgotPassword';
+import { ResetPassword } from '../components/pages/ResetPassword/ResetPassword';
+import { LoginPage } from '../components/pages/Login/Login';
 
 import { routesConfig } from './routeConfig';
-import { AddAccount } from '../component/pages/Setting/Account/AddAccount/AddAccount';
-import { InfoUser } from '../component/pages/InfoUser/InfoUser';
+import { AddAccount } from '../components/pages/Setting/Account/AddAccount/AddAccount';
+import { InfoUser } from '../components/pages/InfoUser/InfoUser';
 
 export type RouteProps = {
       path: string;

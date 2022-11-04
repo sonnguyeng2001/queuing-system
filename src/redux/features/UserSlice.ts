@@ -1,4 +1,4 @@
-import { UserType } from './../../component/propsType/UserProps';
+import { UserType } from '../../components/propsType/UserProps';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { ref, child, get, update, set } from 'firebase/database';
 import { database } from '../../firebase/index';

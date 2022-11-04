@@ -1,4 +1,4 @@
-import { DevicesType } from '../../component/propsType/DevicesProps';
+import { DevicesType } from '../../components/propsType/DevicesProps';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { ref, child, get } from 'firebase/database';

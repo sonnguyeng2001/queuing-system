@@ -7,6 +7,8 @@ import { customerServiceSlice } from './features/CustomerServicesSlice';
 import { userSlice } from './features/UserSlice';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
+import { useDispatch } from 'react-redux';
+import { serviceSlice } from './features/ServiceSlice';
 
 const persistConfig = {
       key: 'root',
@@ -16,12 +18,12 @@ const persistConfig = {
 const rootReducers = combineReducers({
       user: userSlice.reducer,
       device: deviceSlice.reducer,
-      service: customerServiceSlice.reducer,
+      customerService: customerServiceSlice.reducer,
       role: roleSlice.reducer,
+      service: serviceSlice.reducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducers);
 
-export type State = ReturnType<typeof rootReducers>;
 
 // export const store = createStore(reducers, {}, applyMiddleware(thunk));
 export const store = configureStore({
@@ -29,3 +31,6 @@ export const store = configureStore({
       middleware: [thunk],
       devTools: process.env.NODE_ENV !== 'production',
 });
+
+export type State = ReturnType<typeof rootReducers>;
+export  const useAppDispatch = () => useDispatch<typeof store.dispatch>()

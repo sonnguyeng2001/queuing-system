@@ -2,14 +2,14 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { ref, child, get } from 'firebase/database';
 import { database } from '../../firebase/index';
-import { CustomerServiceType } from '../../component/propsType/CustomerServiceProps';
+import { CustomerServiceType } from '../../components/propsType/CustomerServiceProps';
 
 export const getCustomerServices = createAsyncThunk(
       'customerService/getCustomerServices',
       (arg, { rejectWithValue }) => {
             try {
                   const dbRef = ref(database);
-                  return get(child(dbRef, `services`)).then((snapshot) => snapshot.val());
+                  return get(child(dbRef, `customerServices`)).then((snapshot) => snapshot.val());
             } catch (error) {
                   rejectWithValue(error);
             }

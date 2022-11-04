@@ -28,11 +28,11 @@ const schema: yup.SchemaOf<Partial<DevicesType>> = yup.object({
 
 export const UpdateDevices = () => {
       const [devices, setDevices] = useState<DevicesType | undefined>({} as DevicesType);
-      const [deviceUsed, setDeviceUsed] = useState<string[] | []>([]);
       const [deviceName, setDeviceName] = useState<string[] | []>([]);
       const { id } = useParams();
       const navigate = useNavigate();
       const dataDevices = useSelector((state: State) => state.device);
+      const dataService = useSelector((state: State) => state.service);
 
       const {
             register,
@@ -49,17 +49,6 @@ export const UpdateDevices = () => {
             console.log(data);
       };
       useEffect(() => {
-            // ---- Xử lý lấy ra mảng các dịch vụ không trùng nhau để render cho thẻ Select
-            const listDeviceUsed: string[] = [];
-            dataDevices.dataDevices.map((device: DevicesType) => {
-                  device.used.map((deviceUsed) => {
-                        if (!listDeviceUsed.includes(deviceUsed)) {
-                              listDeviceUsed.push(deviceUsed);
-                        }
-                  });
-            });
-            setDeviceUsed(listDeviceUsed);
-
             // ---- Xử lý lấy ra mảng các  tên dịch vụ không trùng nhau để render cho thẻ Select
             const listDeviceName: string[] = [];
             dataDevices.dataDevices.map((device: DevicesType) => {
@@ -197,10 +186,10 @@ export const UpdateDevices = () => {
                                                                         mode="multiple"
                                                                         placeholder="Please select"
                                                                         {...field}
-                                                                        options={deviceUsed.map((device) => {
+                                                                        options={dataService.dataServices.map((service) => {
                                                                               return {
-                                                                                    value: device,
-                                                                                    label: device,
+                                                                                    value: service.name,
+                                                                                    label: service.name,
                                                                               };
                                                                         })}
                                                                   />

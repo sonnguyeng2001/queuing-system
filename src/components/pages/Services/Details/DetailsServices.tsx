@@ -1,21 +1,19 @@
 import './DetailsServices.css';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { routesConfig } from '../../../../routes/routeConfig';
 import style from './DetailsServices.module.scss';
 import classNames from 'classnames/bind';
 import { HeaderContent } from '../../../componentChild/HeaderContent/HeaderContent';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { State } from '../../../../redux/store';
 import { useEffect, useState, useRef } from 'react';
-import { DevicesType } from '../../../propsType/DevicesProps';
 import { LinkAction } from '../../../componentChild/LinkAction/LinkAction';
 import { LogoEdit } from '../../../../assets/svg/LogoEdit';
-import { getDevices } from '../../../../redux/features/DeviceSlice';
 import { LogoSearch } from '../../../../assets/svg/LogoSearch';
 import { DatePicker, Select } from 'antd';
 import { LogoArrow } from '../../../../assets/svg/LogoArrow';
-import moment from 'moment';
 import { CustomizeTable } from '../../../componentChild/CustomizeTable/CustomizeTable';
+import { ServiceType } from '../../../propsType/ServiceProps';
 const cx = classNames.bind(style);
 
 const columns: any = [
@@ -26,7 +24,7 @@ const columns: any = [
 
       {
             title: 'Trạng thái',
-            dataIndex: 'deviceActive',
+            dataIndex: 'isActive',
             render: (status: boolean) => {
                   return status ? (
                         <>
@@ -44,19 +42,19 @@ const columns: any = [
 ];
 
 export const DetailsServices = () => {
-      const [devices, setDevices] = useState<DevicesType | undefined>({} as DevicesType);
+      const [services, setService] = useState<ServiceType | undefined>({} as ServiceType);
       const { id } = useParams();
-      const data = useSelector((state: State) => state.device);
-      const [dataSource, setDataSource] = useState<DevicesType[] | []>([]);
-      const dataRef = useRef<DevicesType[] | []>([]);
+      const data = useSelector((state: State) => state.service);
+      const [dataSource, setDataSource] = useState<ServiceType[] | []>([]);
+      const dataRef = useRef<ServiceType[] | []>([]);
 
       useEffect(() => {
-            const infoDevices = data.dataDevices.find((device: DevicesType) => {
-                  return device?.id === id && device;
+            const infoService = data.dataServices.find((service: ServiceType) => {
+                  return service.key.toString() === id && service;
             });
-            setDevices(infoDevices);
-            setDataSource(data.dataDevices);
-            dataRef.current = data.dataDevices;
+            setService(infoService);
+            setDataSource(data.dataServices);
+            dataRef.current = data.dataServices;
       }, []);
 
       const handleChangeSelect = (value: string) => {
@@ -78,19 +76,24 @@ export const DetailsServices = () => {
                               <div className={cx('content-left')}>
                                     <header className={cx('header-content')}>Thông tin dịch vụ</header>
                                     <div className={cx('object')}>
-                                          <span className={cx('key')}>Mã dịch vụ:</span>
-                                          <span className={cx('value')}>{devices?.id}</span>
+                                          <span className={cx('value')}>
+                                                <strong className={cx('title')}>Mã dịch vụ: </strong>
+                                                {services?.key}
+                                          </span>
                                     </div>
                                     <div className={cx('object')}>
-                                          <span className={cx('key')}>Tên dịch vụ:</span>
-                                          <span className={cx('value')}>{devices?.name}</span>
+                                          <span className={cx('value')}>
+                                                <strong className={cx('title')}>Tên dịch vụ: </strong>
+                                                {services?.name}
+                                          </span>
                                     </div>
                                     <div className={cx('object')}>
-                                          <span className={cx('key')}>Mô tả dịch vụ:</span>
-                                          <span className={cx('value')}>{devices?.ipAddress}</span>
+                                          <span className={cx('value')}>
+                                                <strong className={cx('title')}>Mô tả: </strong>
+                                                {services?.desc}
+                                          </span>
                                     </div>
                                     {/* --------------------------------------------------------------------------------------------------- */}
-                                    <br />
                                     <br />
                                     <br />
                                     <header className={cx('header-content')}>Quy tắc cấp số</header>

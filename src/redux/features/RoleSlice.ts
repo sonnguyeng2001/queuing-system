@@ -1,4 +1,4 @@
-import { RoleType } from './../../component/propsType/RoleProps';
+import { RoleType } from '../../components/propsType/RoleProps';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { ref, child, get } from 'firebase/database';

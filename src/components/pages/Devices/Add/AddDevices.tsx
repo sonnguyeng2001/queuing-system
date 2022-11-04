@@ -13,6 +13,7 @@ const cx = classNames.bind(style);
 
 export const AddDevices = () => {
       const dataDevices = useSelector((state: State) => state.device);
+      const dataService = useSelector((state: State) => state.service);
       const navigate = useNavigate();
       const handleChangeKindOfDevices = (value: string, option: DefaultOptionType | DefaultOptionType[] | any) => {
             // Nhớ thêm | any để có thể lấy được tất cả key trong object
@@ -130,9 +131,16 @@ export const AddDevices = () => {
                                                       placeholder="Nhập dịch vụ sử dụng"
                                                       // popupClassName='' => css Popup
                                                 >
-                                                      <Select.Option value="0">Tất cả</Select.Option>
-                                                      <Select.Option value="1">Khám răng hàm mặt</Select.Option>
-                                                      <Select.Option value="2">Khám tai mũi họng</Select.Option>
+                                                      {dataService.dataServices.map((service) => {
+                                                            return (
+                                                                  <Select.Option
+                                                                        key={service.name}
+                                                                        value={service.name}
+                                                                  >
+                                                                        {service.name}
+                                                                  </Select.Option>
+                                                            );
+                                                      })}
                                                 </Select>
                                           </div>
                                     </div>

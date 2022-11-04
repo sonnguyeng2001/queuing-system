@@ -13,10 +13,11 @@ import { getUsers } from './redux/features/UserSlice';
 import { getDevices } from './redux/features/DeviceSlice';
 import { getRoles } from './redux/features/RoleSlice';
 import { getCustomerServices } from './redux/features/CustomerServicesSlice';
+import { getServices } from './redux/features/ServiceSlice';
 
 // React lazy
 const DefaultLayout = React.lazy(() =>
-      import('./component/layouts/defaultLayout/DefaultLayout').then(({ DefaultLayout }) => ({
+      import('./components/layouts/defaultLayout/DefaultLayout').then(({ DefaultLayout }) => ({
             default: DefaultLayout,
       })),
 );
@@ -28,6 +29,7 @@ function App() {
             dispatch(getDevices());
             dispatch(getRoles());
             dispatch(getCustomerServices());
+            dispatch(getServices());
       }, [dispatch]);
 
       return (

@@ -9,32 +9,34 @@ import { HeaderContent } from '../../../componentChild/HeaderContent/HeaderConte
 import { LogoArrow } from '../../../../assets/svg/LogoArrow';
 import { LogoSearch } from '../../../../assets/svg/LogoSearch';
 import { LogoPlus } from '../../../../assets/svg/LogoPlus';
-import { DevicesType } from '../../../propsType/DevicesProps';
 import { useDispatch, useSelector } from 'react-redux';
-import { getDevices } from '../../../../redux/features/DeviceSlice';
 import useDebounce from '../../../../Hooks/useDebound';
 import { LinkAction } from '../../../componentChild/LinkAction/LinkAction';
 import { CustomizeTable } from '../../../componentChild/CustomizeTable/CustomizeTable';
 import { State } from '../../../../redux/store';
+import { ServiceType } from '../../../propsType/ServiceProps';
 
 const cx = classNames.bind(style);
 
 const columns: any = [
       {
             title: 'Mã dịch vụ',
-            dataIndex: 'id',
+            dataIndex: 'key',
+            width: ' 10%',
       },
       {
             title: 'Tên dịch vụ',
             dataIndex: 'name',
+            width: '15%',
       },
       {
             title: 'Mô tả',
-            dataIndex: 'name',
+            dataIndex: 'desc',
       },
       {
             title: 'Trạng thái hoạt động',
             dataIndex: 'isActive',
+            width: '18%',
             render: (status: boolean) => {
                   return status ? (
                         <>
@@ -52,6 +54,7 @@ const columns: any = [
       {
             title: '',
             dataIndex: 'detailsAction',
+            width: '8%',
             render: (data: string) => {
                   return (
                         <>
@@ -71,6 +74,7 @@ const columns: any = [
       {
             title: '',
             dataIndex: 'updateAction',
+            width: '8%',
             render: (data: string) => {
                   return (
                         <>
@@ -91,17 +95,17 @@ const columns: any = [
 
 export const ListServices = () => {
       const dispatch = useDispatch<any>();
-      const [dataSource, setDataSource] = useState<DevicesType[] | []>([]);
+      const [dataSource, setDataSource] = useState<ServiceType[] | []>([]);
       const [inputSearch, setInputSearch] = useState<string>('');
-      const data = useSelector((state: State) => state.device);
-      const dataRef = useRef<DevicesType[] | []>([]);
-      
+      const data = useSelector((state: State) => state.service);
+      const dataRef = useRef<ServiceType[] | []>([]);
+
       useEffect(() => {
-            var arr = data.dataDevices.map((device: DevicesType) => {
+            var arr = data.dataServices.map((service: ServiceType) => {
                   return {
-                        ...device,
-                        detailsAction: `Chi tiết${device.id}`,
-                        updateAction: `Cập nhật${device.id}`,
+                        ...service,
+                        detailsAction: `Chi tiết${service.key}`,
+                        updateAction: `Cập nhật${service.key}`,
                   };
             });
             dataRef.current = arr;
@@ -133,7 +137,7 @@ export const ListServices = () => {
             }
       };
       const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
-      const pageSize = 7;
+      const pageSize = 5;
       return (
             <div className={cx('wrapper')}>
                   <HeaderContent title="Danh sách thiết bị" />

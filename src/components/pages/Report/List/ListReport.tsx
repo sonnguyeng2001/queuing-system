@@ -70,7 +70,7 @@ const columns: any = [
 export const ListReport = () => {
       const dataRef = useRef<CustomerServiceType[] | []>([]);
       const [dataSource, setDataSource] = useState<CustomerServiceType[] | []>([]);
-      const data = useSelector((state: State) => state.service);
+      const data = useSelector((state: State) => state.customerService);
       useEffect(() => {
             dataRef.current = data.dataCustomerServices;
             setDataSource(data.dataCustomerServices);
