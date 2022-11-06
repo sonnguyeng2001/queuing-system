@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { ref, child, get, update, set } from 'firebase/database';
 import { database } from '../../firebase/index';
 
-export const getUsers = createAsyncThunk('users/getUsers', (arg, { rejectWithValue }) => {
+export const getUsers = createAsyncThunk('users/getUsers', (_, { rejectWithValue }) => {
       try {
             const dbRef = ref(database);
             return get(child(dbRef, `users`)).then((snapshot) => snapshot.val());

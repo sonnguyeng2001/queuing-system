@@ -1,42 +1,27 @@
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { routesConfig } from '../../../../routes/routeConfig';
 import style from './DetailsDevices.module.scss';
 import classNames from 'classnames/bind';
 import { HeaderContent } from '../../../componentChild/HeaderContent/HeaderContent';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { State } from '../../../../redux/store';
 import { useEffect, useState } from 'react';
 import { DevicesType } from '../../../propsType/DevicesProps';
 import { LinkAction } from '../../../componentChild/LinkAction/LinkAction';
 import { LogoEdit } from '../../../../assets/svg/LogoEdit';
-import { getDevices } from '../../../../redux/features/DeviceSlice';
 
 const cx = classNames.bind(style);
 
 export const DetailsDevices = () => {
       const [devices, setDevices] = useState<DevicesType | undefined>({} as DevicesType);
       const { id } = useParams();
-      const dispatch = useDispatch<any>();
       const dataDevices = useSelector((state: State) => state.device);
 
-      const fetchData = async () => {
-            const response = await dispatch(getDevices());
-            var infoDevices = await response.payload.find((device: DevicesType) => {
+      useEffect(() => {
+            var infoDevice = dataDevices.dataDevices.find((device: DevicesType) => {
                   return device?.id === id && device;
             });
-            return infoDevices;
-      };
-      useEffect(() => {
-            if (dataDevices.dataDevices.length > 0) {
-                  var infoDevices = dataDevices.dataDevices.find((device: DevicesType) => {
-                        return device?.id === id && device;
-                  });
-                  setDevices(infoDevices);
-            } else {
-                  fetchData().then((data) => {
-                        setDevices(data);
-                  });
-            }
+            setDevices(infoDevice);
       }, []);
 
       return (
@@ -79,7 +64,12 @@ export const DetailsDevices = () => {
 
                                     <div className={cx('object')}>
                                           <p className={cx('key')}>Dịch vụ sử dụng</p>
-                                          <p className={cx('value')}>{devices?.used}</p>
+                                          <p className={cx('value')}>
+                                                {devices?.used &&
+                                                      devices?.used.map((device, index) => {
+                                                            return <span key={index}>{device} &nbsp;</span>;
+                                                      })}
+                                          </p>
                                     </div>
                               </div>
                         </div>

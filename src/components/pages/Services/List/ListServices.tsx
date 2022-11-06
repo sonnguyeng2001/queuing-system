@@ -162,6 +162,7 @@ export const ListServices = () => {
                                           format={dateFormatList}
                                           popupClassName="popup-date"
                                           placeholder="Từ ngày"
+                                          onChange={(e) => console.log(e)}
                                     />
                                     <LogoArrow className="selectDate-logoArrow" />
                                     <DatePicker
@@ -170,6 +171,7 @@ export const ListServices = () => {
                                           format={dateFormatList}
                                           popupClassName="popup-date"
                                           placeholder="Đến ngày"
+                                          onChange={(e) => console.log(e?.unix())}
                                     />
                               </div>
                         </div>

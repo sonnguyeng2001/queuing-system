@@ -120,7 +120,6 @@ const columns: any = [
 ];
 
 export const ListDevices = () => {
-      const dispatch = useDispatch<any>();
       const [dataSource, setDataSource] = useState<DevicesType[] | []>([]);
       const data = useSelector((state: State) => state.device);
       const [inputSearch, setInputSearch] = useState<string>('');
@@ -136,7 +135,7 @@ export const ListDevices = () => {
             });
             dataRef.current = arr;
             setDataSource(arr);
-      }, [dispatch]);
+      }, [data.dataDevices]);
 
       const handleChangeSelect = (value: string) => {
             if (value === 'all') {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './UpdateDevices.css';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { State } from '../../../../redux/store';
 import { Select } from 'antd';
@@ -14,22 +14,24 @@ import { LogoArrow } from '../../../../assets/svg/LogoArrow';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { updateDevice } from '../../../../redux/features/DeviceSlice';
 const cx = classNames.bind(style);
 
 const schema: yup.SchemaOf<Partial<DevicesType>> = yup.object({
       id: yup.string().trim().required('Vui lòng điền vào trường này'),
       ipAddress: yup.string().trim().required('Vui lòng điền vào trường này'),
+      used: yup.array().min(1, 'Vui lòng chọn ít nhất 1 dịch vụ').required('Vui lòng ít nhất 1 dịch vụ'),
+      name: yup.string().trim().required('Vui lòng điền vào trường này'),
       isActive: yup.boolean().notRequired(),
       isConnected: yup.boolean().notRequired(),
       key: yup.string().trim().notRequired(),
-      name: yup.string().trim().required('Vui lòng điền vào trường này'),
-      used: yup.array().min(1, 'Vui lòng chọn ít nhất 1 dịch vụ').required('Vui lòng ít nhất 1 dịch vụ'),
 });
 
 export const UpdateDevices = () => {
       const [devices, setDevices] = useState<DevicesType | undefined>({} as DevicesType);
       const [deviceName, setDeviceName] = useState<string[] | []>([]);
       const { id } = useParams();
+      const dispatch = useDispatch<any>();
       const navigate = useNavigate();
       const dataDevices = useSelector((state: State) => state.device);
       const dataService = useSelector((state: State) => state.service);
@@ -45,8 +47,15 @@ export const UpdateDevices = () => {
             resolver: yupResolver(schema),
       });
 
-      const onSubmit: SubmitHandler<DevicesType> = (data) => {
-            console.log(data);
+      const onSubmit: SubmitHandler<DevicesType> = async (data) => {
+            await dispatch(updateDevice(data))
+                  .then((response: any) => {
+                        response && alert('Cập nhật thành công ');
+                        navigate(-1);
+                  })
+                  .catch((error: any) => {
+                        console.log(error);
+                  });
       };
       useEffect(() => {
             // ---- Xử lý lấy ra mảng các  tên dịch vụ không trùng nhau để render cho thẻ Select
@@ -186,12 +195,14 @@ export const UpdateDevices = () => {
                                                                         mode="multiple"
                                                                         placeholder="Please select"
                                                                         {...field}
-                                                                        options={dataService.dataServices.map((service) => {
-                                                                              return {
-                                                                                    value: service.name,
-                                                                                    label: service.name,
-                                                                              };
-                                                                        })}
+                                                                        options={dataService.dataServices.map(
+                                                                              (service) => {
+                                                                                    return {
+                                                                                          value: service.name,
+                                                                                          label: service.name,
+                                                                                    };
+                                                                              },
+                                                                        )}
                                                                   />
                                                             )}
                                                       />

@@ -30,7 +30,7 @@ export const customerServiceSlice = createSlice({
       } as CustomerServiceProps,
       reducers: {},
       extraReducers: {
-            // ------------------------- getDevices
+            // ------------------------- getCustomerServices
             [getCustomerServices.fulfilled.toString()]: (state, action) => {
                   state.isSuccess = true;
                   state.message = 'Load data customerServices successfully';
