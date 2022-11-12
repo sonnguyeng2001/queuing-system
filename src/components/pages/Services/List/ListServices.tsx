@@ -15,13 +15,14 @@ import { LinkAction } from '../../../componentChild/LinkAction/LinkAction';
 import { CustomizeTable } from '../../../componentChild/CustomizeTable/CustomizeTable';
 import { State } from '../../../../redux/store';
 import { ServiceType } from '../../../propsType/ServiceProps';
+import moment from 'moment';
 
 const cx = classNames.bind(style);
 
 const columns: any = [
       {
             title: 'Mã dịch vụ',
-            dataIndex: 'key',
+            dataIndex: 'id',
             width: ' 10%',
       },
       {
@@ -110,7 +111,7 @@ export const ListServices = () => {
             });
             dataRef.current = arr;
             setDataSource(arr);
-      }, [dispatch]);
+      }, [data.dataServices]);
 
       const handleChangeSelect = (value: string) => {
             if (value === 'all') {
@@ -171,7 +172,10 @@ export const ListServices = () => {
                                           format={dateFormatList}
                                           popupClassName="popup-date"
                                           placeholder="Đến ngày"
-                                          onChange={(e) => console.log(e?.unix())}
+                                          onChange={(e: moment.Moment | null) => {
+                                                const utcTime = e?.utc()!.valueOf();
+                                                const unixTime = e?.unix()!.valueOf();
+                                          }}
                                     />
                               </div>
                         </div>

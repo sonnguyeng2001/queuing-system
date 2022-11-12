@@ -1,166 +1,166 @@
 .table-devices {
-   position: relative;
+      position: relative;
 }
 .table-devices .ant-table-wrapper {
-   width: var(--width-table-content);
-   margin-top: 20px;
-   max-height: 460px;
-   overflow: hidden;
+      width: var(--width-table-content);
+      margin-top: 20px;
+      max-height: 460px;
+      overflow: hidden;
 }
 .table-devices.ant-table {
-   border-radius: 8px !important;
-   overflow: hidden;
+      border-radius: 8px !important;
+      overflow: hidden;
 }
 
 .table-devices .ant-table-thead tr th.ant-table-cell {
-   background-color: var(--color-orange-400);
-   font-size: 16px;
-   font-weight: 700;
-   color: #fff;
+      background-color: var(--color-orange-400);
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
 }
 
 .table-devices .ant-table-tbody tr td.ant-table-cell {
-   font-size: 14px;
-   font-weight: 400;
-   color: var(--color-gray-400);
-   padding: 6px 12px;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--color-gray-400);
+      padding: 6px 12px;
 }
 
 .table-devices .ant-table-tbody tr:nth-of-type(even) {
-   background-color: var(--color-orange-50);
-   cursor: pointer;
+      background-color: var(--color-orange-50);
+      cursor: pointer;
 }
 .table-devices .ant-table-tbody tr {
-   cursor: pointer;
+      cursor: pointer;
 }
 
 .table-devices
-   .ant-table-thead
-   > tr
-   > th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan]):before {
-   position: absolute;
-   right: 0;
-   width: 1px;
-   height: 100%;
-   background-color: var(--color-orange-100);
-   content: '|';
+      .ant-table-thead
+      > tr
+      > th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan]):before {
+      position: absolute;
+      right: 0;
+      width: 1px;
+      height: 100%;
+      background-color: var(--color-orange-100);
+      content: '|';
 }
 
 .text-devices {
-   display: -webkit-box;
-   width: 180px;
-   -webkit-line-clamp: 1;
-   -webkit-box-orient: vertical;
-   overflow: hidden;
+      width: 180px;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
 }
 .text-underline {
-   color: var(--color-blue);
+      color: var(--color-blue);
 }
 .text-underline:hover {
-   text-decoration: underline;
+      text-decoration: underline;
 }
 .seemore {
-   width: 300px;
-   height: 100px;
-   background-color: var(--color-blue);
+      width: 300px;
+      height: 100px;
+      background-color: var(--color-blue);
 }
 
 /* Antd Select tag */
 .ant-select.ant-select-single.ant-select-show-arrow {
-   width: 300px;
+      width: 300px;
 }
 .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
-   height: unset;
+      height: unset;
 }
 .ant-select.ant-select-single.ant-select-show-arrow .ant-select-selector {
-   padding: 6px 12px;
-   border-radius: 8px;
-   border: 2px solid var(--color-gray-100);
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 2px solid var(--color-gray-100);
 }
 .ant-select-arrow {
-   display: none;
+      display: none;
 }
 .ant-select-selection-item {
-   color: var(--color-orange-400);
-   font-weight: 600;
-   font-size: 16px;
+      color: var(--color-orange-400);
+      font-weight: 600;
+      font-size: 16px;
 }
 
 /* Antd pagination tag */
 .ant-pagination {
-   width: var(--width-table-content);
-   text-align: right;
-   margin-top: 20px;
+      width: var(--width-table-content);
+      text-align: right;
+      margin-top: 20px;
 }
 
 .ant-pagination-item.ant-pagination-item {
-   background-color: transparent;
-   border-color: transparent;
-   border-radius: 4px;
+      background-color: transparent;
+      border-color: transparent;
+      border-radius: 4px;
 }
 .ant-pagination-item a {
-   color: var(--color-gray-400);
-   font-size: 16px;
-   font-weight: 600;
-   border-radius: 4px;
+      color: var(--color-gray-400);
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 4px;
 }
 
 .ant-pagination-item.ant-pagination-item-active {
-   background-color: var(--color-orange-500);
-   border-color: transparent;
-   border-radius: 4px;
+      background-color: var(--color-orange-500);
+      border-color: transparent;
+      border-radius: 4px;
 }
 .ant-pagination-item-active a {
-   color: #fff;
-   font-size: 16px;
-   font-weight: 600;
-   border-radius: 4px;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 4px;
 }
 
 .ant-pagination-item:hover a {
-   color: #fff;
-   background-color: var(--color-orange-500);
+      color: #fff;
+      background-color: var(--color-orange-500);
 }
 .ant-select.ant-pagination-options-size-changer.ant-select-single.ant-select-show-arrow {
-   display: none;
+      display: none;
 }
 
 .ant-pagination-next .ant-pagination-item-link,
 .ant-pagination-prev .ant-pagination-item-link {
-   background-color: var(--color-orange-500);
-   border-radius: 4px;
-   color: #fff;
+      background-color: var(--color-orange-500);
+      border-radius: 4px;
+      color: #fff;
 }
 
 .ant-pagination-next .ant-pagination-item-link:hover,
 .ant-pagination-prev .ant-pagination-item-link:hover {
-   background-color: var(--color-orange-50);
-   border-radius: 4px;
-   border-color: var(--color-orange-500);
-   color: var(--color-orange-500);
+      background-color: var(--color-orange-50);
+      border-radius: 4px;
+      border-color: var(--color-orange-500);
+      color: var(--color-orange-500);
 }
 
 /* Popover */
 .ant-popover {
-   width: 400px;
-   overflow: hidden;
-   border-radius: 8px;
+      width: 400px;
+      overflow: hidden;
+      border-radius: 8px;
 }
 .ant-popover .ant-popover-arrow {
-   left: 34%;
+      left: 34%;
 }
 .ant-popover-inner {
-   border-radius: 8px;
-   background-color: var(--color-orange-500);
-   box-shadow: unset;
+      border-radius: 8px;
+      background-color: var(--color-orange-500);
+      box-shadow: unset;
 }
 
 .ant-popover-inner-content {
-   padding: 8px 12px;
-   color: white;
-   font-weight: 600;
-   text-transform: capitalize;
+      padding: 8px 12px;
+      color: white;
+      font-weight: 600;
+      text-transform: capitalize;
 }
 .ant-popover-arrow-content {
-   --antd-arrow-background-color: var(--color-orange-500);
+      --antd-arrow-background-color: var(--color-orange-500);
 }

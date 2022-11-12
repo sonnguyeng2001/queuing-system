@@ -72,9 +72,13 @@ const columns: any = [
                   return (
                         <>
                               <div className="text-devices">{data.join(', ')}</div>
-                              <Popover className="popover" content={data.join(', ')} trigger="click">
-                                    <p className="text-underline">Xem thêm</p>
-                              </Popover>
+                              {data.length > 0 ? (
+                                    <Popover className="popover" content={data.join(', ')} trigger="click">
+                                          <p className="text-underline">Xem thêm</p>
+                                    </Popover>
+                              ) : (
+                                    <span>Không có dịch vụ</span>
+                              )}
                         </>
                   );
             },

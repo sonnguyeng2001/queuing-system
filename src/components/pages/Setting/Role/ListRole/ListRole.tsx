@@ -18,18 +18,24 @@ const columns = [
       {
             title: 'Tên vai trò',
             dataIndex: 'roleName',
+            width: '10%',
       },
       {
             title: 'Số người dùng',
             dataIndex: 'roleUserCount',
+            width: '13%',
       },
       {
             title: 'Mô tả',
             dataIndex: 'roleDescription',
+            render: (data: string) => {
+                  return <span className="text-devices">{data}</span>;
+            },
       },
       {
             title: '',
             dataIndex: 'updateAction',
+            width: '10%',
             render: (data: string) => {
                   return (
                         <>
@@ -63,13 +69,13 @@ export const ListRole = () => {
             });
             setDataSource(newArray);
             dataSourceRef.current = newArray;
-      }, []);
+      }, [dataRole.data]);
 
       const debouncedValue = useDebounce(inputSearch, 500);
       useEffect(() => {
             setDataSource(
                   dataSourceRef.current.filter((key) =>
-                        key.roleName.toString().toLowerCase().includes(debouncedValue.toLowerCase()),
+                        key.roleName.toLowerCase().includes(debouncedValue.toLowerCase()),
                   ),
             );
       }, [debouncedValue]);

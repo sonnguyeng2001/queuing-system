@@ -9,19 +9,35 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ServiceType } from '../../../propsType/ServiceProps';
 import * as yup from 'yup';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addService } from '../../../../redux/features/ServiceSlice';
+import { routesConfig } from '../../../../routes/routeConfig';
+import { State } from '../../../../redux/store';
 
 const cx = classNames.bind(style);
-const schema: yup.SchemaOf<Partial<ServiceType>> = yup.object({
-      desc: yup.string().required('Vui lòng điền vào trường này'),
-      name: yup.string().required('Vui lòng điền vào trường này'),
-      isActive: yup.boolean().notRequired(),
-      key: yup.string().notRequired(),
-});
 
 export const AddServices = () => {
       const navigate = useNavigate();
+      const dataService = useSelector((state: State) => state.service);
+      const schema: yup.SchemaOf<Partial<ServiceType>> = yup.object({
+            desc: yup.string().required('Vui lòng điền vào trường này'),
+            name: yup
+                  .string()
+                  .required('Vui lòng điền vào trường này')
+                  .test('nameExists', 'Tên dịch vụ đã tồn tại', (value) => {
+                        const isExists = dataService.dataServices.find((service) => service.name === value);
+                        return isExists ? false : true;
+                  }),
+            id: yup
+                  .string()
+                  .required('Vui lòng điền vào trường này')
+                  .test('idExists', 'Mã dịch vụ đã tồn tại', (value) => {
+                        const isExists = dataService.dataServices.find((service) => service.id === value);
+                        return isExists ? false : true;
+                  }),
+            isActive: yup.boolean().notRequired(),
+            key: yup.string().notRequired(),
+      });
       const {
             register,
             handleSubmit,
@@ -36,6 +52,7 @@ export const AddServices = () => {
             await dispatch(addService(dataService))
                   .then((data: ServiceType) => {
                         data && alert('Thêm thành công');
+                        navigate(routesConfig.listServices);
                   })
                   .catch((errors: any) => console.log(errors));
       };
@@ -49,16 +66,15 @@ export const AddServices = () => {
                                     <div className={cx('object')}>
                                           <p className={cx('label')}>
                                                 Mã dịch vụ: <span className={cx('required')}>*</span>{' '}
-                                                {errors.key?.message && (
-                                                      <span className={cx('errorMessage')}>{errors.key?.message}</span>
+                                                {errors.id?.message && (
+                                                      <span className={cx('errorMessage')}>{errors.id?.message}</span>
                                                 )}
                                           </p>
                                           <input
                                                 className={cx('input-field')}
                                                 type="text"
-                                                placeholder="Disabled"
-                                                disabled
-                                                {...register('key')}
+                                                placeholder="Nhập mã dịch vụ"
+                                                {...register('id')}
                                           />
                                           <br />
                                           <p className={cx('label')} style={{ marginTop: '0' }}>
@@ -137,7 +153,7 @@ export const AddServices = () => {
                               </p>
                         </div>
                         <div className={cx('wrapper-btn')}>
-                              <button onClick={() => navigate(-1)} className={cx('btn', 'btn-btnCancel')}>
+                              <button onClick={() => navigate(-1)} type="button" className={cx('btn', 'btn-btnCancel')}>
                                     Hủy bỏ
                               </button>
                               <button type="submit" className={cx('btn', 'btn-btnAdd')}>

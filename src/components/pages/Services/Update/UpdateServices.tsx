@@ -122,7 +122,7 @@ export const UpdateServices = () => {
                         </p>
                   </div>
                   <div className={cx('wrapper-btn')}>
-                        <button onClick={() => navigate(-1)} className={cx('btn', 'btn-btnCancel')}>
+                        <button onClick={() => navigate(-1)} type="button" className={cx('btn', 'btn-btnCancel')}>
                               Hủy bỏ
                         </button>
                         <button onClick={handleClickSubmit} type="submit" className={cx('btn', 'btn-btnUpdate')}>

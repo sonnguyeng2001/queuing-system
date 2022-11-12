@@ -78,7 +78,7 @@ export const DetailsServices = () => {
                                     <div className={cx('object')}>
                                           <span className={cx('value')}>
                                                 <strong className={cx('title')}>Mã dịch vụ: </strong>
-                                                {services?.key}
+                                                {services?.id}
                                           </span>
                                     </div>
                                     <div className={cx('object')}>

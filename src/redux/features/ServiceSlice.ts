@@ -19,6 +19,7 @@ export const addService = createAsyncThunk('services/addService', async (service
                   desc: service.desc,
                   isActive: service.isActive,
                   key: service.key,
+                  id: service.id,
                   name: service.name,
             });
             return service;

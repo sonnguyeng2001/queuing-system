@@ -10,17 +10,18 @@ import { LogoArrow } from '../../../../assets/svg/LogoArrow';
 import { LogoSearch } from '../../../../assets/svg/LogoSearch';
 import { LogoPlus } from '../../../../assets/svg/LogoPlus';
 import { useSelector } from 'react-redux';
-import useDebounce from '../../../../Hooks/useDebound';
 import { LinkAction } from '../../../componentChild/LinkAction/LinkAction';
 import { CustomizeTable } from '../../../componentChild/CustomizeTable/CustomizeTable';
 import { CustomerServiceType } from '../../../propsType/CustomerServiceProps';
 import { State } from '../../../../redux/store';
+import moment from 'moment';
+import { ServiceType } from '../../../propsType/ServiceProps';
 const cx = classNames.bind(style);
 
 const columns: any = [
       {
             title: 'STT',
-            dataIndex: 'key',
+            dataIndex: 'oridinalNumber',
       },
       {
             title: 'Tên khách hàng',
@@ -29,10 +30,10 @@ const columns: any = [
       {
             title: 'Tên dịch vụ',
             dataIndex: 'serviceName',
-            render: (data: string[] | []) => {
+            render: (data: string) => {
                   return (
                         <>
-                              <span className="text-devices">{data.join('')}</span>
+                              <span className="text-devices">{data}</span>
                         </>
                   );
             },
@@ -40,31 +41,38 @@ const columns: any = [
       {
             title: 'Thời gian cấp',
             dataIndex: 'timeStart',
+            render: (data: number) => {
+                  console.log(data);
+                  return <>{moment.utc(data * 1000).format('DD/MM/YYYY')}</>;
+            },
       },
       {
             title: 'Hạn sử dụng',
             dataIndex: 'timeEnd',
+            render: (data: number) => {
+                  console.log(data);
+                  return <>{moment.unix(data).format('DD/MM/YYYY')}</>;
+            },
       },
       {
             title: 'Trạng thái',
-            dataIndex: 'statusLevel',
-            render: (data: string[] | []) => {
-                  const status: string = data.join('');
-                  if (status === 'skip') {
+            dataIndex: 'status',
+            render: (data: string) => {
+                  if (data === 'skip') {
                         return (
                               <>
                                     <span style={{ color: 'var(--color-red)', marginRight: '10px' }}>&#9679;</span>
                                     <span>Bỏ qua</span>
                               </>
                         );
-                  } else if (status === 'used') {
+                  } else if (data === 'complete') {
                         return (
                               <>
                                     <span style={{ color: 'var(--color-gray-500)', marginRight: '10px' }}>&#9679;</span>
                                     <span>Đã sử dụng</span>
                               </>
                         );
-                  } else if (status === 'waiting') {
+                  } else if (data === 'waiting') {
                         return (
                               <>
                                     <span style={{ color: 'var(--color-blue)', marginRight: '10px' }}>&#9679;</span>
@@ -104,6 +112,7 @@ export const ListCustomerService = () => {
       const [inputSearch, setInputSearch] = useState<string>('');
       const data = useSelector((state: State) => state.customerService);
       const dataRef = useRef<CustomerServiceType[] | []>([]);
+      const dataService = useSelector((state: State) => state.service);
 
       useEffect(() => {
             var arr = data.dataCustomerServices.map((service: CustomerServiceType) => {
@@ -114,7 +123,8 @@ export const ListCustomerService = () => {
             });
             dataRef.current = arr;
             setDataSource(arr);
-      }, []);
+      }, [data.dataCustomerServices]);
+
       const handleChangeSelect = (value: string) => {
             if (value === 'all') {
                   setDataSource(dataRef.current);
@@ -124,7 +134,7 @@ export const ListCustomerService = () => {
             // select stateStatus
             if (value.startsWith('stateStatus/')) {
                   const state = value.replace('stateStatus/', '');
-                  setDataSource(dataRef.current.filter((status) => status.statusLevel[0] === state));
+                  setDataSource(dataRef.current.filter((row) => row.status === state));
                   return;
             }
       };
@@ -157,10 +167,14 @@ export const ListCustomerService = () => {
                               <div>
                                     <h3 className={cx('title')}>Tên dịch vụ</h3>
                                     <Select defaultValue="all" onSelect={handleChangeSelect}>
-                                          <Select.Option value="all">Chưa làm</Select.Option>
-                                          <Select.Option value="stateName/0">Khám sản phụ khoa</Select.Option>
-                                          <Select.Option value="stateName/1">Khám răng hàm mặt</Select.Option>
-                                          <Select.Option value="stateName/2">Khám tai mũi họng</Select.Option>
+                                          <Select.Option value="all">Tất cả</Select.Option>s{' '}
+                                          {dataService.dataServices.map((service: ServiceType) => {
+                                                return (
+                                                      <Select.Option key={service.id} value={service.name}>
+                                                            {service.name}
+                                                      </Select.Option>
+                                                );
+                                          })}
                                     </Select>
                                     <LogoArrow className={cx('logo-arrow')} />
                               </div>
@@ -168,10 +182,10 @@ export const ListCustomerService = () => {
                         <div className={cx('select', 'selectStatus')}>
                               <div>
                                     <h3 className={cx('title')}>Tình trạng</h3>
-                                    <Select defaultValue="all" onSelect={handleChangeSelect}>
+                                    <Select defaultValue="all" onChange={handleChangeSelect}>
                                           <Select.Option value="all">Tất cả</Select.Option>
                                           <Select.Option value="stateStatus/waiting">Đang chờ</Select.Option>
-                                          <Select.Option value="stateStatus/used">Đã sử dụng</Select.Option>
+                                          <Select.Option value="stateStatus/complete">Đã sử dụng</Select.Option>
                                           <Select.Option value="stateStatus/skip">Bỏ qua</Select.Option>
                                     </Select>
                                     <LogoArrow className={cx('logo-arrow')} />
@@ -180,10 +194,10 @@ export const ListCustomerService = () => {
                         <div className={cx('select', 'selectOrigin')}>
                               <div>
                                     <h3 className={cx('title')}>Nguồn cấp</h3>
-                                    <Select defaultValue="all" onSelect={handleChangeSelect}>
-                                          <Select.Option value="all">Chưa làm</Select.Option>
-                                          <Select.Option value="stateConnect/connected">Kết nối</Select.Option>
-                                          <Select.Option value="stateConnect/disconnected">Mất kết nối</Select.Option>
+                                    <Select defaultValue="all" onChange={handleChangeSelect}>
+                                          <Select.Option value="all">Tất cả</Select.Option>
+                                          <Select.Option value="Kiosk">Kiosk</Select.Option>
+                                          <Select.Option value="Hệ thống">Hệ thống</Select.Option>
                                     </Select>
                                     <LogoArrow className={cx('logo-arrow')} />
                               </div>
@@ -227,7 +241,6 @@ export const ListCustomerService = () => {
                   </div>
                   <div className={cx('tableCustomerService')}>
                         <CustomizeTable columns={columns} dataSource={dataSource} pageSize={pageSize} />
-
                         <LinkAction title="Cấp số mới" to={routesConfig.addCustomerService} logo={<LogoPlus />} />
                   </div>
             </div>

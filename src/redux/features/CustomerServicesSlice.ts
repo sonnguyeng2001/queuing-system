@@ -4,14 +4,22 @@ import { ref, child, get } from 'firebase/database';
 import { database } from '../../firebase/index';
 import { CustomerServiceType } from '../../components/propsType/CustomerServiceProps';
 
-export const getCustomerServices = createAsyncThunk(
-      'customerService/getCustomerServices',
-      (arg, { rejectWithValue }) => {
+export const getCustomerServices = createAsyncThunk('customerService/getCustomerServices', (_, { rejectWithValue }) => {
+      try {
+            const dbRef = ref(database);
+            return get(child(dbRef, `customerServices`)).then((snapshot) => snapshot.val());
+      } catch (error) {
+            rejectWithValue(error);
+      }
+});
+
+export const addCustomerService = createAsyncThunk(
+      'customerService/addCustomerServices',
+      async (data: CustomerServiceType) => {
             try {
-                  const dbRef = ref(database);
-                  return get(child(dbRef, `customerServices`)).then((snapshot) => snapshot.val());
+                  console.log(data);
             } catch (error) {
-                  rejectWithValue(error);
+                  return error;
             }
       },
 );
@@ -34,7 +42,7 @@ export const customerServiceSlice = createSlice({
             [getCustomerServices.fulfilled.toString()]: (state, action) => {
                   state.isSuccess = true;
                   state.message = 'Load data customerServices successfully';
-                  state.dataCustomerServices = action.payload;
+                  state.dataCustomerServices = Object.values(action.payload);
             },
 
             [getCustomerServices.rejected.toString()]: (state, action) => {

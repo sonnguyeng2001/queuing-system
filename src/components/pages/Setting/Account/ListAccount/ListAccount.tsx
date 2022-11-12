@@ -13,6 +13,8 @@ import { UserType } from '../../../../propsType/UserProps';
 import { LogoSearch } from '../../../../../assets/svg/LogoSearch';
 import { LogoArrow } from '../../../../../assets/svg/LogoArrow';
 import { Select } from 'antd';
+import { RoleType } from '../../../../propsType/RoleProps';
+import useDebounce from '../../../../../Hooks/useDebound';
 const cx = classNames.bind(style);
 
 const columns: any = [
@@ -78,8 +80,9 @@ const columns: any = [
 export const ListAccount = () => {
       const [dataSource, setDataSource] = useState<UserType[] | []>([]);
       const dataAccount = useSelector((state: State) => state.user);
+      const dataRole = useSelector((state: State) => state.role);
       const dataAccountRef = useRef<UserType[] | []>([]);
-
+      const [inputSearch, setInputSearch] = useState<string>('');
       useEffect(() => {
             const response = dataAccount.data.map((user) => {
                   return {
@@ -89,10 +92,34 @@ export const ListAccount = () => {
             });
             setDataSource(response);
             dataAccountRef.current = response;
-      }, []);
+      }, [dataAccount.data]);
 
       const handleChangeSelect = (value: string) => {
-            alert(value);
+            if (value === 'all') {
+                  setDataSource(dataAccountRef.current);
+            } else {
+                  const filterRole = dataAccountRef.current.filter((role: UserType) => role.roleName === value);
+                  setDataSource(filterRole);
+            }
+      };
+      const debouncedValue = useDebounce(inputSearch, 500);
+      useEffect(() => {
+            setDataSource(
+                  dataAccountRef.current.filter(
+                        (key) =>
+                              key.userName.toLowerCase().includes(debouncedValue.toLowerCase()) ||
+                              key.fullName.toLowerCase().includes(debouncedValue.toLowerCase()) ||
+                              key.phone.toLowerCase().includes(debouncedValue.toLowerCase()) ||
+                              key.email.toLowerCase().includes(debouncedValue.toLowerCase()),
+                  ),
+            );
+      }, [debouncedValue]);
+
+      const handleChangeInput = (e: any) => {
+            const searchValue = e.target.value;
+            if (!searchValue.startsWith(' ')) {
+                  setInputSearch(e.target.value);
+            }
       };
       return (
             <div className={cx('ListAccount-Wrapper')}>
@@ -104,8 +131,13 @@ export const ListAccount = () => {
                                           <h3 className={cx('title')}>Tên vai trò</h3>
                                           <Select defaultValue="all" onSelect={handleChangeSelect}>
                                                 <Select.Option value="all">Tất cả</Select.Option>
-                                                <Select.Option value="stateActive/active">Hoạt động</Select.Option>
-                                                <Select.Option value="stateActive/stop">Ngưng hoạt động</Select.Option>
+                                                {dataRole.data.map((role: RoleType) => {
+                                                      return (
+                                                            <Select.Option key={role.roleName} value={role.roleName}>
+                                                                  {role.roleName}
+                                                            </Select.Option>
+                                                      );
+                                                })}
                                           </Select>
                                           <LogoArrow className={cx('logo-arrow')} />
                                     </div>
@@ -114,8 +146,8 @@ export const ListAccount = () => {
                                     <div>
                                           <div className={cx('title')}>Từ khóa</div>
                                           <input
-                                                // onChange={handleChangeInput}
-                                                // value={inputSearch}
+                                                onChange={handleChangeInput}
+                                                value={inputSearch}
                                                 type="text"
                                                 placeholder="Nhập từ khóa..."
                                                 className={cx('content')}

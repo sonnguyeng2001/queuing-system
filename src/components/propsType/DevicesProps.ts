@@ -6,4 +6,7 @@ export type DevicesType = {
       isActive: boolean;
       isConnected: boolean;
       used: string[];
+      userName: string;
+      password: string;
+      category: string;
 };

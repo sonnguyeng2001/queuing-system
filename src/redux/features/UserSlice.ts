@@ -1,7 +1,10 @@
+import { useSelector } from 'react-redux';
 import { UserType } from '../../components/propsType/UserProps';
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { ref, child, get, update, set } from 'firebase/database';
 import { database } from '../../firebase/index';
+import { State } from '../store';
+import { RoleType } from '../../components/propsType/RoleProps';
 
 export const getUsers = createAsyncThunk('users/getUsers', (_, { rejectWithValue }) => {
       try {
@@ -41,7 +44,7 @@ export const userLogout = createAsyncThunk('users/userLogout', (state: boolean, 
       }
 });
 
-export const addUser = createAsyncThunk('users/addUser', async (user: UserType) => {
+export const addUser = createAsyncThunk('users/addUser', async ( user: UserType) => {
       try {
             const randomNumber: number = Math.floor(Math.random() * 2001190238);
             await set(ref(database, `users/${user.key}`), {
@@ -137,7 +140,7 @@ export const userSlice = createSlice({
             },
 
             // ------------------------- addUser
-            [addUser.fulfilled.toString()]: (state, action) => {
+            [addUser.fulfilled.toString()]: (state, action: PayloadAction<UserType>) => {
                   state.isSuccess = true;
                   state.message = 'Add User Successfully';
                   state.data = [...state.data, action.payload];

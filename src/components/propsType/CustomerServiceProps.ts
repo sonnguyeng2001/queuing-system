@@ -1,9 +1,10 @@
 export type CustomerServiceType = {
       key: string;
+      ordinalNumber: number;
       customerName: string;
-      origin: string;
-      serviceName: string[] | [];
-      statusLevel: string[] | [];
+      serviceName: string;
+      status: string;
       timeStart: Date;
       timeEnd: Date;
+      origin: string;
 };

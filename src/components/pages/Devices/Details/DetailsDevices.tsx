@@ -38,7 +38,7 @@ export const DetailsDevices = () => {
                                           </div>
                                           <div className={cx('object')}>
                                                 <span className={cx('key')}>Loại thiết bị:</span>
-                                                <span className={cx('value')}>{devices?.name}</span>
+                                                <span className={cx('value')}>{devices?.category}</span>
                                           </div>
                                     </div>
                                     <div className={cx('double-object')}>
@@ -48,7 +48,7 @@ export const DetailsDevices = () => {
                                           </div>
                                           <div className={cx('object')}>
                                                 <span className={cx('key')}>Tên đăng nhập:</span>
-                                                <span className={cx('value')}>Linhkyo011</span>
+                                                <span className={cx('value')}>{devices?.userName}</span>
                                           </div>
                                     </div>
                                     <div className={cx('double-object')}>
@@ -58,7 +58,7 @@ export const DetailsDevices = () => {
                                           </div>
                                           <div className={cx('object')}>
                                                 <span className={cx('key')}>Mật khẩu:</span>
-                                                <span className={cx('value')}>CMS</span>
+                                                <span className={cx('value')}>{devices?.password}</span>
                                           </div>
                                     </div>
 
@@ -67,7 +67,14 @@ export const DetailsDevices = () => {
                                           <p className={cx('value')}>
                                                 {devices?.used &&
                                                       devices?.used.map((device, index) => {
-                                                            return <span key={index}>{device} &nbsp;</span>;
+                                                            return (
+                                                                  <span key={index}>
+                                                                        {device}
+                                                                        {index !== devices.used.length - 1 && (
+                                                                              <span>, &nbsp;</span>
+                                                                        )}
+                                                                  </span>
+                                                            );
                                                       })}
                                           </p>
                                     </div>

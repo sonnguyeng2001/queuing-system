@@ -15,26 +15,39 @@ import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { updateDevice } from '../../../../redux/features/DeviceSlice';
+import { routesConfig } from '../../../../routes/routeConfig';
 const cx = classNames.bind(style);
-
-const schema: yup.SchemaOf<Partial<DevicesType>> = yup.object({
-      id: yup.string().trim().required('Vui lòng điền vào trường này'),
-      ipAddress: yup.string().trim().required('Vui lòng điền vào trường này'),
-      used: yup.array().min(1, 'Vui lòng chọn ít nhất 1 dịch vụ').required('Vui lòng ít nhất 1 dịch vụ'),
-      name: yup.string().trim().required('Vui lòng điền vào trường này'),
-      isActive: yup.boolean().notRequired(),
-      isConnected: yup.boolean().notRequired(),
-      key: yup.string().trim().notRequired(),
-});
 
 export const UpdateDevices = () => {
       const [devices, setDevices] = useState<DevicesType | undefined>({} as DevicesType);
-      const [deviceName, setDeviceName] = useState<string[] | []>([]);
       const { id } = useParams();
       const dispatch = useDispatch<any>();
       const navigate = useNavigate();
       const dataDevices = useSelector((state: State) => state.device);
       const dataService = useSelector((state: State) => state.service);
+      const schema: yup.SchemaOf<Partial<DevicesType>> = yup.object({
+            id: yup
+                  .string()
+                  .trim()
+                  .required('Vui lòng điền vào trường này')
+                  .test('isExists', 'Mã thiết bị đã tồn tại', (value) => {
+                        if (value === id) {
+                              return true;
+                        } else {
+                              const isExists = dataDevices.dataDevices.find((device) => device.id === value);
+                              return isExists ? false : true;
+                        }
+                  }),
+            ipAddress: yup.string().trim().required('Vui lòng điền vào trường này'),
+            used: yup.array().min(1, 'Vui lòng chọn ít nhất 1 dịch vụ').required('Vui lòng ít nhất 1 dịch vụ'),
+            name: yup.string().trim().required('Vui lòng điền vào trường này'),
+            isActive: yup.boolean().notRequired(),
+            isConnected: yup.boolean().notRequired(),
+            key: yup.string().trim().notRequired(),
+            category: yup.string().trim().required('Vui lòng điền vào trường này'),
+            userName: yup.string().trim().required('Vui lòng điền vào trường này'),
+            password: yup.string().trim().required('Vui lòng điền vào trường này'),
+      });
 
       const {
             register,
@@ -51,22 +64,13 @@ export const UpdateDevices = () => {
             await dispatch(updateDevice(data))
                   .then((response: any) => {
                         response && alert('Cập nhật thành công ');
-                        navigate(-1);
+                        navigate(routesConfig.listDevices);
                   })
                   .catch((error: any) => {
                         console.log(error);
                   });
       };
       useEffect(() => {
-            // ---- Xử lý lấy ra mảng các  tên dịch vụ không trùng nhau để render cho thẻ Select
-            const listDeviceName: string[] = [];
-            dataDevices.dataDevices.map((device: DevicesType) => {
-                  if (!listDeviceName.includes(device.name)) {
-                        listDeviceName.push(device.name);
-                  }
-            });
-            setDeviceName(listDeviceName);
-
             // ---- Xử lý lấy ra thông tin 1 dịch vụ
             var infoDevices = dataDevices.dataDevices.find((device: DevicesType) => {
                   return device?.id === id && device;
@@ -102,27 +106,31 @@ export const UpdateDevices = () => {
                                                 <div className={cx('object')}>
                                                       <p className={cx('label')}>
                                                             Loại thiết bị: <span className={cx('required')}>*</span>{' '}
-                                                            {errors.name?.message && (
+                                                            {errors.category?.message && (
                                                                   <span className={cx('errorMessage')}>
-                                                                        {errors.name?.message}
+                                                                        {errors.category?.message}
                                                                   </span>
                                                             )}
                                                       </p>
                                                       <div className="wrapper-select-inputKindOfDevices">
                                                             <Controller
-                                                                  name="name"
+                                                                  name="category"
                                                                   rules={{ required: true }}
                                                                   control={control}
                                                                   render={({ field }) => (
                                                                         <Select
                                                                               placeholder="Nhập vai trò"
                                                                               {...field}
-                                                                              options={deviceName.map((name) => {
-                                                                                    return {
-                                                                                          value: name,
-                                                                                          label: name,
-                                                                                    };
-                                                                              })}
+                                                                              options={[
+                                                                                    {
+                                                                                          value: 'Kiosk',
+                                                                                          label: 'Kiosk',
+                                                                                    },
+                                                                                    {
+                                                                                          value: 'Hệ thống',
+                                                                                          label: 'Hệ thống',
+                                                                                    },
+                                                                              ]}
                                                                         />
                                                                   )}
                                                             />
@@ -148,9 +156,18 @@ export const UpdateDevices = () => {
                                                 </div>
                                                 <div className={cx('object')}>
                                                       <p className={cx('label')}>
-                                                            Tên đăng nhập: <span className={cx('required')}>*</span>
+                                                            Tên đăng nhập: <span className={cx('required')}>*</span>{' '}
+                                                            {errors.userName?.message && (
+                                                                  <span className={cx('errorMessage')}>
+                                                                        {errors.userName?.message}
+                                                                  </span>
+                                                            )}
                                                       </p>
-                                                      <input className={cx('input-field')} type="text" />
+                                                      <input
+                                                            className={cx('input-field')}
+                                                            type="text"
+                                                            {...register('userName')}
+                                                      />
                                                 </div>
                                           </div>
                                           <div className={cx('double-object')}>
@@ -171,9 +188,18 @@ export const UpdateDevices = () => {
                                                 </div>
                                                 <div className={cx('object')}>
                                                       <p className={cx('label')}>
-                                                            Mật khẩu: <span className={cx('required')}>*</span>
+                                                            Mật khẩu: <span className={cx('required')}>*</span>{' '}
+                                                            {errors.password?.message && (
+                                                                  <span className={cx('errorMessage')}>
+                                                                        {errors.password?.message}
+                                                                  </span>
+                                                            )}
                                                       </p>
-                                                      <input className={cx('input-field')} type="text" />
+                                                      <input
+                                                            className={cx('input-field')}
+                                                            type="text"
+                                                            {...register('password')}
+                                                      />
                                                 </div>
                                           </div>
                                           <div className={cx('object')}>
@@ -217,7 +243,11 @@ export const UpdateDevices = () => {
                                     </div>
                               </div>
                               <div className={cx('wrapper-btn')}>
-                                    <button onClick={() => navigate(-1)} className={cx('btn', 'btn-btnCancel')}>
+                                    <button
+                                          onClick={() => navigate(-1)}
+                                          type="button"
+                                          className={cx('btn', 'btn-btnCancel')}
+                                    >
                                           Hủy bỏ
                                     </button>
                                     <button type="submit" className={cx('btn', 'btn-btnUpdate')}>

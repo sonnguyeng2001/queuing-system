@@ -15,6 +15,8 @@ import { addUser } from '../../../../../redux/features/UserSlice';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import 'yup-phone';
+import { updateRoleQuantity } from '../../../../../redux/features/RoleSlice';
+import { routesConfig } from '../../../../../routes/routeConfig';
 const cx = classNames.bind(style);
 
 type formType = UserType & {
@@ -27,8 +29,8 @@ const schema: yup.SchemaOf<Partial<formType>> = yup.object({
       phone: yup
             .string()
             .trim()
-            .phone('VN', true, 'Vui lòng nhập đúng định dạng số điện thoại')
-            .required('Vui lòng điền vào trường này'),
+            .required('Vui lòng điền vào trường này')
+            .phone('VN', true, 'Vui lòng nhập đúng định dạng số điện thoại'),
       email: yup.string().trim().required('Vui lòng điền vào trường này').email('Vui lòng điền đúng định dạng email'),
       password: yup.string().trim().required('Vui lòng điền vào trường này').min(10, 'Tối thiểu phải có 10 ký tự'),
       confirmPassword: yup
@@ -55,19 +57,20 @@ export const AddAccount = () => {
       } = useForm<formType>({
             resolver: yupResolver(schema),
       });
-      const onSubmit: SubmitHandler<formType> = (data) => {
-            const configUser = { ...data, key: uid() };
-            handleAddUser(configUser)
-                  .then((data) => {
-                        data && alert('Add successfully');
+      const onSubmit: SubmitHandler<formType> = async (data) => {
+            const configUser = { ...data, key: uid().slice(0, 8).toUpperCase() };
+            const infoRole = dataRole.data.find((role: RoleType) => role.roleName === data.roleName);
+            await dispatch(addUser(configUser))
+                  .then(async (response: any) => {
+                        response &&
+                              (await dispatch(updateRoleQuantity(infoRole!)).then((response: any) => {
+                                    alert('Thêm thành công ');
+                                    navigate(routesConfig.listAccount);
+                              }));
                   })
-                  .catch((error) => {
+                  .catch((error: any) => {
                         console.log(error);
                   });
-      };
-      const handleAddUser = async (user: UserType) => {
-            const response = await dispatch(addUser(user));
-            return response.payload;
       };
 
       useEffect(() => {
@@ -186,8 +189,8 @@ export const AddAccount = () => {
                                                             control={control}
                                                             render={({ field }) => (
                                                                   <Select
-                                                                        placeholder="Nhập vai trò"
                                                                         {...field}
+                                                                        placeholder="Nhập vai trò"
                                                                         options={listRole.map((role: RoleType) => {
                                                                               return {
                                                                                     value: role.roleName,
@@ -197,6 +200,7 @@ export const AddAccount = () => {
                                                                   />
                                                             )}
                                                       />
+
                                                       <LogoArrow className={cx('logoArrow')} />
                                                 </div>
                                                 {errors.roleName?.message && (
@@ -244,7 +248,11 @@ export const AddAccount = () => {
                                     </p>
                               </div>
                               <div className={cx('wrapper-btn')}>
-                                    <button onClick={() => navigate(-1)} className={cx('btn', 'btn-btnCancel')}>
+                                    <button
+                                          onClick={() => navigate(-1)}
+                                          type="button"
+                                          className={cx('btn', 'btn-btnCancel')}
+                                    >
                                           Hủy bỏ
                                     </button>
                                     <button type="submit" className={cx('btn', 'btn-btnAdd')}>

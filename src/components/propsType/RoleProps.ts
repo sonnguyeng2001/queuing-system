@@ -3,4 +3,7 @@ export type RoleType = {
       roleName: string;
       roleUserCount: number;
       roleDescription: string;
+      roleTaskA: string[];
+      roleTaskB: string[];
+      roleTaskC: string[];
 };

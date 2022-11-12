@@ -20,10 +20,10 @@ const columns: any = [
       {
             title: 'Tên dịch vụ',
             dataIndex: 'serviceName',
-            render: (data: string[] | []) => {
+            render: (data: string) => {
                   return (
                         <>
-                              <span className="text-devices">{data.join('')}</span>
+                              <span className="text-devices">{data}</span>
                         </>
                   );
             },
@@ -35,23 +35,22 @@ const columns: any = [
       {
             title: 'Tình trạng',
             dataIndex: 'statusLevel',
-            render: (data: string[] | []) => {
-                  const status: string = data.join('');
-                  if (status === 'skip') {
+            render: (data: string) => {
+                  if (data === 'skip') {
                         return (
                               <>
                                     <span style={{ color: 'var(--color-red)', marginRight: '10px' }}>&#9679;</span>
                                     <span>Bỏ qua</span>
                               </>
                         );
-                  } else if (status === 'used') {
+                  } else if (data === 'complete') {
                         return (
                               <>
                                     <span style={{ color: 'var(--color-gray-500)', marginRight: '10px' }}>&#9679;</span>
                                     <span>Đã sử dụng</span>
                               </>
                         );
-                  } else if (status === 'waiting') {
+                  } else if (data === 'waiting') {
                         return (
                               <>
                                     <span style={{ color: 'var(--color-blue)', marginRight: '10px' }}>&#9679;</span>
