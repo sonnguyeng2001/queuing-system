@@ -63,10 +63,12 @@ export const AddAccount = () => {
             await dispatch(addUser(configUser))
                   .then(async (response: any) => {
                         response &&
-                              (await dispatch(updateRoleQuantity(infoRole!)).then((response: any) => {
-                                    alert('Thêm thành công ');
-                                    navigate(routesConfig.listAccount);
-                              }));
+                              (await dispatch(updateRoleQuantity({ arrayRole: [infoRole!], type: 'addition' })).then(
+                                    (response: any) => {
+                                          alert('Thêm thành công ');
+                                          navigate(routesConfig.listAccount);
+                                    },
+                              ));
                   })
                   .catch((error: any) => {
                         console.log(error);

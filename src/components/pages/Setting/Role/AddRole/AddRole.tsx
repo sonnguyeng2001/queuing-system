@@ -64,7 +64,7 @@ export const AddRole = () => {
       });
 
       const onSubmit: SubmitHandler<RoleType> = async (data) => {
-            const dataWithKey = { ...data, key: uuid().slice(0, 8).toUpperCase() };
+            const dataWithKey = { ...data, key: uuid().slice(0, 8).toUpperCase(), roleUserCount: 0 };
             await dispatch(addRole(dataWithKey))
                   .then((response: RoleType) => {
                         response && alert('Thêm thành công');

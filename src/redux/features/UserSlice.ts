@@ -44,9 +44,9 @@ export const userLogout = createAsyncThunk('users/userLogout', (state: boolean, 
       }
 });
 
-export const addUser = createAsyncThunk('users/addUser', async ( user: UserType) => {
+export const addUser = createAsyncThunk('users/addUser', async (user: UserType) => {
       try {
-            const randomNumber: number = Math.floor(Math.random() * 2001190238);
+            const randomNumber: number = Math.floor(Math.random() * 1000);
             await set(ref(database, `users/${user.key}`), {
                   active: user.active,
                   email: user.email,
@@ -67,7 +67,6 @@ export const addUser = createAsyncThunk('users/addUser', async ( user: UserType)
 export const updateUser = createAsyncThunk('users/updateUser', async (user: UserType) => {
       try {
             await update(ref(database, `users/${user.key}`), {
-                  key: user.key,
                   fullName: user.fullName,
                   phone: user.phone,
                   email: user.email,
@@ -75,7 +74,6 @@ export const updateUser = createAsyncThunk('users/updateUser', async (user: User
                   active: user.active,
                   userName: user.userName,
                   password: user.password,
-                  img: user.img,
             });
             return user;
       } catch (error) {

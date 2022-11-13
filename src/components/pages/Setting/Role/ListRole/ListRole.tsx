@@ -29,7 +29,7 @@ const columns = [
             title: 'Mô tả',
             dataIndex: 'roleDescription',
             render: (data: string) => {
-                  return <span className="text-devices">{data}</span>;
+                  return <span className="text-role">{data}</span>;
             },
       },
       {
@@ -73,11 +73,12 @@ export const ListRole = () => {
 
       const debouncedValue = useDebounce(inputSearch, 500);
       useEffect(() => {
-            setDataSource(
-                  dataSourceRef.current.filter((key) =>
-                        key.roleName.toLowerCase().includes(debouncedValue.toLowerCase()),
-                  ),
-            );
+            debouncedValue &&
+                  setDataSource(
+                        dataSourceRef.current.filter((key) => {
+                              return key.roleName.toLowerCase().includes(debouncedValue.toLowerCase());
+                        }),
+                  );
       }, [debouncedValue]);
 
       const handleChangeInput = (e: any) => {

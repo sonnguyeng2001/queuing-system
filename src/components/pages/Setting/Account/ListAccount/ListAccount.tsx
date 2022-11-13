@@ -38,6 +38,7 @@ const columns: any = [
       {
             title: 'Vai trò',
             dataIndex: 'roleName',
+            sorter: (a: UserType, b: UserType) => a.roleName.length - b.roleName.length,
       },
       {
             title: 'Trạng thái hoạt động',
@@ -84,6 +85,7 @@ export const ListAccount = () => {
       const dataAccountRef = useRef<UserType[] | []>([]);
       const [inputSearch, setInputSearch] = useState<string>('');
       useEffect(() => {
+            console.log(dataAccount);
             const response = dataAccount.data.map((user) => {
                   return {
                         ...user,

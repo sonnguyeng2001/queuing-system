@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 import { RoleType } from '../../../../propsType/RoleProps';
 import { useDispatch, useSelector } from 'react-redux';
 import { State } from '../../../../../redux/store';
-import { Checkbox } from 'antd';
 import { CustomizeCheckbox } from '../../../../componentChild/CustomizeCheckbox/CustomizeCheckbox';
 import { routesConfig } from '../../../../../routes/routeConfig';
 import { SubmitHandler, useForm, Controller } from 'react-hook-form';

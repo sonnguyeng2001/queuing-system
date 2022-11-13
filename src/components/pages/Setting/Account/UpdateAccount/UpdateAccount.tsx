@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { HeaderContent } from '../../../../componentChild/HeaderContent/HeaderContent';
 import { State } from '../../../../../redux/store';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { UserType } from '../../../../propsType/UserProps';
 import { LogoArrow } from '../../../../../assets/svg/LogoArrow';
 import { SubmitHandler, useForm, Controller } from 'react-hook-form';
@@ -15,6 +15,8 @@ import { updateUser } from '../../../../../redux/features/UserSlice';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import 'yup-phone';
+import { updateRoleQuantity } from '../../../../../redux/features/RoleSlice';
+import { routesConfig } from '../../../../../routes/routeConfig';
 const cx = classNames.bind(style);
 
 type formType = UserType & {
@@ -43,7 +45,8 @@ const schema: yup.SchemaOf<Partial<formType>> = yup.object({
 export const UpdateAccount = () => {
       const dataUser = useSelector((state: State) => state.user);
       const dataRole = useSelector((state: State) => state.role);
-      const [user, setUser] = useState<formType | undefined>({} as formType);
+      const [user, setUser] = useState<formType | {}>({} as formType);
+      const currentFormData = useRef<formType>({} as formType);
       const [listRole, setListRole] = useState<RoleType[] | []>([]);
       const dispatch = useDispatch<any>();
       const { id } = useParams();
@@ -59,19 +62,31 @@ export const UpdateAccount = () => {
             resolver: yupResolver(schema),
             defaultValues: user,
       });
-      const handleUpdateUser = async (user: formType) => {
-            const response = await dispatch(updateUser(user));
-            return response;
-      };
+
       const onSubmit: SubmitHandler<formType> = (data) => {
-            handleUpdateUser(data)
-                  .then(() => {
-                        alert('Successfully');
-                        navigate(-1);
-                  })
-                  .catch((errors) => {
-                        console.log(errors);
-                  });
+            try {
+                  dispatch(updateUser(data));
+                  if (data.roleName !== currentFormData.current.roleName) {
+                        const subtractionQuantityRole = dataRole.data.find(
+                              (role) => role.roleName === currentFormData.current.roleName,
+                        );
+                        const additionQuantityRole = dataRole.data.find((role) => role.roleName === data.roleName);
+                        if (subtractionQuantityRole !== undefined && additionQuantityRole !== undefined) {
+                              dispatch(
+                                    updateRoleQuantity({
+                                          arrayRole: [additionQuantityRole, subtractionQuantityRole],
+                                          type: 'additionAndSubtraction',
+                                    }),
+                              );
+                        } else {
+                              console.log('CurrentRole or PrevRole was undefined');
+                        }
+                  }
+                  alert('Cập nhật thành công');
+                  navigate(routesConfig.listAccount);
+            } catch (error) {
+                  console.error(error);
+            }
       };
 
       useEffect(() => {
@@ -81,8 +96,10 @@ export const UpdateAccount = () => {
             const formDefaultValue: formType = { ...infoUser!, confirmPassword: infoUser?.password! };
             setUser(formDefaultValue);
             reset(formDefaultValue);
+            currentFormData.current = formDefaultValue;
             setListRole(dataRole.data);
-      }, []);
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [dataUser.data, id]);
       return (
             <div className={cx('wrapper')}>
                   <HeaderContent title="Quản lý tài khoản" />
