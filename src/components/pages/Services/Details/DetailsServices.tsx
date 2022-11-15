@@ -14,57 +14,120 @@ import { DatePicker, Select } from 'antd';
 import { LogoArrow } from '../../../../assets/svg/LogoArrow';
 import { CustomizeTable } from '../../../componentChild/CustomizeTable/CustomizeTable';
 import { ServiceType } from '../../../propsType/ServiceProps';
+import { CheckboxOptionType } from 'antd/lib/checkbox';
+import { CustomerServiceType } from '../../../propsType/CustomerServiceProps';
 const cx = classNames.bind(style);
 
 const columns: any = [
       {
             title: 'Số thứ tự',
-            dataIndex: 'key',
+            dataIndex: 'ordinalNumber',
       },
 
       {
             title: 'Trạng thái',
-            dataIndex: 'isActive',
-            render: (status: boolean) => {
-                  return status ? (
-                        <>
-                              <span style={{ color: 'var(--color-green)', marginRight: '10px' }}>&#9679;</span>
-                              <span> Hoạt động</span>
-                        </>
-                  ) : (
-                        <>
-                              <span style={{ color: 'var(--color-red)', marginRight: '10px' }}>&#9679;</span>
-                              <span> Ngưng hoạt động</span>
-                        </>
-                  );
+            dataIndex: 'status',
+            render: (data: string) => {
+                  if (data === 'skip') {
+                        return (
+                              <>
+                                    <span style={{ color: 'var(--color-red)', marginRight: '10px' }}>&#9679;</span>
+                                    <span>Bỏ qua</span>
+                              </>
+                        );
+                  } else if (data === 'complete') {
+                        return (
+                              <>
+                                    <span style={{ color: 'var(--color-gray-500)', marginRight: '10px' }}>&#9679;</span>
+                                    <span>Đã sử dụng</span>
+                              </>
+                        );
+                  } else if (data === 'waiting') {
+                        return (
+                              <>
+                                    <span style={{ color: 'var(--color-blue)', marginRight: '10px' }}>&#9679;</span>
+                                    <span>Đang chờ</span>
+                              </>
+                        );
+                  }
             },
       },
 ];
 
 export const DetailsServices = () => {
-      const [services, setService] = useState<ServiceType | undefined>({} as ServiceType);
+      const [services, setService] = useState<ServiceType>({} as ServiceType);
       const { id } = useParams();
       const data = useSelector((state: State) => state.service);
-      const [dataSource, setDataSource] = useState<ServiceType[] | []>([]);
-      const dataRef = useRef<ServiceType[] | []>([]);
+      const dataCustomerService = useSelector((state: State) => state.customerService);
+      const [dataSource, setDataSource] = useState<CustomerServiceType[] | []>([]);
+      const dataRef = useRef<CustomerServiceType[] | []>([]);
 
       useEffect(() => {
             const infoService = data.dataServices.find((service: ServiceType) => {
                   return service.key.toString() === id && service;
             });
-            setService(infoService);
-            setDataSource(data.dataServices);
-            dataRef.current = data.dataServices;
-      }, []);
+            infoService !== undefined && setService(infoService);
+
+            const dataCustomerServiceTable = dataCustomerService.dataCustomerServices.filter((data) =>
+                  data.ordinalNumber.toString().startsWith(infoService?.id!),
+            );
+            console.log(dataCustomerServiceTable);
+            setDataSource(dataCustomerServiceTable);
+            dataRef.current = dataCustomerServiceTable;
+      }, [data.dataServices, id, dataCustomerService.dataCustomerServices]);
 
       const handleChangeSelect = (value: string) => {
             if (value === 'all') {
                   setDataSource(dataRef.current);
             } else {
-                  const booleanValue = value.replace('stateActive/', '') === 'active' ? true : false;
-                  setDataSource(dataRef.current.filter((active) => active.isActive === booleanValue));
+                  setDataSource(dataRef.current.filter((state) => state.status === value));
             }
       };
+      const optionServices: CheckboxOptionType[] = [
+            {
+                  label: (
+                        <div className={cx('object')}>
+                              <span className={cx('key')}>Tăng tự động từ:</span>
+                              <span className={cx('value')}>
+                                    <span className={cx('text-special')}>0001</span>
+                                    &nbsp; đến &nbsp;
+                                    <span className={cx('text-special')}>9999</span>
+                              </span>
+                        </div>
+                  ),
+                  value: 'autoBoost',
+            },
+            {
+                  label: (
+                        <div className={cx('object')} style={{ margin: '4px 0px' }}>
+                              <span className={cx('key')}>Prefix:</span>
+                              <span className={cx('value')}>
+                                    <span className={cx('text-special')}>0001</span>
+                              </span>
+                        </div>
+                  ),
+                  value: 'prefix',
+            },
+            {
+                  label: (
+                        <div className={cx('object')} style={{ margin: '4px 0px' }}>
+                              <span className={cx('key')}>Suffix:</span>
+                              <span className={cx('value')}>
+                                    <span className={cx('text-special')}>0001</span>
+                              </span>
+                        </div>
+                  ),
+                  value: 'suffix',
+            },
+            {
+                  label: (
+                        <div className={cx('object')}>
+                              <span className={cx('key')}>Reset mỗi ngày</span>
+                        </div>
+                  ),
+                  value: 'resetEveryday',
+            },
+      ];
 
       const pageSize = 6;
       const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
@@ -87,14 +150,13 @@ export const DetailsServices = () => {
                                                 {services?.name}
                                           </span>
                                     </div>
-                                    <div className={cx('object')}>
+                                    <div className={cx('object')} style={{ height: '130px', overflow: 'overlay' }}>
                                           <span className={cx('value')}>
                                                 <strong className={cx('title')}>Mô tả: </strong>
                                                 {services?.desc}
                                           </span>
                                     </div>
                                     {/* --------------------------------------------------------------------------------------------------- */}
-                                    <br />
                                     <br />
                                     <header className={cx('header-content')}>Quy tắc cấp số</header>
                                     <div className={cx('object')}>
@@ -132,12 +194,9 @@ export const DetailsServices = () => {
                                                             onSelect={handleChangeSelect}
                                                       >
                                                             <Select.Option value="all">Tất cả</Select.Option>
-                                                            <Select.Option value="stateActive/active">
-                                                                  Hoạt động
-                                                            </Select.Option>
-                                                            <Select.Option value="stateActive/stop">
-                                                                  Ngưng hoạt động
-                                                            </Select.Option>
+                                                            <Select.Option value="complete">Đã sử dụng</Select.Option>
+                                                            <Select.Option value="skip">Bỏ qua</Select.Option>
+                                                            <Select.Option value="waiting">Đang chờ</Select.Option>
                                                       </Select>
                                                       <LogoArrow className={cx('logo-arrow')} />
                                                 </div>

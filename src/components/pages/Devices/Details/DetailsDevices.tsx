@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { DevicesType } from '../../../propsType/DevicesProps';
 import { LinkAction } from '../../../componentChild/LinkAction/LinkAction';
 import { LogoEdit } from '../../../../assets/svg/LogoEdit';
+import { ServiceType } from '../../../propsType/ServiceProps';
 
 const cx = classNames.bind(style);
 
@@ -16,6 +17,7 @@ export const DetailsDevices = () => {
       const [devices, setDevices] = useState<DevicesType | undefined>({} as DevicesType);
       const { id } = useParams();
       const dataDevices = useSelector((state: State) => state.device);
+      const dataService = useSelector((state: State) => state.service);
 
       useEffect(() => {
             var infoDevice = dataDevices.dataDevices.find((device: DevicesType) => {
@@ -66,15 +68,20 @@ export const DetailsDevices = () => {
                                           <p className={cx('key')}>Dịch vụ sử dụng</p>
                                           <p className={cx('value')}>
                                                 {devices?.used &&
-                                                      devices?.used.map((device, index) => {
-                                                            return (
-                                                                  <span key={index}>
-                                                                        {device}
-                                                                        {index !== devices.used.length - 1 && (
-                                                                              <span>, &nbsp;</span>
-                                                                        )}
-                                                                  </span>
+                                                      devices?.used.map((value, index) => {
+                                                            return dataService.dataServices.map(
+                                                                  (service: ServiceType) =>
+                                                                        value === service.id && (
+                                                                              <span key={index}>
+                                                                                    {service.name}
+                                                                                    {index !==
+                                                                                          devices.used.length - 1 && (
+                                                                                          <span>, &nbsp;</span>
+                                                                                    )}
+                                                                              </span>
+                                                                        ),
                                                             );
+                                                                  
                                                       })}
                                           </p>
                                     </div>

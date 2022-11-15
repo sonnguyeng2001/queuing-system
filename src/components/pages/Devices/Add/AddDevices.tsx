@@ -232,7 +232,7 @@ export const AddDevices = () => {
                                                                         options={dataService.dataServices.map(
                                                                               (service) => {
                                                                                     return {
-                                                                                          value: service.name,
+                                                                                          value: service.id,
                                                                                           label: service.name,
                                                                                     };
                                                                               },

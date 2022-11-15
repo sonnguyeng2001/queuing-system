@@ -1,58 +1,58 @@
 .card-wrapper {
-   width: 200px;
-   height: 120px;
-   border-radius: 10px;
-   padding: 10px;
-   background-color: white;
-   overflow: hidden;
-   position: relative;
+      width: 200px;
+      height: 120px;
+      border-radius: 10px;
+      padding: 10px;
+      background-color: white;
+      overflow: hidden;
+      position: relative;
 }
 
 .first-row {
-   display: flex;
-   align-items: center;
+      display: flex;
+      align-items: center;
 }
 .logoCard {
-   width: 48px;
-   height: 48px;
-   border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
 }
 .title {
-   font-size: 15px;
-   font-weight: 700;
-   color: var(--color-gray-400);
-   margin-left: 10px;
-   line-height: 18px;
-   padding-right: 30px;
-   line-height: 18px;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--color-gray-400);
+      margin-left: 10px;
+      line-height: 18px;
+      padding-right: 30px;
+      line-height: 18px;
 }
 .second-row {
-   width: 90%;
-   position: absolute;
-   bottom: 10px;
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
+      width: 90%;
+      position: absolute;
+      bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
 }
 .quantity {
-   font-weight: 700;
-   font-size: 30px;
-   color: var(--color-gray-400);
+      font-weight: 700;
+      font-size: 30px;
+      color: var(--color-gray-400);
 }
 .percent {
-   font-size: 8px;
-   font-weight: 400;
-   width: 56px;
-   height: 16px;
-   color: var(--color-orange-400);
-   background-color: var(--color-orange-50);
-   border-radius: 7px;
-   display: flex;
-   justify-content: center;
-   align-items: center;
+      font-size: 8px;
+      font-weight: 400;
+      width: 56px;
+      height: 16px;
+      color: var(--color-orange-400);
+      background-color: var(--color-orange-50);
+      border-radius: 7px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 }
 .percent-logo {
 }
 .percent-quantity {
-   margin-left: 4px;
+      margin-left: 4px;
 }

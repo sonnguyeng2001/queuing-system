@@ -15,119 +15,127 @@ import useDebounce from '../../../../Hooks/useDebound';
 import { LinkAction } from '../../../componentChild/LinkAction/LinkAction';
 import { CustomizeTable } from '../../../componentChild/CustomizeTable/CustomizeTable';
 import { State } from '../../../../redux/store';
+import { ServiceType } from '../../../propsType/ServiceProps';
 
 const cx = classNames.bind(style);
-
-const columns: any = [
-      {
-            title: 'Mã thiết bị',
-            dataIndex: 'id',
-      },
-      {
-            title: 'Tên thiết bị',
-            dataIndex: 'name',
-      },
-      {
-            title: 'Địa chỉ IP',
-            dataIndex: 'ipAddress',
-      },
-      {
-            title: 'Trạng thái hoạt động',
-            dataIndex: 'isActive',
-            render: (status: boolean) => {
-                  return status ? (
-                        <>
-                              <span style={{ color: 'var(--color-green)', marginRight: '10px' }}>&#9679;</span>
-                              <span> Hoạt động</span>
-                        </>
-                  ) : (
-                        <>
-                              <span style={{ color: 'var(--color-red)', marginRight: '10px' }}>&#9679;</span>
-                              <span> Ngưng hoạt động</span>
-                        </>
-                  );
-            },
-      },
-      {
-            title: 'Trạng thái kết nối',
-            dataIndex: 'isConnected',
-            render: (status: boolean) => {
-                  return status ? (
-                        <>
-                              <span style={{ color: 'var(--color-green)', marginRight: '10px' }}>&#9679;</span>
-                              <span> Kết nối</span>
-                        </>
-                  ) : (
-                        <>
-                              <span style={{ color: 'var(--color-red)', marginRight: '10px' }}>&#9679;</span>
-                              <span> Mất kết nối</span>
-                        </>
-                  );
-            },
-      },
-      {
-            title: 'Dịch vụ sử dụng',
-            dataIndex: 'used',
-            render: (data: string[] | []) => {
-                  return (
-                        <>
-                              <div className="text-devices">{data.join(', ')}</div>
-                              {data.length > 0 ? (
-                                    <Popover className="popover" content={data.join(', ')} trigger="click">
-                                          <p className="text-underline">Xem thêm</p>
-                                    </Popover>
-                              ) : (
-                                    <span>Không có dịch vụ</span>
-                              )}
-                        </>
-                  );
-            },
-      },
-      {
-            title: '',
-            dataIndex: 'detailsAction',
-            render: (data: string) => {
-                  return (
-                        <>
-                              <Link
-                                    className="text-underline"
-                                    to={`${routesConfig.detailsDevices.replace('/:id', '')}/${data.replace(
-                                          'Chi tiết',
-                                          '',
-                                    )}`}
-                              >
-                                    Chi tiết
-                              </Link>
-                        </>
-                  );
-            },
-      },
-      {
-            title: '',
-            dataIndex: 'updateAction',
-            render: (data: string) => {
-                  return (
-                        <>
-                              <Link
-                                    className="text-underline"
-                                    to={`${routesConfig.updateDevices.replace('/:id', '')}/${data.replace(
-                                          'Cập nhật',
-                                          '',
-                                    )}`}
-                              >
-                                    Cập nhật
-                              </Link>
-                        </>
-                  );
-            },
-      },
-];
 
 export const ListDevices = () => {
       const [dataSource, setDataSource] = useState<DevicesType[] | []>([]);
       const data = useSelector((state: State) => state.device);
+      const dataService = useSelector((state: State) => state.service);
       const [inputSearch, setInputSearch] = useState<string>('');
       const dataRef = useRef<DevicesType[] | []>([]);
+
+      const columns: any = [
+            {
+                  title: 'Mã thiết bị',
+                  dataIndex: 'id',
+            },
+            {
+                  title: 'Tên thiết bị',
+                  dataIndex: 'name',
+            },
+            {
+                  title: 'Địa chỉ IP',
+                  dataIndex: 'ipAddress',
+            },
+            {
+                  title: 'Trạng thái hoạt động',
+                  dataIndex: 'isActive',
+                  render: (status: boolean) => {
+                        return status ? (
+                              <>
+                                    <span style={{ color: 'var(--color-green)', marginRight: '10px' }}>&#9679;</span>
+                                    <span> Hoạt động</span>
+                              </>
+                        ) : (
+                              <>
+                                    <span style={{ color: 'var(--color-red)', marginRight: '10px' }}>&#9679;</span>
+                                    <span> Ngưng hoạt động</span>
+                              </>
+                        );
+                  },
+            },
+            {
+                  title: 'Trạng thái kết nối',
+                  dataIndex: 'isConnected',
+                  render: (status: boolean) => {
+                        return status ? (
+                              <>
+                                    <span style={{ color: 'var(--color-green)', marginRight: '10px' }}>&#9679;</span>
+                                    <span> Kết nối</span>
+                              </>
+                        ) : (
+                              <>
+                                    <span style={{ color: 'var(--color-red)', marginRight: '10px' }}>&#9679;</span>
+                                    <span> Mất kết nối</span>
+                              </>
+                        );
+                  },
+            },
+            {
+                  title: 'Dịch vụ sử dụng',
+                  dataIndex: 'used',
+                  render: (data: string[]) => {
+                        const nameService: string[] = [];
+                        data.map((value) => {
+                              return dataService.dataServices.map(
+                                    (service: ServiceType) => value === service.id && nameService.push(service.name),
+                              );
+                        });
+                        return (
+                              <>
+                                    <div className="text-devices">{nameService.join(', ')}</div>
+                                    {data.length > 0 ? (
+                                          <Popover className="popover" content={nameService.join(', ')} trigger="click">
+                                                <p className="text-underline">Xem thêm</p>
+                                          </Popover>
+                                    ) : (
+                                          <span>Không có dịch vụ</span>
+                                    )}
+                              </>
+                        );
+                  },
+            },
+            {
+                  title: '',
+                  dataIndex: 'detailsAction',
+                  render: (data: string) => {
+                        return (
+                              <>
+                                    <Link
+                                          className="text-underline"
+                                          to={`${routesConfig.detailsDevices.replace('/:id', '')}/${data.replace(
+                                                'Chi tiết',
+                                                '',
+                                          )}`}
+                                    >
+                                          Chi tiết
+                                    </Link>
+                              </>
+                        );
+                  },
+            },
+            {
+                  title: '',
+                  dataIndex: 'updateAction',
+                  render: (data: string) => {
+                        return (
+                              <>
+                                    <Link
+                                          className="text-underline"
+                                          to={`${routesConfig.updateDevices.replace('/:id', '')}/${data.replace(
+                                                'Cập nhật',
+                                                '',
+                                          )}`}
+                                    >
+                                          Cập nhật
+                                    </Link>
+                              </>
+                        );
+                  },
+            },
+      ];
 
       useEffect(() => {
             var arr = data.dataDevices.map((device: DevicesType) => {

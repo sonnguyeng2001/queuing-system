@@ -7,7 +7,7 @@ import { LinkAction } from '../../../../componentChild/LinkAction/LinkAction';
 import { CustomizeTable } from '../../../../componentChild/CustomizeTable/CustomizeTable';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { State } from '../../../../../redux/store';
 import { UserType } from '../../../../propsType/UserProps';
 import { LogoSearch } from '../../../../../assets/svg/LogoSearch';
@@ -15,81 +15,106 @@ import { LogoArrow } from '../../../../../assets/svg/LogoArrow';
 import { Select } from 'antd';
 import { RoleType } from '../../../../propsType/RoleProps';
 import useDebounce from '../../../../../Hooks/useDebound';
+import { deleteUser } from '../../../../../redux/features/UserSlice';
+import { updateRoleQuantity } from '../../../../../redux/features/RoleSlice';
 const cx = classNames.bind(style);
 
-const columns: any = [
-      {
-            title: 'Tên đăng nhập',
-            dataIndex: 'userName',
-            sorter: (a: UserType, b: UserType) => a.userName.length - b.userName.length,
-      },
-      {
-            title: 'Họ tên',
-            dataIndex: 'fullName',
-      },
-      {
-            title: 'Số điện thoại',
-            dataIndex: 'phone',
-      },
-      {
-            title: 'Email',
-            dataIndex: 'email',
-      },
-      {
-            title: 'Vai trò',
-            dataIndex: 'roleName',
-            sorter: (a: UserType, b: UserType) => a.roleName.length - b.roleName.length,
-      },
-      {
-            title: 'Trạng thái hoạt động',
-            dataIndex: 'active',
-            render: (status: boolean) => {
-                  return status ? (
-                        <>
-                              <span style={{ color: 'var(--color-green)', marginRight: '10px' }}>&#9679;</span>
-                              <span> Kết nối</span>
-                        </>
-                  ) : (
-                        <>
-                              <span style={{ color: 'var(--color-red)', marginRight: '10px' }}>&#9679;</span>
-                              <span> Mất kết nối</span>
-                        </>
-                  );
-            },
-            sorter: (a: UserType, b: UserType) => Number(a.active) - Number(b.active),
-      },
-      {
-            title: '',
-            dataIndex: 'actionUpdate',
-            render: (data: string) => {
-                  return (
-                        <>
-                              <Link
-                                    className="text-underline"
-                                    to={`${routesConfig.updateAccount.replace('/:id', '')}/${data.replace(
-                                          'Cập nhật',
-                                          '',
-                                    )}`}
-                              >
-                                    Cập nhật
-                              </Link>
-                        </>
-                  );
-            },
-      },
-];
 export const ListAccount = () => {
+      const dispatch = useDispatch<any>();
       const [dataSource, setDataSource] = useState<UserType[] | []>([]);
       const dataAccount = useSelector((state: State) => state.user);
       const dataRole = useSelector((state: State) => state.role);
       const dataAccountRef = useRef<UserType[] | []>([]);
       const [inputSearch, setInputSearch] = useState<string>('');
+      const columns: any = [
+            {
+                  title: 'Tên đăng nhập',
+                  dataIndex: 'userName',
+                  sorter: (a: UserType, b: UserType) => a.userName.length - b.userName.length,
+            },
+            {
+                  title: 'Họ tên',
+                  dataIndex: 'fullName',
+            },
+            {
+                  title: 'Số điện thoại',
+                  dataIndex: 'phone',
+            },
+            {
+                  title: 'Email',
+                  dataIndex: 'email',
+            },
+            {
+                  title: 'Vai trò',
+                  dataIndex: 'roleName',
+                  sorter: (a: UserType, b: UserType) => a.roleName.length - b.roleName.length,
+            },
+            {
+                  title: 'Trạng thái hoạt động',
+                  dataIndex: 'active',
+                  render: (status: boolean) => {
+                        return status ? (
+                              <>
+                                    <span style={{ color: 'var(--color-green)', marginRight: '10px' }}>&#9679;</span>
+                                    <span> Kết nối</span>
+                              </>
+                        ) : (
+                              <>
+                                    <span style={{ color: 'var(--color-red)', marginRight: '10px' }}>&#9679;</span>
+                                    <span> Mất kết nối</span>
+                              </>
+                        );
+                  },
+                  sorter: (a: UserType, b: UserType) => Number(a.active) - Number(b.active),
+            },
+            {
+                  title: '',
+                  dataIndex: 'actionUpdate',
+                  render: (data: string) => {
+                        return (
+                              <>
+                                    <Link
+                                          className="text-underline"
+                                          to={`${routesConfig.updateAccount.replace('/:id', '')}/${data.replace(
+                                                'Cập nhật',
+                                                '',
+                                          )}`}
+                                    >
+                                          Cập nhật
+                                    </Link>
+                              </>
+                        );
+                  },
+            },
+            {
+                  title: '',
+                  dataIndex: 'actionDelete',
+                  render: (data: string) => {
+                        const keyUser = data.replace('Xóa', '');
+                        const infoUser = dataAccount.data.find((user) => user.key === keyUser);
+                        const roleUser = dataRole.data.find((role) => role.roleName === infoUser?.roleName);
+                        const handleClick = () => {
+                              dispatch(deleteUser(keyUser));
+                              dispatch(updateRoleQuantity({ arrayRole: [roleUser!], type: 'subtraction' }));
+                              const dataFilter = dataAccountRef.current.filter((user) => user.key !== keyUser);
+                              setDataSource(dataFilter);
+                              dataAccountRef.current = dataFilter;
+                        };
+                        return (
+                              <span onClick={handleClick} className="text-underline">
+                                    Xóa
+                              </span>
+                        );
+                  },
+            },
+      ];
+
       useEffect(() => {
-            console.log(dataAccount);
             const response = dataAccount.data.map((user) => {
                   return {
                         ...user,
                         actionUpdate: `Cập nhật${user.key}`,
+                        actionDelete: `Xóa${user.key}`,
                   };
             });
             setDataSource(response);

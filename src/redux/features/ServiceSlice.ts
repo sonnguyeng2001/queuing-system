@@ -1,6 +1,6 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 
-import { ref, child, get, set } from 'firebase/database';
+import { ref, child, get, set, update } from 'firebase/database';
 import { database } from '../../firebase/index';
 import { ServiceType } from '../../components/propsType/ServiceProps';
 
@@ -9,6 +9,7 @@ export const getServices = createAsyncThunk('services/getServices', (arg, { reje
             const dbRef = ref(database);
             return get(child(dbRef, `services`)).then((snapshot) => snapshot.val());
       } catch (error) {
+            console.log(error);
             rejectWithValue(error);
       }
 });
@@ -20,11 +21,27 @@ export const addService = createAsyncThunk('services/addService', async (service
                   isActive: service.isActive,
                   key: service.key,
                   id: service.id,
+                  listOption: service.listOption,
                   name: service.name,
             });
             return service;
       } catch (error) {
-            return error;
+            console.log(error);
+      }
+});
+
+export const updateService = createAsyncThunk('services/updateService', async (service: ServiceType) => {
+      try {
+            await update(ref(database, `services/${service.key}`), {
+                  desc: service.desc,
+                  isActive: service.isActive,
+                  id: service.id,
+                  listOption: service.listOption,
+                  name: service.name,
+            });
+            return service;
+      } catch (error) {
+            console.log(error);
       }
 });
 
@@ -50,8 +67,18 @@ export const serviceSlice = createSlice({
             },
 
             // ------------------------- addService
-            [addService.fulfilled.toString()]: (state, action) => {
+            [addService.fulfilled.toString()]: (state, action: PayloadAction<ServiceType>) => {
+                  state.isSuccess = true;
+                  state.message = 'Add service successfully';
                   state.dataServices = [...state.dataServices, action.payload];
+            },
+
+            // ------------------------- updateService
+            [updateService.fulfilled.toString()]: (state, action: PayloadAction<ServiceType>) => {
+                  state.isSuccess = true;
+                  state.message = 'Update data service successfully';
+                  const index = state.dataServices.findIndex((service) => service.key === action.payload.key);
+                  state.dataServices[index] = action.payload;
             },
       },
 });

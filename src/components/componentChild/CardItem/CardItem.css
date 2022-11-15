@@ -1,0 +1,5 @@
+#cardItem .ant-card-body {
+      display: flex;
+      justify-content: space-evenly;
+      width: 100%;
+}

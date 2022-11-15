@@ -4,4 +4,5 @@ export type ServiceType = {
       name: string;
       desc: string;
       isActive: boolean;
+      listOption: string[];
 };

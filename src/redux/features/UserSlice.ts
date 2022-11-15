@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { UserType } from '../../components/propsType/UserProps';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { ref, child, get, update, set } from 'firebase/database';
+import { ref, child, get, update, set, remove } from 'firebase/database';
 import { database } from '../../firebase/index';
 import { State } from '../store';
 import { RoleType } from '../../components/propsType/RoleProps';
@@ -76,6 +76,15 @@ export const updateUser = createAsyncThunk('users/updateUser', async (user: User
                   password: user.password,
             });
             return user;
+      } catch (error) {
+            console.log(error);
+      }
+});
+
+export const deleteUser = createAsyncThunk('users/deleteUser', async (key: string) => {
+      try {
+            await remove(ref(database, `users/${key}`));
+            return key;
       } catch (error) {
             console.log(error);
       }
@@ -159,6 +168,17 @@ export const userSlice = createSlice({
             },
             [updateUser.rejected.toString()]: (state, action) => {
                   state.message = 'Update User failed';
+                  state.isSuccess = false;
+            },
+
+            // ------------------------- deleteUser
+            [deleteUser.fulfilled.toString()]: (state, action: PayloadAction<string>) => {
+                  state.isSuccess = true;
+                  state.message = 'Delete User Successfully';
+                  state.data.filter((user) => user.key === action.payload);
+            },
+            [deleteUser.rejected.toString()]: (state, action) => {
+                  state.message = 'Add User failed';
                   state.isSuccess = false;
             },
       },

@@ -1,11 +1,10 @@
 import './AddServices.css';
 import { useNavigate } from 'react-router-dom';
-import { Checkbox } from 'antd';
 import style from './AddServices.module.scss';
 import classNames from 'classnames/bind';
 import { HeaderContent } from '../../../componentChild/HeaderContent/HeaderContent';
 import uid from 'react-uuid';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ServiceType } from '../../../propsType/ServiceProps';
 import * as yup from 'yup';
@@ -13,11 +12,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addService } from '../../../../redux/features/ServiceSlice';
 import { routesConfig } from '../../../../routes/routeConfig';
 import { State } from '../../../../redux/store';
-
+import { CustomizeCheckbox } from '../../../componentChild/CustomizeCheckbox/CustomizeCheckbox';
+import { CheckboxOptionType } from 'antd/lib/checkbox';
 const cx = classNames.bind(style);
 
 export const AddServices = () => {
       const navigate = useNavigate();
+      const dispatch = useDispatch<any>();
       const dataService = useSelector((state: State) => state.service);
       const schema: yup.SchemaOf<Partial<ServiceType>> = yup.object({
             desc: yup.string().required('Vui lòng điền vào trường này'),
@@ -37,13 +38,14 @@ export const AddServices = () => {
                   }),
             isActive: yup.boolean().notRequired(),
             key: yup.string().notRequired(),
+            listOption: yup.array().notRequired(),
       });
       const {
             register,
             handleSubmit,
+            control,
             formState: { errors },
       } = useForm<ServiceType>({ resolver: yupResolver(schema) });
-      const dispatch = useDispatch<any>();
 
       const onFormSubmit: SubmitHandler<ServiceType> = async (data) => {
             const idDevice = uid().slice(0, 8).toUpperCase();
@@ -56,6 +58,52 @@ export const AddServices = () => {
                   })
                   .catch((errors: any) => console.log(errors));
       };
+
+      const optionServices: CheckboxOptionType[] = [
+            {
+                  label: (
+                        <div className={cx('object')}>
+                              <span className={cx('key')}>Tăng tự động từ:</span>
+                              <span className={cx('value')}>
+                                    <span className={cx('text-special')}>0001</span>
+                                    &nbsp; đến &nbsp;
+                                    <span className={cx('text-special')}>9999</span>
+                              </span>
+                        </div>
+                  ),
+                  value: 'autoBoost',
+            },
+            {
+                  label: (
+                        <div className={cx('object')} style={{ margin: '4px 0px' }}>
+                              <span className={cx('key')}>Prefix:</span>
+                              <span className={cx('value')}>
+                                    <span className={cx('text-special')}>0001</span>
+                              </span>
+                        </div>
+                  ),
+                  value: 'prefix',
+            },
+            {
+                  label: (
+                        <div className={cx('object')} style={{ margin: '4px 0px' }}>
+                              <span className={cx('key')}>Suffix:</span>
+                              <span className={cx('value')}>
+                                    <span className={cx('text-special')}>0001</span>
+                              </span>
+                        </div>
+                  ),
+                  value: 'suffix',
+            },
+            {
+                  label: (
+                        <div className={cx('object')}>
+                              <span className={cx('key')}>Reset mỗi ngày</span>
+                        </div>
+                  ),
+                  value: 'resetEveryday',
+            },
+      ];
       return (
             <div className={cx('wrapper')}>
                   <HeaderContent title="Quản lý dịch vụ" />
@@ -112,39 +160,20 @@ export const AddServices = () => {
                               <br />
                               {/*  */}
                               <header className={cx('header-content')}>Quy tắc cấp số</header>
-                              <Checkbox.Group className="updateServices-checkboxGroup">
-                                    <Checkbox value="0">
-                                          <div className={cx('object')}>
-                                                <span className={cx('key')}>Tăng tự động từ:</span>
-                                                <span className={cx('value')}>
-                                                      <span className={cx('text-special')}>0001</span>
-                                                      &nbsp; đến &nbsp;
-                                                      <span className={cx('text-special')}>9999</span>
-                                                </span>
-                                          </div>
-                                    </Checkbox>
-                                    <Checkbox value="1">
-                                          <div className={cx('object')} style={{ margin: '4px 0px' }}>
-                                                <span className={cx('key')}>Prefix:</span>
-                                                <span className={cx('value')}>
-                                                      <span className={cx('text-special')}>0001</span>
-                                                </span>
-                                          </div>
-                                    </Checkbox>
-                                    <Checkbox value="2">
-                                          <div className={cx('object')} style={{ margin: '4px 0px' }}>
-                                                <span className={cx('key')}>Suffix:</span>
-                                                <span className={cx('value')}>
-                                                      <span className={cx('text-special')}>0001</span>
-                                                </span>
-                                          </div>
-                                    </Checkbox>
-                                    <Checkbox value="3">
-                                          <div className={cx('object')}>
-                                                <span className={cx('key')}>Reset mỗi ngày</span>
-                                          </div>
-                                    </Checkbox>
-                              </Checkbox.Group>
+                              <Controller
+                                    name="listOption"
+                                    control={control}
+                                    rules={{ required: true }}
+                                    render={({ field: { value, onChange } }) => (
+                                          <CustomizeCheckbox
+                                                showCheckAll={false}
+                                                defaultCheckedList={value}
+                                                onChange={onChange}
+                                                options={optionServices}
+                                          />
+                                    )}
+                              />
+
                               <p className={cx('label')} style={{ padding: '2px 0px', fontSize: '14px' }}>
                                     <span className={cx('required')}>*</span>
                                     <span style={{ color: 'var(--color-gray-300)', marginLeft: '10px' }}>

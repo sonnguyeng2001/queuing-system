@@ -1,8 +1,6 @@
 export type CardNoNameType = {
-      color: string;
-      total: number;
-      activeNumber: number;
-      stopNumber: number;
+      colorPrimary: string;
+      options: { color: string; title: string; number: number; type: 'active' | 'unActive' | 'skip' }[];
       logo: any;
       title: string;
 };

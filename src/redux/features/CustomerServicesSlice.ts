@@ -1,6 +1,6 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 
-import { ref, child, get } from 'firebase/database';
+import { ref, child, get, set } from 'firebase/database';
 import { database } from '../../firebase/index';
 import { CustomerServiceType } from '../../components/propsType/CustomerServiceProps';
 
@@ -17,8 +17,21 @@ export const addCustomerService = createAsyncThunk(
       'customerService/addCustomerServices',
       async (data: CustomerServiceType) => {
             try {
-                  console.log(data);
+                  await set(ref(database, `customerServices/${data.key}`), {
+                        customerName: data.customerName,
+                        email: data.email,
+                        key: data.key,
+                        origin: data.origin,
+                        ordinalNumber: data.ordinalNumber,
+                        phone: data.phone,
+                        serviceValue: data.serviceValue,
+                        status: data.status,
+                        timeEnd: data.timeEnd,
+                        timeStart: data.timeStart,
+                  });
+                  return data;
             } catch (error) {
+                  console.log(error);
                   return error;
             }
       },
@@ -44,9 +57,19 @@ export const customerServiceSlice = createSlice({
                   state.message = 'Load data customerServices successfully';
                   state.dataCustomerServices = Object.values(action.payload);
             },
-
             [getCustomerServices.rejected.toString()]: (state, action) => {
                   state.message = action.payload;
+                  state.isSuccess = false;
+            },
+
+            // ------------------------- addCustomerService
+            [addCustomerService.fulfilled.toString()]: (state, action: PayloadAction<CustomerServiceType>) => {
+                  state.isSuccess = true;
+                  state.message = 'Add data customerServices successfully';
+                  state.dataCustomerServices = [...state.dataCustomerServices, action.payload];
+            },
+            [addCustomerService.rejected.toString()]: (state, action) => {
+                  state.message = 'Add data customerServices Failed';
                   state.isSuccess = false;
             },
       },

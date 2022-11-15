@@ -11,69 +11,87 @@ import { CustomizeTable } from '../../../componentChild/CustomizeTable/Customize
 import { LinkAction } from '../../../componentChild/LinkAction/LinkAction';
 import { LogoDownload } from '../../../../assets/svg/LogoDownload';
 import { State } from '../../../../redux/store';
+import moment from 'moment';
 const cx = classNames.bind(style);
-const columns: any = [
-      {
-            title: 'Số thứ tự',
-            dataIndex: 'key',
-      },
-      {
-            title: 'Tên dịch vụ',
-            dataIndex: 'serviceName',
-            render: (data: string) => {
-                  return (
-                        <>
-                              <span className="text-devices">{data}</span>
-                        </>
-                  );
-            },
-      },
-      {
-            title: 'Thời gian cấp',
-            dataIndex: 'timeStart',
-      },
-      {
-            title: 'Tình trạng',
-            dataIndex: 'statusLevel',
-            render: (data: string) => {
-                  if (data === 'skip') {
-                        return (
-                              <>
-                                    <span style={{ color: 'var(--color-red)', marginRight: '10px' }}>&#9679;</span>
-                                    <span>Bỏ qua</span>
-                              </>
-                        );
-                  } else if (data === 'complete') {
-                        return (
-                              <>
-                                    <span style={{ color: 'var(--color-gray-500)', marginRight: '10px' }}>&#9679;</span>
-                                    <span>Đã sử dụng</span>
-                              </>
-                        );
-                  } else if (data === 'waiting') {
-                        return (
-                              <>
-                                    <span style={{ color: 'var(--color-blue)', marginRight: '10px' }}>&#9679;</span>
-                                    <span>Đang chờ</span>
-                              </>
-                        );
-                  }
-            },
-      },
-      {
-            title: 'Nguồn cấp',
-            dataIndex: 'origin',
-      },
-];
 
 export const ListReport = () => {
       const dataRef = useRef<CustomerServiceType[] | []>([]);
       const [dataSource, setDataSource] = useState<CustomerServiceType[] | []>([]);
       const data = useSelector((state: State) => state.customerService);
+      const dataService = useSelector((state: State) => state.service);
+
+      const columns: any = [
+            {
+                  title: 'Số thứ tự',
+                  dataIndex: 'ordinalNumber',
+            },
+            {
+                  title: 'Tên dịch vụ',
+                  dataIndex: 'serviceValue',
+                  render: (data: string) => {
+                        return (
+                              <span className="text-devices">
+                                    {dataService.dataServices.map((service) => {
+                                          return service.id === data && service.name;
+                                    })}
+                              </span>
+                        );
+                  },
+            },
+            {
+                  title: 'Thời gian cấp',
+                  dataIndex: 'timeStart',
+                  render: (data: number) => {
+                        return (
+                              <span>{`${moment(data).locale('vi').format('LT')} - ${moment(data)
+                                    .locale('vi')
+                                    .format('L')}`}</span>
+                        );
+                  },
+            },
+            {
+                  title: 'Tình trạng',
+                  dataIndex: 'status',
+                  render: (data: string) => {
+                        if (data === 'skip') {
+                              return (
+                                    <>
+                                          <span style={{ color: 'var(--color-red)', marginRight: '10px' }}>
+                                                &#9679;
+                                          </span>
+                                          <span>Bỏ qua</span>
+                                    </>
+                              );
+                        } else if (data === 'complete') {
+                              return (
+                                    <>
+                                          <span style={{ color: 'var(--color-gray-500)', marginRight: '10px' }}>
+                                                &#9679;
+                                          </span>
+                                          <span>Đã sử dụng</span>
+                                    </>
+                              );
+                        } else if (data === 'waiting') {
+                              return (
+                                    <>
+                                          <span style={{ color: 'var(--color-blue)', marginRight: '10px' }}>
+                                                &#9679;
+                                          </span>
+                                          <span>Đang chờ</span>
+                                    </>
+                              );
+                        }
+                  },
+            },
+            {
+                  title: 'Nguồn cấp',
+                  dataIndex: 'origin',
+            },
+      ];
       useEffect(() => {
             dataRef.current = data.dataCustomerServices;
             setDataSource(data.dataCustomerServices);
-      }, []);
+      }, [data.dataCustomerServices]);
       const pageSize = 9;
       const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
       return (

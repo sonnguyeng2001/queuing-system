@@ -29,7 +29,7 @@ const columns = [
             title: 'Mô tả',
             dataIndex: 'roleDescription',
             render: (data: string) => {
-                  return <span className="text-role">{data}</span>;
+                  return <span className="text-limited">{data}</span>;
             },
       },
       {

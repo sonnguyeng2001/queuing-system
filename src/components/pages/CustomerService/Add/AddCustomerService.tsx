@@ -7,24 +7,68 @@ import { LogoArrow } from '../../../../assets/svg/LogoArrow';
 import { useNavigate } from 'react-router-dom';
 import { BaseOptionType, DefaultOptionType } from 'antd/lib/select';
 import { useState, useRef } from 'react';
-import moment from 'moment';
 import 'moment/locale/vi';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { State } from '../../../../redux/store';
 import { ServiceType } from '../../../propsType/ServiceProps';
+import { CustomerServiceType } from '../../../propsType/CustomerServiceProps';
+import moment from 'moment';
+import { addCustomerService } from '../../../../redux/features/CustomerServicesSlice';
+import uuid from 'react-uuid';
+import { DateSchema } from 'yup';
 
 const cx = classNames.bind(style);
 
 export const AddCustomerService = () => {
       const navigate = useNavigate();
-      const nameServiceRef = useRef<string>('');
+      const dispatch = useDispatch<any>();
+      const serviceRef = useRef<{ value: string; label: string }>({ value: '', label: '' });
       const dataService = useSelector((state: State) => state.service);
       const [isOpen, setIsOpen] = useState<boolean>(false);
-
+      const [infoCustomerService, SetInfoCustomerService] = useState<CustomerServiceType>({} as CustomerServiceType);
+      const createCustomerService = async (data: CustomerServiceType) => {
+            return await dispatch(addCustomerService(data));
+      };
       const handlePrint = () => {
-            const data = {};
-            if (nameServiceRef.current) {
-                  setIsOpen(true);
+            if (serviceRef.current) {
+                  const year = new Date().getFullYear();
+                  const month = new Date().getMonth();
+                  const day = new Date().getDate();
+                  const randomNumber = Math.floor(Math.random() * 3) % 2 === 0;
+                  const status = ['skip', 'complete', 'waiting'];
+                  var ordinalNumberLocal: number;
+                  if (window.localStorage.getItem('ordinalNumber')) {
+                        const configNumber = JSON.parse(window.localStorage.getItem('ordinalNumber')!) + 1;
+                        ordinalNumberLocal = configNumber;
+                        window.localStorage.setItem('ordinalNumber', ordinalNumberLocal.toString());
+                  } else {
+                        window.localStorage.setItem('ordinalNumber', '1');
+                        ordinalNumberLocal = 1;
+                  }
+
+                  const data: CustomerServiceType = {
+                        customerName: 'Nguyễn Văn A',
+                        key: uuid().slice(0, 8).toUpperCase(),
+                        ordinalNumber: serviceRef.current.value + '' + ordinalNumberLocal,
+                        origin: randomNumber ? 'Kiosk' : 'Hệ thống',
+                        serviceName: serviceRef.current.label,
+                        serviceValue: serviceRef.current.value,
+                        status: status[Math.floor(Math.random() * status.length)],
+                        timeStart: new Date().getTime().valueOf(),
+                        timeEnd: new Date(year, month, day, parseInt('17'), parseInt('30')).getTime(),
+                        email: 'email@gmail.com',
+                        phone: '0123',
+                  };
+
+                  SetInfoCustomerService(data);
+
+                  createCustomerService(data)
+                        .then((response: CustomerServiceType) => {
+                              response && setIsOpen(true);
+                        })
+                        .catch((error: any) => {
+                              console.log(error);
+                        });
             } else {
                   alert('Vui lòng chọn dịch vụ');
             }
@@ -33,8 +77,8 @@ export const AddCustomerService = () => {
             setIsOpen(false);
       };
       const handleChangeSelect = (value: string, option: BaseOptionType | DefaultOptionType) => {
-            console.log(value);
-            nameServiceRef.current = option.children;
+            serviceRef.current.label = option.children;
+            serviceRef.current.value = option.value;
       };
 
       return (
@@ -48,7 +92,7 @@ export const AddCustomerService = () => {
                                     <Select onChange={handleChangeSelect} placeholder="Chọn dịch vụ">
                                           {dataService.dataServices.map((service: ServiceType) => {
                                                 return (
-                                                      <Select.Option key={service.id} value={service.name}>
+                                                      <Select.Option key={service.id} value={service.id}>
                                                             {service.name}
                                                       </Select.Option>
                                                 );
@@ -75,9 +119,9 @@ export const AddCustomerService = () => {
                   >
                         <div className="infoService">
                               <h3 className="header">Số thứ tự được cấp</h3>
-                              <p className="number">{Math.floor(Math.random() * 9999999)}</p>
+                              <p className="number">{infoCustomerService.ordinalNumber}</p>
                               <p className="nameService">
-                                    DV: {nameServiceRef.current}
+                                    DV: {infoCustomerService.serviceName}
                                     &nbsp;
                                     <span className="placeService">(tại quầy số 1)</span>
                               </p>
@@ -85,15 +129,20 @@ export const AddCustomerService = () => {
                         <div className="timeService">
                               <p>
                                     <span>Thời gian cấp: </span>
-                                    <span>
-                                          {`${moment().format('LT').replace(' PM', ' - ')} ${moment().format(
-                                                'DD/MM/YYYY',
-                                          )}`}
-                                    </span>
+
+                                    <span>{`${moment(infoCustomerService.timeStart)
+                                          .locale('vi')
+                                          .format('LT')} - ${moment(infoCustomerService.timeStart)
+                                          .locale('vi')
+                                          .format('L')}`}</span>
                               </p>
                               <p>
                                     <span> Hạn sử dụng: </span>
-                                    <span>17:30 - {moment().format('DD/MM/YYYY')}</span>
+                                    <span>{`${moment(infoCustomerService.timeEnd).locale('vi').format('LT')} - ${moment(
+                                          infoCustomerService.timeEnd,
+                                    )
+                                          .locale('vi')
+                                          .format('L')}`}</span>
                               </p>
                         </div>
                   </Modal>

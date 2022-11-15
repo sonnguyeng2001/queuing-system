@@ -12,6 +12,7 @@ import { addRole } from '../../../../../redux/features/RoleSlice';
 import { CustomizeCheckbox } from '../../../../componentChild/CustomizeCheckbox/CustomizeCheckbox';
 import uuid from 'react-uuid';
 import { routesConfig } from '../../../../../routes/routeConfig';
+import { CheckboxOptionType } from 'antd/lib/checkbox';
 const cx = classNames.bind(style);
 
 export const AddRole = () => {
@@ -75,9 +76,21 @@ export const AddRole = () => {
                   });
       };
 
-      const checkboxOptionA: string[] | [] = ['Ax', 'Ay', 'Az'];
-      const checkboxOptionB: string[] | [] = ['Bx', 'By', 'Bz'];
-      const checkboxOptionC: string[] | [] = ['Cx', 'Cy', 'Cz'];
+      const checkboxOptionA: CheckboxOptionType[] = [
+            { value: 'Ax', label: 'Chức năng Ax' },
+            { value: 'Ay', label: 'Chức năng Ay' },
+            { value: 'Az', label: 'Chức năng Az' },
+      ];
+      const checkboxOptionB: CheckboxOptionType[] = [
+            { value: 'Bx', label: 'Chức năng Bx' },
+            { value: 'By', label: 'Chức năng By' },
+            { value: 'Bz', label: 'Chức năng Bz' },
+      ];
+      const checkboxOptionC: CheckboxOptionType[] = [
+            { value: 'Cx', label: 'Chức năng Cx' },
+            { value: 'Cy', label: 'Chức năng Cy' },
+            { value: 'Cz', label: 'Chức năng Cz' },
+      ];
 
       return (
             <div className={cx('AddRole-Wrapper')}>
@@ -164,6 +177,7 @@ export const AddRole = () => {
                                                                   rules={{ required: true }}
                                                                   render={({ field: { value = [], onChange } }) => (
                                                                         <CustomizeCheckbox
+                                                                              showCheckAll={true}
                                                                               defaultCheckedList={value}
                                                                               onChange={onChange}
                                                                               options={checkboxOptionA}
@@ -180,6 +194,7 @@ export const AddRole = () => {
                                                                   rules={{ required: true }}
                                                                   render={({ field: { value = [], onChange } }) => (
                                                                         <CustomizeCheckbox
+                                                                              showCheckAll={true}
                                                                               defaultCheckedList={value}
                                                                               onChange={onChange}
                                                                               options={checkboxOptionB}
@@ -196,6 +211,7 @@ export const AddRole = () => {
                                                                   rules={{ required: true }}
                                                                   render={({ field: { value = [], onChange } }) => (
                                                                         <CustomizeCheckbox
+                                                                              showCheckAll={true}
                                                                               defaultCheckedList={value}
                                                                               onChange={onChange}
                                                                               options={checkboxOptionC}

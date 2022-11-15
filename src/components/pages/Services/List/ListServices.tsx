@@ -33,6 +33,9 @@ const columns: any = [
       {
             title: 'Mô tả',
             dataIndex: 'desc',
+            render: (data: string) => {
+                  return <span className="text-limited">{data}</span>;
+            },
       },
       {
             title: 'Trạng thái hoạt động',

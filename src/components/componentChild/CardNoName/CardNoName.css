@@ -1,5 +1,5 @@
-.ant-card-body {
-   display: flex;
-   justify-content: space-evenly;
-   width: 100%;
+#cardNoName .ant-card-body {
+      display: flex;
+      align-items: center;
+      width: 100%;
 }

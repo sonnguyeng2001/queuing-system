@@ -1,10 +1,13 @@
 export type CustomerServiceType = {
       key: string;
-      ordinalNumber: number;
+      ordinalNumber: string;
+      email: string;
       customerName: string;
       serviceName: string;
+      serviceValue: string;
       status: string;
-      timeStart: Date;
-      timeEnd: Date;
+      timeStart: number;
+      timeEnd: number;
       origin: string;
+      phone: string;
 };
