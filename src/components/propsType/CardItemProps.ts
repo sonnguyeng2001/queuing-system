@@ -5,4 +5,5 @@ export type CardItemType = {
       title?: string;
       quantity?: number;
       percent?: string;
+      to: string;
 };

@@ -24,7 +24,7 @@ export const DetailsDevices = () => {
                   return device?.id === id && device;
             });
             setDevices(infoDevice);
-      }, []);
+      }, [dataDevices.dataDevices, id]);
 
       return (
             <div className={cx('wrapper')}>
@@ -81,7 +81,6 @@ export const DetailsDevices = () => {
                                                                               </span>
                                                                         ),
                                                             );
-                                                                  
                                                       })}
                                           </p>
                                     </div>

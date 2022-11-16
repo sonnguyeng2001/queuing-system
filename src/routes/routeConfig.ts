@@ -17,6 +17,7 @@ export const routesConfig = {
       customerService: '/customerService',
       listCustomerService: '/customerService/listCustomerService',
       addCustomerService: '/customerService/addCustomerService',
+      detailsCustomerService: '/customerService/detailsCustomerService/:id',
 
       report: '/report',
       listReport: '/report/listReport',

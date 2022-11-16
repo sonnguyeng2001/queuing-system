@@ -1,62 +1,61 @@
 .wrapper {
-   display: flex;
+      display: flex;
 }
 .leftContent {
-   flex: 1;
-   padding: 0px 20px 0px 0px;
+      flex: 1;
+      padding: 0px 20px 0px 0px;
 }
 
 .heading {
-   font-size: 24px;
-   font-weight: 700;
-   color: var(--color-orange-500);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--color-orange-500);
 }
 .cartList {
-   margin: 8px 0px 10px 0px;
-   display: flex;
-   justify-content: space-between;
-   gap: 12px;
-}
-.chart {
-   background-color: white;
-   margin-top: 20px;
-   padding: 12px 20px;
-   border-radius: 12px;
-   overflow: hidden;
-
-   & .chart-area div canvas {
-      height: 354px !important;
-   }
-
-   & .heading {
+      margin: 8px 0px 10px 0px;
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      margin: 10px 0px;
-   }
-   & .heading h3 {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--color-gray-500);
-   }
-   & .heading .dropdown span {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--color-gray-500);
-      margin-right: 10px;
-   }
-   & .heading .dropdown select {
-      padding: 6px 12px;
-      font-size: 16px;
-      color: var(--color-gray-400);
-      font-weight: 400;
-      border-radius: 8px;
-   }
+      gap: 12px;
+}
+.chart {
+      background-color: white;
+      margin-top: 20px;
+      padding: 12px 20px;
+      border-radius: 12px;
+      overflow: hidden;
+
+      & .chart-area div canvas {
+            height: 354px !important;
+      }
+
+      & .heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0px;
+      }
+      & .heading h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--color-gray-500);
+      }
+      & .dropdown {
+            width: 150px;
+            position: relative;
+      }
+
+      & .heading .dropdown select {
+            padding: 6px 12px;
+            font-size: 16px;
+            color: var(--color-gray-400);
+            font-weight: 400;
+            border-radius: 8px;
+      }
 }
 
 .rightContent {
-   width: 400px;
-   background-color: white;
-   padding-left: 30px;
-   border-bottom-left-radius: 8px;
+      width: 400px;
+      background-color: white;
+      padding-left: 30px;
+      border-bottom-left-radius: 8px;
 }

@@ -44,6 +44,7 @@ import { LoginPage } from '../components/pages/Login/Login';
 import { routesConfig } from './routeConfig';
 import { AddAccount } from '../components/pages/Setting/Account/AddAccount/AddAccount';
 import { InfoUser } from '../components/pages/InfoUser/InfoUser';
+import { DetailsCustomerService } from '../components/pages/CustomerService/Details/DetailsCustomerService';
 
 export type RouteProps = {
       path: string;
@@ -144,6 +145,12 @@ const privateRoutes: RouteProps[] = [
             component: AddCustomerService,
             translate: 'Cấp số mới',
             pageHeader: routesConfig.addCustomerService,
+      },
+      {
+            path: routesConfig.detailsCustomerService,
+            component: DetailsCustomerService,
+            translate: 'Chi tiết cấp số',
+            pageHeader: '/customerService/detailsCustomerService',
       },
 
       // Report

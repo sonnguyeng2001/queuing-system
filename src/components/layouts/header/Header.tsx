@@ -4,7 +4,7 @@ import style from './Header.module.scss';
 import imgUser from '../../../assets/images/imgUser.png';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { privateRoutes } from '../../../routes';
-import { useRef, useState, useEffect, ReactEventHandler } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import HeadlessTippy from '@tippyjs/react/headless';
 import { CardNotification } from '../../componentChild/CardNotification/CardNotification';
 import { useSelector } from 'react-redux';
@@ -16,68 +16,11 @@ import 'tippy.js/animations/scale.css';
 
 const cx = classNames.bind(style);
 
-const notificationList = [
-      {
-            username: 'Nguyễn Thị Thùy Dung',
-            time: '12h20',
-            date: '30/11/2021',
-      },
-      {
-            username: 'Nguyễn Thiên Trinh',
-            time: '12h20',
-            date: '30/11/2021',
-      },
-      {
-            username: 'Võ Thị Kim Liên',
-            time: '12h20',
-            date: '30/11/2021',
-      },
-
-      {
-            username: 'Hoàng Nguyễn Quốc Huy',
-            time: '12h20',
-            date: '30/11/2021',
-      },
-      {
-            username: 'Võ Ngọc Lan Anh',
-            time: '12h20',
-            date: '30/11/2021',
-      },
-      {
-            username: 'Nguyễn Thị Trúc Anh',
-            time: '12h20',
-            date: '30/11/2021',
-      },
-      {
-            username: 'Nguyễn Trung Toàn',
-            time: '12h20',
-            date: '30/11/2021',
-      },
-      {
-            username: 'Phạm Hồng Ngọc',
-            time: '12h20',
-            date: '30/11/2021',
-      },
-      {
-            username: 'Hồ Trung Hiếu',
-            time: '12h20',
-            date: '30/11/2021',
-      },
-      {
-            username: 'Hoàng Duy Phước',
-            time: '12h20',
-            date: '30/11/2021',
-      },
-      {
-            username: 'Trương Ngọc Quyên',
-            time: '12h20',
-            date: '30/11/2021',
-      },
-];
 export const Header = () => {
       const { id } = useParams();
       const [stateLogo, setStateLogo] = useState<boolean>(false);
       const dataUser = useSelector((state: State) => state.user);
+      const dataCustomerService = useSelector((state: State) => state.customerService);
       const navigate = useNavigate();
       const location = useLocation();
       const logoRef = useRef<HTMLDivElement | null>(null);
@@ -170,7 +113,7 @@ export const Header = () => {
                               <div className={cx('notification')} tabIndex={-1} {...attrs}>
                                     <div className={cx('header')}>Thông báo</div>
                                     <div className={cx('list-notification')}>
-                                          {notificationList.map((item, index) => {
+                                          {dataCustomerService.dataCustomerServices.map((item, index) => {
                                                 return <CardNotification key={index} children={item} />;
                                           })}
                                     </div>

@@ -141,7 +141,6 @@ export const roleSlice = createSlice({
             [updateRoleQuantity.fulfilled.toString()]: (state, action: PayloadAction<UpdateRoleQuantityType>) => {
                   state.isSuccess = true;
                   state.message = 'Update roles quantity successfully';
-                  console.log(action.payload);
                   if (action.payload.type === 'addition') {
                         const rolePayload = action.payload.arrayRole[0];
                         const index = state.data.findIndex((role) => role.key === rolePayload.key);

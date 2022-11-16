@@ -21,46 +21,52 @@ import Calendar from 'react-calendar';
 import { HeaderContent } from '../../componentChild/HeaderContent/HeaderContent';
 import { useSelector } from 'react-redux';
 import { State } from '../../../redux/store';
+import { routesConfig } from '../../../routes/routeConfig';
+import { Select } from 'antd';
+import { LogoArrow } from '../../../assets/svg/LogoArrow';
 
 const cx = classNames.bind(style);
 
 export const DashboardPage = () => {
-      const [data, setData] = useState([]);
+      const [data, setData] = useState<{ title: string; value: number }[]>([]);
       const dataDevices = useSelector((state: State) => state.device);
       const dataService = useSelector((state: State) => state.service);
       const dataCustomerService = useSelector((state: State) => state.customerService);
-      const cardList = [
+      const cardList: CardItemType[] = [
             {
                   title: 'Số thứ tự đã cấp',
                   LogoCard: <LogoCalendar />,
                   LogoUp: <LogoUp />,
-                  quantity: 4221,
+                  quantity: dataCustomerService.dataCustomerServices.length,
                   percent: '32.41',
-            } as CardItemType,
+                  to: routesConfig.customerService,
+            },
             {
                   title: 'Số thứ tự đã sử dụng',
                   LogoCard: <LogoCalendarCheck />,
                   LogoUp: <LogoDown />,
-                  quantity: 3721,
+                  quantity: dataCustomerService.dataCustomerServices.filter((cs) => cs.status === 'complete').length,
                   percent: '32.41',
-            } as CardItemType,
+                  to: routesConfig.customerService,
+            },
             {
                   title: 'Số thứ tự đang chờ',
                   LogoCard: <LogoPeopleCall />,
                   LogoUp: <LogoUp />,
-                  quantity: 468,
+                  quantity: dataCustomerService.dataCustomerServices.filter((cs) => cs.status === 'waiting').length,
                   percent: '56.41',
-            } as CardItemType,
+                  to: routesConfig.customerService,
+            },
             {
                   title: 'Số thứ tự đã bỏ qua',
                   LogoCard: <LogoBookmark />,
                   LogoUp: <LogoDown />,
-                  quantity: 32,
+                  quantity: dataCustomerService.dataCustomerServices.filter((cs) => cs.status === 'skip').length,
                   percent: '22.41',
-            } as CardItemType,
+                  to: routesConfig.customerService,
+            },
       ];
-
-      const cardNoNameList = [
+      const cardNoNameList: CardNoNameType[] = [
             {
                   colorPrimary: 'var(--color-orange-500)',
                   options: [
@@ -79,7 +85,8 @@ export const DashboardPage = () => {
                   ],
                   title: 'Thiết bị',
                   logo: <LogoDevices />,
-            } as CardNoNameType,
+                  to: routesConfig.devices,
+            },
             {
                   colorPrimary: 'var(--color-blue)',
                   options: [
@@ -98,7 +105,8 @@ export const DashboardPage = () => {
                   ],
                   title: 'Dịch vụ',
                   logo: <LogoServices />,
-            } as CardNoNameType,
+                  to: routesConfig.services,
+            },
             {
                   colorPrimary: 'var(--color-green)',
                   options: [
@@ -126,24 +134,35 @@ export const DashboardPage = () => {
                   ],
                   title: 'Cấp số',
                   logo: <LogoLevel />,
-            } as CardNoNameType,
+                  to: routesConfig.customerService,
+            },
       ];
 
       useEffect(() => {
-            asyncFetch();
-      }, []);
+            const dataConfig: { title: string; value: number }[] = [
+                  {
+                        title: 'Số thứ tự đã cấp',
+                        value: dataCustomerService.dataCustomerServices.length,
+                  },
+                  {
+                        title: 'Đang chờ',
+                        value: dataCustomerService.dataCustomerServices.filter((cs) => cs.status === 'waiting').length,
+                  },
+                  {
+                        title: 'Bỏ qua',
+                        value: dataCustomerService.dataCustomerServices.filter((cs) => cs.status === 'skip').length,
+                  },
+                  {
+                        title: 'Đã sử dụng',
+                        value: dataCustomerService.dataCustomerServices.filter((cs) => cs.status === 'complete').length,
+                  },
+            ];
+            setData(dataConfig);
+      }, [dataCustomerService.dataCustomerServices]);
 
-      const asyncFetch = () => {
-            fetch('https://gw.alipayobjects.com/os/bmw-prod/360c3eae-0c73-46f0-a982-4746a6095010.json')
-                  .then((response) => response.json())
-                  .then((json) => setData(json))
-                  .catch((error) => {
-                        console.log('fetch data failed', error);
-                  });
-      };
       const config = {
             data,
-            xField: 'timePeriod',
+            xField: 'title',
             yField: 'value',
             xAxis: {
                   range: [0, 1],
@@ -162,15 +181,34 @@ export const DashboardPage = () => {
                               <div className={cx('heading')}>
                                     <h3>Bảng thống kê theo ngày</h3>
                                     <div className={cx('dropdown')}>
-                                          <span>Xem theo</span>
-                                          <select name="noName">
-                                                <option value="1">Ngày</option>
-                                                <option value="2">Tuần</option>
-                                                <option value="2">Tháng</option>
-                                          </select>
+                                          <Select
+                                                placeholder="Xem theo..."
+                                                options={[
+                                                      {
+                                                            value: 'day',
+                                                            label: 'Ngày',
+                                                      },
+                                                      {
+                                                            value: 'month',
+                                                            label: 'Tuần',
+                                                      },
+                                                      {
+                                                            value: 'year',
+                                                            label: 'Tháng',
+                                                      },
+                                                ]}
+                                          />
+                                          <LogoArrow
+                                                style={{
+                                                      position: 'absolute',
+                                                      top: ' 50%',
+                                                      right: '10px',
+                                                      transform: 'translate(0, -50%)',
+                                                }}
+                                          />
                                     </div>
                               </div>
-                              <Area className={cx('chart-area')} {...config} />
+                              <Area autoFit={true} renderer="canvas" className={cx('chart-area')} {...config} />
                         </div>
                   </div>
                   <div className={cx('rightContent')}>

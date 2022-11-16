@@ -3,4 +3,5 @@ export type CardNoNameType = {
       options: { color: string; title: string; number: number; type: 'active' | 'unActive' | 'skip' }[];
       logo: any;
       title: string;
+      to: string;
 };

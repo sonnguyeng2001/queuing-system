@@ -1,57 +1,57 @@
 .calendar {
-   display: flex;
-   justify-content: center;
-   box-shadow: 2px 2px 15px rgba(70, 64, 67, 0.1);
-   border-radius: 12px;
-   width: 353px;
-   margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      box-shadow: 2px 2px 15px rgba(70, 64, 67, 0.1);
+      border-radius: 12px;
+      width: 353px;
+      margin-top: 10px;
 }
 .react-calendar {
-   width: 300px;
-   height: 290px;
-   border: none;
-   color: var(--color-orange-500);
+      width: 300px;
+      height: 290px;
+      border: none;
+      color: var(--color-orange-500);
 }
 .react-calendar__navigation {
-   margin-bottom: 0;
+      margin-bottom: 0;
 }
 .react-calendar__navigation__next2-button,
 .react-calendar__navigation__next-button,
 .react-calendar__navigation__prev2-button,
 .react-calendar__navigation__prev-button {
-   min-width: 30px;
+      min-width: 30px;
 }
 .react-calendar__navigation__arrow,
 .react-calendar__navigation__label {
-   color: var(--color-orange-500);
-   font-size: 16px;
-   font-weight: 700;
-   line-height: 22px;
+      color: var(--color-orange-500);
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 22px;
 }
 .react-calendar__navigation__arrow {
-   font-size: 30px;
+      font-size: 30px;
 }
 abbr[title] {
-   text-decoration: none;
+      text-decoration: none;
 }
 
 .react-calendar__tile {
-   font-size: 14px;
-   font-weight: 600;
+      font-size: 14px;
+      font-weight: 600;
 }
 
 .react-calendar__tile.react-calendar__month-view__days__day.react-calendar__month-view__days__day--neighboringMonth {
-   color: var(--color-gray-200);
+      color: var(--color-gray-200);
 }
 
 .react-calendar__tile--now {
-   background-color: var(--color-orange-500);
-   border-radius: 8px;
-   color: white;
+      background-color: var(--color-orange-500);
+      border-radius: 8px;
+      color: white;
 }
 .react-calendar__tile--now:enabled:hover,
 .react-calendar__tile--now:enabled:focus {
-   background-color: var(--color-orange-500);
-   border-radius: 8px;
-   color: white;
+      background-color: var(--color-orange-500);
+      border-radius: 8px;
+      color: white;
 }

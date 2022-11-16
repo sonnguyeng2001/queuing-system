@@ -35,6 +35,7 @@ export const updateDevice = createAsyncThunk('devices/UpdateDevice', async (devi
 export const addDevice = createAsyncThunk('devices/addDevice', async (device: DevicesType) => {
       try {
             await set(ref(database, `devices/${device.key}`), {
+                  key: device.key,
                   id: device.id,
                   ipAddress: device.ipAddress,
                   isActive: device.isActive,

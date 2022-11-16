@@ -19,15 +19,20 @@ export const ListReport = () => {
       const [dataSource, setDataSource] = useState<CustomerServiceType[] | []>([]);
       const data = useSelector((state: State) => state.customerService);
       const dataService = useSelector((state: State) => state.service);
+      const selectedDate = useRef<number[]>([]);
 
       const columns: any = [
             {
                   title: 'Số thứ tự',
                   dataIndex: 'ordinalNumber',
+                  sorter: (a: CustomerServiceType, b: CustomerServiceType) =>
+                        parseInt(a.ordinalNumber) - parseInt(b.ordinalNumber),
             },
             {
                   title: 'Tên dịch vụ',
                   dataIndex: 'serviceValue',
+                  sorter: (a: CustomerServiceType, b: CustomerServiceType) =>
+                        parseInt(a.serviceValue) - parseInt(b.serviceValue),
                   render: (data: string) => {
                         return (
                               <span className="text-devices">
@@ -41,6 +46,7 @@ export const ListReport = () => {
             {
                   title: 'Thời gian cấp',
                   dataIndex: 'timeStart',
+                  sorter: (a: CustomerServiceType, b: CustomerServiceType) => a.timeStart - b.timeStart,
                   render: (data: number) => {
                         return (
                               <span>{`${moment(data).locale('vi').format('LT')} - ${moment(data)
@@ -52,6 +58,7 @@ export const ListReport = () => {
             {
                   title: 'Tình trạng',
                   dataIndex: 'status',
+                  sorter: (a: CustomerServiceType, b: CustomerServiceType) => a.status.length - b.status.length,
                   render: (data: string) => {
                         if (data === 'skip') {
                               return (
@@ -86,12 +93,56 @@ export const ListReport = () => {
             {
                   title: 'Nguồn cấp',
                   dataIndex: 'origin',
+                  sorter: (a: CustomerServiceType, b: CustomerServiceType) => a.origin.length - b.origin.length,
             },
       ];
       useEffect(() => {
             dataRef.current = data.dataCustomerServices;
             setDataSource(data.dataCustomerServices);
       }, [data.dataCustomerServices]);
+
+      const handleChangeDate = (e: moment.Moment | null, type: 'from' | 'to') => {
+            const utcTime = e?.utc().valueOf();
+            const date = new Date(utcTime!).getDate();
+            const month = new Date(utcTime!).getMonth();
+            const year = new Date(utcTime!).getFullYear();
+            var value = 0;
+
+            if (type === 'from') {
+                  value = new Date(year, month, date, parseInt('00'), parseInt('00')).getTime();
+                  selectedDate.current[0] = value;
+            } else if (type === 'to') {
+                  value = new Date(year, month, date, 23, 59).getTime();
+                  selectedDate.current[1] = value;
+            }
+
+            if (selectedDate.current[0] && selectedDate.current[1]) {
+                  const dataFilter = dataRef.current.filter(
+                        (row) => row.timeStart > selectedDate.current[0] && row.timeStart < selectedDate.current[1],
+                  );
+                  setDataSource(dataFilter);
+                  return;
+            }
+
+            if (selectedDate.current[0]) {
+                  const dataFilter = dataRef.current.filter((row) => row.timeStart > selectedDate.current[0]);
+                  setDataSource(dataFilter);
+                  return;
+            }
+
+            if (selectedDate.current[1]) {
+                  const dataFilter = dataRef.current.filter((row) => row.timeStart < selectedDate.current[1]);
+                  setDataSource(dataFilter);
+                  return;
+            }
+
+            if (!selectedDate.current[1] || !selectedDate.current[0]) {
+                  console.log('4');
+                  setDataSource(dataRef.current);
+                  return;
+            }
+      };
+
       const pageSize = 9;
       const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
       return (
@@ -104,6 +155,7 @@ export const ListReport = () => {
                                     format={dateFormatList}
                                     popupClassName="popup-date"
                                     placeholder="Từ ngày"
+                                    onChange={(e) => handleChangeDate(e, 'from')}
                               />
                               <LogoArrow className="selectDate-logoArrow" />
                               <DatePicker
@@ -111,12 +163,12 @@ export const ListReport = () => {
                                     format={dateFormatList}
                                     popupClassName="popup-date"
                                     placeholder="Đến ngày"
+                                    onChange={(e) => handleChangeDate(e, 'to')}
                               />
                         </div>
                   </div>
                   <div className="tableReport">
                         <CustomizeTable columns={columns} dataSource={dataSource} pageSize={pageSize} />
-
                         <LinkAction title="Tải về" to={routesConfig.addCustomerService} logo={<LogoDownload />} />
                   </div>
             </div>

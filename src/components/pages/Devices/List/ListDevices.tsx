@@ -10,7 +10,7 @@ import { LogoArrow } from '../../../../assets/svg/LogoArrow';
 import { LogoSearch } from '../../../../assets/svg/LogoSearch';
 import { LogoPlus } from '../../../../assets/svg/LogoPlus';
 import { DevicesType } from '../../../propsType/DevicesProps';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import useDebounce from '../../../../Hooks/useDebound';
 import { LinkAction } from '../../../componentChild/LinkAction/LinkAction';
 import { CustomizeTable } from '../../../componentChild/CustomizeTable/CustomizeTable';

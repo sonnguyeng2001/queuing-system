@@ -9,7 +9,7 @@ import { HeaderContent } from '../../../componentChild/HeaderContent/HeaderConte
 import { LogoArrow } from '../../../../assets/svg/LogoArrow';
 import { LogoSearch } from '../../../../assets/svg/LogoSearch';
 import { LogoPlus } from '../../../../assets/svg/LogoPlus';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import useDebounce from '../../../../Hooks/useDebound';
 import { LinkAction } from '../../../componentChild/LinkAction/LinkAction';
 import { CustomizeTable } from '../../../componentChild/CustomizeTable/CustomizeTable';
@@ -98,7 +98,6 @@ const columns: any = [
 ];
 
 export const ListServices = () => {
-      const dispatch = useDispatch<any>();
       const [dataSource, setDataSource] = useState<ServiceType[] | []>([]);
       const [inputSearch, setInputSearch] = useState<string>('');
       const data = useSelector((state: State) => state.service);
