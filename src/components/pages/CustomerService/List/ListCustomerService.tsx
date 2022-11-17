@@ -241,7 +241,6 @@ export const ListCustomerService = () => {
             }
 
             if (!selectedDate.current[1] || !selectedDate.current[0]) {
-                  console.log('4');
                   setDataSource(dataRef.current);
                   return;
             }

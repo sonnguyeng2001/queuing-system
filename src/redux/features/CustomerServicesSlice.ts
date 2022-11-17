@@ -56,6 +56,7 @@ export const customerServiceSlice = createSlice({
                   state.isSuccess = true;
                   state.message = 'Load data customerServices successfully';
                   state.dataCustomerServices = Object.values(action.payload);
+                  state.dataCustomerServices.reverse();
             },
             [getCustomerServices.rejected.toString()]: (state, action) => {
                   state.message = action.payload;
@@ -66,7 +67,7 @@ export const customerServiceSlice = createSlice({
             [addCustomerService.fulfilled.toString()]: (state, action: PayloadAction<CustomerServiceType>) => {
                   state.isSuccess = true;
                   state.message = 'Add data customerServices successfully';
-                  state.dataCustomerServices = [...state.dataCustomerServices, action.payload];
+                  state.dataCustomerServices = [action.payload, ...state.dataCustomerServices];
             },
             [addCustomerService.rejected.toString()]: (state, action) => {
                   state.message = 'Add data customerServices Failed';

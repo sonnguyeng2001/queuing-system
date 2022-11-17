@@ -71,6 +71,7 @@ export const deviceSlice = createSlice({
                   state.isSuccess = true;
                   state.message = 'Load data devices successfully';
                   state.dataDevices = Object.values(action.payload);
+                  state.dataDevices.reverse();
             },
             [getDevices.rejected.toString()]: (state, action) => {
                   state.message = action.payload;
@@ -93,7 +94,7 @@ export const deviceSlice = createSlice({
             [addDevice.fulfilled.toString()]: (state, action: PayloadAction<DevicesType>) => {
                   state.isSuccess = true;
                   state.message = 'Add Device Successfully';
-                  state.dataDevices = [...state.dataDevices, action.payload];
+                  state.dataDevices = [action.payload, ...state.dataDevices];
             },
             [addDevice.rejected.toString()]: (state) => {
                   state.isSuccess = false;

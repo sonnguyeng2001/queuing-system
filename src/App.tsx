@@ -14,6 +14,7 @@ import { getDevices } from './redux/features/DeviceSlice';
 import { getRoles } from './redux/features/RoleSlice';
 import { getCustomerServices } from './redux/features/CustomerServicesSlice';
 import { getServices } from './redux/features/ServiceSlice';
+import { getActionHistory } from './redux/features/ActionHistorySlice';
 
 // React lazy
 const DefaultLayout = React.lazy(() =>
@@ -30,6 +31,7 @@ function App() {
             dispatch(getRoles());
             dispatch(getCustomerServices());
             dispatch(getServices());
+            dispatch(getActionHistory())
       }, [dispatch]);
 
       return (

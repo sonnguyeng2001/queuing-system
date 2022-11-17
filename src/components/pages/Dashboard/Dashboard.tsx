@@ -17,7 +17,7 @@ import { CardNoNameType } from '../../propsType/CardNoNameProps';
 import { LogoDevices } from '../../../assets/svg/LogoDevices';
 import { LogoServices } from '../../../assets/svg/LogoServices';
 import { LogoLevel } from '../../../assets/svg/LogoLevel';
-import Calendar from 'react-calendar';
+import Calendar, { OnChangeDateCallback, OnChangeDateRangeCallback } from 'react-calendar';
 import { HeaderContent } from '../../componentChild/HeaderContent/HeaderContent';
 import { useSelector } from 'react-redux';
 import { State } from '../../../redux/store';
@@ -32,6 +32,7 @@ export const DashboardPage = () => {
       const dataDevices = useSelector((state: State) => state.device);
       const dataService = useSelector((state: State) => state.service);
       const dataCustomerService = useSelector((state: State) => state.customerService);
+      const [date, setDate] = useState(new Date());
       const cardList: CardItemType[] = [
             {
                   title: 'Số thứ tự đã cấp',
@@ -168,6 +169,7 @@ export const DashboardPage = () => {
                   range: [0, 1],
             },
       };
+
       return (
             <div className={cx('wrapper')}>
                   <div className={cx('leftContent')}>
@@ -217,7 +219,7 @@ export const DashboardPage = () => {
                               return <CardNoName key={index} children={card} />;
                         })}
                         <div className={cx('calendar')}>
-                              <Calendar />
+                              <Calendar value={date} onChange={setDate} />
                         </div>
                   </div>
             </div>

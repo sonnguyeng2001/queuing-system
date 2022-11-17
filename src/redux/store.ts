@@ -4,6 +4,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
 import { deviceSlice } from './features/DeviceSlice';
 import { customerServiceSlice } from './features/CustomerServicesSlice';
+import { actionHistorySlice } from './features/ActionHistorySlice';
 import { userSlice } from './features/UserSlice';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
@@ -21,9 +22,9 @@ const rootReducers = combineReducers({
       customerService: customerServiceSlice.reducer,
       role: roleSlice.reducer,
       service: serviceSlice.reducer,
+      actionHistory: actionHistorySlice.reducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducers);
-
 
 // export const store = createStore(reducers, {}, applyMiddleware(thunk));
 export const store = configureStore({
@@ -33,4 +34,4 @@ export const store = configureStore({
 });
 
 export type State = ReturnType<typeof rootReducers>;
-export  const useAppDispatch = () => useDispatch<typeof store.dispatch>()
+export const useAppDispatch = () => useDispatch<typeof store.dispatch>();

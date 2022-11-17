@@ -61,7 +61,7 @@ const navbarList = [
                   {
                         title: 'Nhật ký người dùng',
                         to: routesConfig.setting,
-                        navigateTo: routesConfig.settingHistoryUser,
+                        navigateTo: routesConfig.listActionHistory,
                   },
             ],
       },

@@ -13,12 +13,14 @@ import * as yup from 'yup';
 import { DevicesType } from '../../../propsType/DevicesProps';
 import { addDevice } from '../../../../redux/features/DeviceSlice';
 import uuid from 'react-uuid';
+import { addActionHistory } from '../../../../redux/features/ActionHistorySlice';
 
 const cx = classNames.bind(style);
 
 export const AddDevices = () => {
       const dataDevices = useSelector((state: State) => state.device);
       const dataService = useSelector((state: State) => state.service);
+      const dataUser=useSelector((state: State) => state.user);
       const navigate = useNavigate();
       const dispatch = useDispatch<any>();
 
@@ -64,6 +66,7 @@ export const AddDevices = () => {
       } = useForm<DevicesType>({
             resolver: yupResolver(schema),
       });
+
       const onSubmit: SubmitHandler<DevicesType> = async (data: DevicesType) => {
             const isBoolean = Math.floor(Math.random() * 2001190238) / 2 === 0;
             const configData = {
@@ -72,16 +75,17 @@ export const AddDevices = () => {
                   isActive: isBoolean,
                   isConnected: !isBoolean,
             };
-            await dispatch(addDevice(configData))
-                  .then((response: any) => {
-                        response && alert('Thêm thành công');
-                        navigate(-1);
-                  })
-                  .catch((error: any) => {
-                        console.log(error);
-                  });
+            try {
+                  await dispatch(addDevice(configData));
+                  await dispatch(
+                        addActionHistory({ description: `Thêm thiết bị: ${configData.id} - ${configData.name}`, keyUser:dataUser.currentUser.key }),
+                  );
+                  alert("Thêm thành công");
+                  navigate(-1);
+            } catch (error) {
+                  console.log(error);
+            }
       };
-
       return (
             <div className={cx('wrapper')}>
                   <HeaderContent title="Thông tin thiết bị" />

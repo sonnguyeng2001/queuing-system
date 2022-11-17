@@ -61,6 +61,7 @@ export const DetailsServices = () => {
       const dataCustomerService = useSelector((state: State) => state.customerService);
       const [dataSource, setDataSource] = useState<CustomerServiceType[] | []>([]);
       const dataRef = useRef<CustomerServiceType[] | []>([]);
+      const selectedDate = useRef<number[]>([]);
 
       useEffect(() => {
             const infoService = data.dataServices.find((service: ServiceType) => {
@@ -71,7 +72,6 @@ export const DetailsServices = () => {
             const dataCustomerServiceTable = dataCustomerService.dataCustomerServices.filter((data) =>
                   data.ordinalNumber.toString().startsWith(infoService?.id!),
             );
-            console.log(dataCustomerServiceTable);
             setDataSource(dataCustomerServiceTable);
             dataRef.current = dataCustomerServiceTable;
       }, [data.dataServices, id, dataCustomerService.dataCustomerServices]);
@@ -81,6 +81,47 @@ export const DetailsServices = () => {
                   setDataSource(dataRef.current);
             } else {
                   setDataSource(dataRef.current.filter((state) => state.status === value));
+            }
+      };
+
+      const handleChangeDate = (e: moment.Moment | null, type: 'from' | 'to') => {
+            const utcTime = e?.utc().valueOf();
+            const date = new Date(utcTime!).getDate();
+            const month = new Date(utcTime!).getMonth();
+            const year = new Date(utcTime!).getFullYear();
+            var value = 0;
+
+            if (type === 'from') {
+                  value = new Date(year, month, date, parseInt('00'), parseInt('00')).getTime();
+                  selectedDate.current[0] = value;
+            } else if (type === 'to') {
+                  value = new Date(year, month, date, 23, 59).getTime();
+                  selectedDate.current[1] = value;
+            }
+
+            if (selectedDate.current[0] && selectedDate.current[1]) {
+                  const dataFilter = dataRef.current.filter(
+                        (row) => row.timeStart > selectedDate.current[0] && row.timeStart < selectedDate.current[1],
+                  );
+                  setDataSource(dataFilter);
+                  return;
+            }
+
+            if (selectedDate.current[0]) {
+                  const dataFilter = dataRef.current.filter((row) => row.timeStart > selectedDate.current[0]);
+                  setDataSource(dataFilter);
+                  return;
+            }
+
+            if (selectedDate.current[1]) {
+                  const dataFilter = dataRef.current.filter((row) => row.timeStart < selectedDate.current[1]);
+                  setDataSource(dataFilter);
+                  return;
+            }
+
+            if (!selectedDate.current[1] || !selectedDate.current[0]) {
+                  setDataSource(dataRef.current);
+                  return;
             }
       };
       const optionServices: CheckboxOptionType[] = [
@@ -210,6 +251,7 @@ export const DetailsServices = () => {
                                                             placeholder="Từ ngày"
                                                             format={dateFormatList}
                                                             popupClassName="popup-date"
+                                                            onChange={(e) => handleChangeDate(e, 'from')}
                                                       />
                                                       <LogoArrow className="selectDate-logoArrow" />
                                                       <DatePicker
@@ -217,6 +259,7 @@ export const DetailsServices = () => {
                                                             format={dateFormatList}
                                                             placeholder="Đến ngày"
                                                             popupClassName="popup-date"
+                                                            onChange={(e) => handleChangeDate(e, 'from')}
                                                       />
                                                 </div>
                                           </div>

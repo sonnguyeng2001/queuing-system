@@ -14,12 +14,14 @@ import { routesConfig } from '../../../../routes/routeConfig';
 import { State } from '../../../../redux/store';
 import { CustomizeCheckbox } from '../../../componentChild/CustomizeCheckbox/CustomizeCheckbox';
 import { CheckboxOptionType } from 'antd/lib/checkbox';
+import { addActionHistory } from '../../../../redux/features/ActionHistorySlice';
 const cx = classNames.bind(style);
 
 export const AddServices = () => {
       const navigate = useNavigate();
       const dispatch = useDispatch<any>();
       const dataService = useSelector((state: State) => state.service);
+      const dataUser = useSelector((state: State) => state.user);
       const schema: yup.SchemaOf<Partial<ServiceType>> = yup.object({
             desc: yup.string().required('Vui lòng điền vào trường này'),
             name: yup
@@ -51,12 +53,19 @@ export const AddServices = () => {
             const idDevice = uid().slice(0, 8).toUpperCase();
             const setIsActive = Math.floor(Math.random() * 10) % 2 === 0;
             const dataService = { ...data, key: idDevice, isActive: setIsActive };
-            await dispatch(addService(dataService))
-                  .then((data: ServiceType) => {
-                        data && alert('Thêm thành công');
-                        navigate(routesConfig.listServices);
-                  })
-                  .catch((errors: any) => console.log(errors));
+            try {
+                  await dispatch(addService(dataService));
+                  await dispatch(
+                        addActionHistory({
+                              description: `Thêm dịch vụ: ${dataService.id} - ${dataService.name}`,
+                              keyUser: dataUser.currentUser.key,
+                        }),
+                  );
+                  alert('Thêm thành công');
+                  navigate(routesConfig.listServices);
+            } catch (error) {
+                  console.log(error);
+            }
       };
 
       const optionServices: CheckboxOptionType[] = [

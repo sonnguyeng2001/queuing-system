@@ -32,7 +32,7 @@ export const routesConfig = {
       addAccount: '/setting/addAccount',
       updateAccount: '/setting/updateAccount/:id',
 
-      settingHistoryUser: '/setting/settingHistoryUser',
+      listActionHistory: '/setting/listActionHistory',
 
       infoUser: '/infoUser',
 

@@ -15,6 +15,7 @@ import * as yup from 'yup';
 import { info } from 'console';
 import { updateService } from '../../../../redux/features/ServiceSlice';
 import { routesConfig } from '../../../../routes/routeConfig';
+import { addActionHistory } from '../../../../redux/features/ActionHistorySlice';
 
 const cx = classNames.bind(style);
 
@@ -24,6 +25,7 @@ export const UpdateServices = () => {
       const dispatch = useDispatch<any>();
       const navigate = useNavigate();
       const dataService = useSelector((state: State) => state.service);
+      const dataUser = useSelector((state: State) => state.user);
 
       const schema: yup.SchemaOf<Partial<ServiceType>> = yup.object({
             desc: yup.string().required('Vui lòng điền vào trường này'),
@@ -67,14 +69,19 @@ export const UpdateServices = () => {
       }, [dataService.dataServices, id, reset]);
 
       const onFormSubmit: SubmitHandler<ServiceType> = async (data) => {
-            await dispatch(updateService(data))
-                  .then((response: ServiceType) => {
-                        response && alert('Cập nhật thành công ');
-                        navigate(routesConfig.listServices);
-                  })
-                  .catch((errors: any) => {
-                        alert('Cập nhật thất bại');
-                  });
+            try {
+                  await dispatch(updateService(data));
+                  await dispatch(
+                        addActionHistory({
+                              description: `Cập nhật dịch vụ: ${data.id} - ${data.name}`,
+                              keyUser: dataUser.currentUser.key,
+                        }),
+                  );
+                  alert('Cập nhật thành công');
+                  navigate(routesConfig.listServices);
+            } catch (error) {
+                  console.log(error);
+            }
       };
 
       const optionServices: CheckboxOptionType[] = [

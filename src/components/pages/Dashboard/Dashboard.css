@@ -55,3 +55,21 @@ abbr[title] {
       border-radius: 8px;
       color: white;
 }
+.react-calendar__year-view .react-calendar__tile,
+.react-calendar__decade-view .react-calendar__tile,
+.react-calendar__century-view .react-calendar__tile {
+      padding: 1.6em 0.5em;
+}
+
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+      background-color: var(--color-orange-500);
+      border-radius: 8px;
+      color: white;
+}
+
+.react-calendar__navigation button {
+    min-width: 40px;
+    background: none;
+}
+

@@ -114,7 +114,7 @@ export const userSlice = createSlice({
                   state.message = 'Load data users successfully';
                   // Object.values => convert from list object to array object
                   state.data = Object.values(action.payload);
-                  state.data.sort();
+                  state.data.reverse();
             },
             [getUsers.rejected.toString()]: (state, action) => {
                   state.message = action.payload;
@@ -150,7 +150,7 @@ export const userSlice = createSlice({
             [addUser.fulfilled.toString()]: (state, action: PayloadAction<UserType>) => {
                   state.isSuccess = true;
                   state.message = 'Add User Successfully';
-                  state.data = [...state.data, action.payload];
+                  state.data = [action.payload, ...state.data];
             },
             [addUser.rejected.toString()]: (state, action) => {
                   state.message = 'Add User failed';

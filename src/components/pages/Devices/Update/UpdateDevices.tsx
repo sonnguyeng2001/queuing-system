@@ -16,10 +16,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { updateDevice } from '../../../../redux/features/DeviceSlice';
 import { routesConfig } from '../../../../routes/routeConfig';
+import { addActionHistory } from '../../../../redux/features/ActionHistorySlice';
 const cx = classNames.bind(style);
 
 export const UpdateDevices = () => {
       const [devices, setDevices] = useState<DevicesType | undefined>({} as DevicesType);
+      const dataUser = useSelector((state: State) => state.user);
       const { id } = useParams();
       const dispatch = useDispatch<any>();
       const navigate = useNavigate();
@@ -61,14 +63,19 @@ export const UpdateDevices = () => {
       });
 
       const onSubmit: SubmitHandler<DevicesType> = async (data) => {
-            await dispatch(updateDevice(data))
-                  .then((response: any) => {
-                        response && alert('Cập nhật thành công ');
-                        navigate(routesConfig.listDevices);
-                  })
-                  .catch((error: any) => {
-                        console.log(error);
-                  });
+            try {
+                  await dispatch(updateDevice(data));
+                  await dispatch(
+                        addActionHistory({
+                              description: `Cập nhật thiết bị: ${data.id} - ${data.name}`,
+                              keyUser: dataUser.currentUser.key,
+                        }),
+                  );
+                  alert('Cập nhật thành công');
+                  navigate(routesConfig.listDevices);
+            } catch (error) {
+                  console.log(error);
+            }
       };
       useEffect(() => {
             // ---- Xử lý lấy ra thông tin 1 dịch vụ

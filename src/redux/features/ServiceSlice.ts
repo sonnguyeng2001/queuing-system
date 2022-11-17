@@ -64,13 +64,14 @@ export const serviceSlice = createSlice({
                   state.isSuccess = true;
                   state.message = 'Load data service successfully';
                   state.dataServices = Object.values(action.payload);
+                  state.dataServices.reverse();
             },
 
             // ------------------------- addService
             [addService.fulfilled.toString()]: (state, action: PayloadAction<ServiceType>) => {
                   state.isSuccess = true;
                   state.message = 'Add service successfully';
-                  state.dataServices = [...state.dataServices, action.payload];
+                  state.dataServices = [action.payload, ...state.dataServices];
             },
 
             // ------------------------- updateService

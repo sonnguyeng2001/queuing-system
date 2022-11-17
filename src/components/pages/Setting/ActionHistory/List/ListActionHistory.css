@@ -1,0 +1,6 @@
+.tableReport .ant-table-wrapper {
+   max-height: 468px;
+}
+.tableReport {
+   position: relative;
+}

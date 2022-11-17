@@ -110,6 +110,7 @@ export const roleSlice = createSlice({
                   state.isSuccess = true;
                   state.message = 'Load data roles successfully';
                   state.data = Object.values(action.payload);
+                  state.data.reverse();
             },
             [getRoles.rejected.toString()]: (state, action) => {
                   state.message = action.payload;
@@ -120,11 +121,9 @@ export const roleSlice = createSlice({
             [addRole.fulfilled.toString()]: (state, action: PayloadAction<RoleType>) => {
                   state.isSuccess = true;
                   state.message = 'Add roles successfully';
-                  state.data = [...state.data, action.payload];
+                  state.data = [action.payload, ...state.data];
             },
-            [addRole.rejected.toString()]: (state, action) => {
-                  console.log(action.payload);
-            },
+            [addRole.rejected.toString()]: (state, action) => {},
 
             // ------------------------- updateRole
             [updateRole.fulfilled.toString()]: (state, action: PayloadAction<RoleType>) => {

@@ -1,3 +1,4 @@
+import { ListActionHistory } from './../components/pages/Setting/ActionHistory/List/ListActionHistory';
 // Dashboard
 import { DashboardPage } from '../components/pages/Dashboard/Dashboard';
 
@@ -212,6 +213,14 @@ const privateRoutes: RouteProps[] = [
             component: AddAccount,
             translate: 'Thêm tài khoản',
             pageHeader: routesConfig.addAccount,
+      },
+
+      // Setting Page => Action History
+      {
+            path: routesConfig.listActionHistory,
+            component:ListActionHistory ,
+            translate: 'Nhật ký hoạt động',
+            pageHeader: routesConfig.listActionHistory,
       },
 
       // InfoUser
