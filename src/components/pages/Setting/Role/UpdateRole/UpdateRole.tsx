@@ -103,8 +103,6 @@ export const UpdateRole = () => {
             { value: 'Cy', label: 'Chức năng Cy' },
             { value: 'Cz', label: 'Chức năng Cz' },
       ];
-      // const checkboxOptionB: CheckboxOptionType[] = ['Bx', 'By', 'Bz'];
-      // const checkboxOptionC: CheckboxOptionType[] = ['Cx', 'Cy', 'Cz'];
       return (
             <div className={cx('UpdateRole-Wrapper')}>
                   <HeaderContent title="Danh sách vai trò" />
