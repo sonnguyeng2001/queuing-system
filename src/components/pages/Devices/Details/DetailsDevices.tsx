@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { State } from '../../../../redux/store';
 import { useEffect, useState } from 'react';
 import { DevicesType } from '../../../propsType/DevicesProps';
-import { LinkAction } from '../../../componentChild/LinkAction/LinkAction';
+import { CustomizeButton } from '../../../componentChild/LinkAction/LinkAction';
 import { LogoEdit } from '../../../../assets/svg/LogoEdit';
 import { ServiceType } from '../../../propsType/ServiceProps';
 
@@ -86,7 +86,8 @@ export const DetailsDevices = () => {
                                     </div>
                               </div>
                         </div>
-                        <LinkAction
+                        <CustomizeButton
+                              type="Link"
                               title="Cập nhật thiết bị"
                               logo={<LogoEdit />}
                               to={`${routesConfig.updateDevices.replace('/:id', '')}/${id}`}

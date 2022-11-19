@@ -3,15 +3,15 @@ import style from './ListActionHistory.module.scss';
 import classNames from 'classnames/bind';
 import { DatePicker } from 'antd';
 import { LogoArrow } from '../../../../../assets/svg/LogoArrow';
-import { routesConfig } from '../../../../../routes/routeConfig';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
 import { ActionHistoryType } from '../../../../propsType/ActionHistoryProps';
 import { CustomizeTable } from '../../../../componentChild/CustomizeTable/CustomizeTable';
-import { LinkAction } from '../../../../componentChild/LinkAction/LinkAction';
+import { CustomizeButton } from '../../../../componentChild/LinkAction/LinkAction';
 import { LogoDownload } from '../../../../../assets/svg/LogoDownload';
 import { State } from '../../../../../redux/store';
 import moment from 'moment';
+import * as XLSX from 'xlsx';
 const cx = classNames.bind(style);
 
 export const ListActionHistory = () => {
@@ -102,6 +102,35 @@ export const ListActionHistory = () => {
             }
       };
 
+      const handleExportData = () => {
+            const time = moment().locale('vi').format('LT');
+            const date = moment().locale('vi').format('L');
+            var dataExcel: {
+                  userName: string;
+                  fullName: string;
+                  timeAction: number;
+                  ipAction: string;
+                  desc: string;
+            }[] = [];
+            dataSource.forEach((value, index) => {
+                  dataUser.data.find(
+                        (user) =>
+                              user.key === value.idUsername &&
+                              dataExcel.push({
+                                    userName: user.userName,
+                                    fullName: user.fullName,
+                                    timeAction: value.timeStart,
+                                    ipAction: value.ip,
+                                    desc: value.desc,
+                              }),
+                  );
+            });
+            var wb = XLSX.utils.book_new();
+            var ws = XLSX.utils.json_to_sheet(dataExcel);
+            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+            XLSX.writeFile(wb, `Excel-${time}-${date}.xlsx`);
+      };
+
       const pageSize = 9;
       const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
       return (
@@ -128,7 +157,12 @@ export const ListActionHistory = () => {
                   </div>
                   <div className="tableReport">
                         <CustomizeTable columns={columns} dataSource={dataSource} pageSize={pageSize} />
-                        <LinkAction title="Tải về" to={routesConfig.addCustomerService} logo={<LogoDownload />} />
+                        <CustomizeButton
+                              onClick={handleExportData}
+                              type="button"
+                              title="Tải về"
+                              logo={<LogoDownload />}
+                        />
                   </div>
             </div>
       );

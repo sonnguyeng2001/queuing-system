@@ -3,12 +3,11 @@ import style from './ListReport.module.scss';
 import classNames from 'classnames/bind';
 import { DatePicker } from 'antd';
 import { LogoArrow } from '../../../../assets/svg/LogoArrow';
-import { routesConfig } from '../../../../routes/routeConfig';
 import { useSelector } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
 import { CustomerServiceType } from '../../../propsType/CustomerServiceProps';
 import { CustomizeTable } from '../../../componentChild/CustomizeTable/CustomizeTable';
-import { LinkAction } from '../../../componentChild/LinkAction/LinkAction';
+import { CustomizeButton } from '../../../componentChild/LinkAction/LinkAction';
 import { LogoDownload } from '../../../../assets/svg/LogoDownload';
 import { State } from '../../../../redux/store';
 import moment from 'moment';
@@ -169,7 +168,11 @@ export const ListReport = () => {
                   </div>
                   <div className="tableReport">
                         <CustomizeTable columns={columns} dataSource={dataSource} pageSize={pageSize} />
-                        <LinkAction title="Tải về" to={routesConfig.addCustomerService} logo={<LogoDownload />} />
+                        <CustomizeButton
+                              title="Tải về"
+                              type="button"
+                              logo={<LogoDownload />}
+                        />
                   </div>
             </div>
       );

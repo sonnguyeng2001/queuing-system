@@ -6,11 +6,11 @@ import { HeaderContent } from '../../../componentChild/HeaderContent/HeaderConte
 import { useSelector } from 'react-redux';
 import { State } from '../../../../redux/store';
 import { useEffect, useState } from 'react';
-import { LinkAction } from '../../../componentChild/LinkAction/LinkAction';
 import { CustomerServiceType } from '../../../propsType/CustomerServiceProps';
 import { RenderStatus } from '../List/ListCustomerService';
 import moment from 'moment';
 import { LogoBack } from '../../../../assets/svg/LogoBack';
+import { CustomizeButton } from '../../../componentChild/LinkAction/LinkAction';
 
 const cx = classNames.bind(style);
 
@@ -104,7 +104,8 @@ export const DetailsCustomerService = () => {
                                     </div>
                               </div>
                         </div>
-                        <LinkAction
+                        <CustomizeButton
+                              type="Link"
                               title="Quay lại"
                               logo={<LogoBack />}
                               to={`${routesConfig.listCustomerService}`}

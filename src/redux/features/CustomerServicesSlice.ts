@@ -18,12 +18,12 @@ export const addCustomerService = createAsyncThunk(
       async (data: CustomerServiceType) => {
             try {
                   await set(ref(database, `customerServices/${data.key}`), {
-                        customerName: data.customerName,
-                        email: data.email,
                         key: data.key,
-                        origin: data.origin,
                         ordinalNumber: data.ordinalNumber,
+                        customerName: data.customerName,
                         phone: data.phone,
+                        email: data.email,
+                        origin: data.origin,
                         serviceValue: data.serviceValue,
                         status: data.status,
                         timeEnd: data.timeEnd,

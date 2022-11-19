@@ -12,7 +12,7 @@ import { LogoPlus } from '../../../../assets/svg/LogoPlus';
 import { DevicesType } from '../../../propsType/DevicesProps';
 import { useSelector } from 'react-redux';
 import useDebounce from '../../../../Hooks/useDebound';
-import { LinkAction } from '../../../componentChild/LinkAction/LinkAction';
+import { CustomizeButton } from '../../../componentChild/LinkAction/LinkAction';
 import { CustomizeTable } from '../../../componentChild/CustomizeTable/CustomizeTable';
 import { State } from '../../../../redux/store';
 import { ServiceType } from '../../../propsType/ServiceProps';
@@ -221,7 +221,7 @@ export const ListDevices = () => {
                   <div className={cx('tableDevice')}>
                         <CustomizeTable columns={columns} dataSource={dataSource} pageSize={pageSize} />
 
-                        <LinkAction title="Thêm thiết bị" to={routesConfig.addDevices} logo={<LogoPlus />} />
+                        <CustomizeButton type="Link" title="Thêm thiết bị" to={routesConfig.addDevices} logo={<LogoPlus />} />
                   </div>
             </div>
       );

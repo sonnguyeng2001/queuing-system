@@ -10,7 +10,7 @@ import { LogoArrow } from '../../../../assets/svg/LogoArrow';
 import { LogoSearch } from '../../../../assets/svg/LogoSearch';
 import { LogoPlus } from '../../../../assets/svg/LogoPlus';
 import { useSelector } from 'react-redux';
-import { LinkAction } from '../../../componentChild/LinkAction/LinkAction';
+import { CustomizeButton } from '../../../componentChild/LinkAction/LinkAction';
 import { CustomizeTable } from '../../../componentChild/CustomizeTable/CustomizeTable';
 import { CustomerServiceType } from '../../../propsType/CustomerServiceProps';
 import { State } from '../../../../redux/store';
@@ -350,7 +350,12 @@ export const ListCustomerService = () => {
                   </div>
                   <div className={cx('tableCustomerService')}>
                         <CustomizeTable columns={columns} dataSource={dataSource} pageSize={pageSize} />
-                        <LinkAction title="Cấp số mới" to={routesConfig.addCustomerService} logo={<LogoPlus />} />
+                        <CustomizeButton
+                              type="Link"
+                              title="Cấp số mới"
+                              to={routesConfig.addCustomerService}
+                              logo={<LogoPlus />}
+                        />
                   </div>
             </div>
       );

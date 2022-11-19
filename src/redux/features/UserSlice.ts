@@ -1,10 +1,7 @@
-import { useSelector } from 'react-redux';
 import { UserType } from '../../components/propsType/UserProps';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { ref, child, get, update, set, remove } from 'firebase/database';
 import { database } from '../../firebase/index';
-import { State } from '../store';
-import { RoleType } from '../../components/propsType/RoleProps';
 
 export const getUsers = createAsyncThunk('users/getUsers', (_, { rejectWithValue }) => {
       try {

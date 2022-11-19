@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
 import { RoleType } from '../../../../propsType/RoleProps';
 import { CustomizeTable } from '../../../../componentChild/CustomizeTable/CustomizeTable';
-import { LinkAction } from '../../../../componentChild/LinkAction/LinkAction';
+import { CustomizeButton } from '../../../../componentChild/LinkAction/LinkAction';
 import { LogoPlus } from '../../../../../assets/svg/LogoPlus';
 import { routesConfig } from '../../../../../routes/routeConfig';
 import { Link } from 'react-router-dom';
@@ -108,7 +108,7 @@ export const ListRole = () => {
                   <div className={cx('table-settingRole')}>
                         <CustomizeTable columns={columns} dataSource={dataSource} pageSize={pageSize} />
 
-                        <LinkAction logo={<LogoPlus />} title="Thêm vai trò" to={routesConfig.addRole} />
+                        <CustomizeButton type='Link' logo={<LogoPlus />} title="Thêm vai trò" to={routesConfig.addRole} />
                   </div>
             </div>
       );

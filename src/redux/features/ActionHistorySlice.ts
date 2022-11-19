@@ -1,12 +1,9 @@
 import uuid from 'react-uuid';
-import { State } from './../store';
 import { ActionHistoryType } from './../../components/propsType/ActionHistoryProps';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { ref, child, get, set } from 'firebase/database';
 import { database } from '../../firebase/index';
-import { useSelector } from 'react-redux';
-import { StringifyOptions } from 'querystring';
-
+      
 export const getActionHistory = createAsyncThunk('actionHistory/getActionHistory', (arg, { rejectWithValue }) => {
       try {
             const dbRef = ref(database);
@@ -26,11 +23,11 @@ export const addActionHistory = createAsyncThunk(
                   )}.${Math.floor(Math.random() * 255)}`;
                   const keyAction = uuid().slice(0, 8).toUpperCase();
                   const obj = {
-                        desc: description,
+                        key: keyAction,
                         idUsername: keyUser,
                         ip: ipAddress,
-                        key: keyAction,
                         timeStart: new Date().getTime().valueOf(),
+                        desc: description,
                   };
                   await set(ref(database, `actionHistory/${keyAction}`), obj);
                   return obj;

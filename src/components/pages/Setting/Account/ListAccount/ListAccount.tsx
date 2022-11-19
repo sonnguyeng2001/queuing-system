@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import { HeaderContent } from '../../../../componentChild/HeaderContent/HeaderContent';
 import { routesConfig } from '../../../../../routes/routeConfig';
 import { LogoPlus } from '../../../../../assets/svg/LogoPlus';
-import { LinkAction } from '../../../../componentChild/LinkAction/LinkAction';
+import { CustomizeButton } from '../../../../componentChild/LinkAction/LinkAction';
 import { CustomizeTable } from '../../../../componentChild/CustomizeTable/CustomizeTable';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -185,7 +185,12 @@ export const ListAccount = () => {
                         </div>
                         <div className={cx('table-account')}>
                               <CustomizeTable columns={columns} dataSource={dataSource} pageSize={7} />
-                              <LinkAction title="Thêm tài khoản" to={routesConfig.addAccount} logo={<LogoPlus />} />
+                              <CustomizeButton
+                                    type="Link"
+                                    title="Thêm tài khoản"
+                                    to={routesConfig.addAccount}
+                                    logo={<LogoPlus />}
+                              />
                         </div>
                   </div>
             </div>

@@ -11,11 +11,10 @@ import { LogoSearch } from '../../../../assets/svg/LogoSearch';
 import { LogoPlus } from '../../../../assets/svg/LogoPlus';
 import { useSelector } from 'react-redux';
 import useDebounce from '../../../../Hooks/useDebound';
-import { LinkAction } from '../../../componentChild/LinkAction/LinkAction';
+import { CustomizeButton } from '../../../componentChild/LinkAction/LinkAction';
 import { CustomizeTable } from '../../../componentChild/CustomizeTable/CustomizeTable';
 import { State } from '../../../../redux/store';
 import { ServiceType } from '../../../propsType/ServiceProps';
-import moment from 'moment';
 
 const cx = classNames.bind(style);
 
@@ -165,7 +164,6 @@ export const ListServices = () => {
                                           format={dateFormatList}
                                           popupClassName="popup-date"
                                           placeholder="Từ ngày"
-                                          onChange={(e) => console.log(e)}
                                     />
                                     <LogoArrow className="selectDate-logoArrow" />
                                     <DatePicker
@@ -174,10 +172,6 @@ export const ListServices = () => {
                                           format={dateFormatList}
                                           popupClassName="popup-date"
                                           placeholder="Đến ngày"
-                                          onChange={(e: moment.Moment | null) => {
-                                                const utcTime = e?.utc()!.valueOf();
-                                                const unixTime = e?.unix()!.valueOf();
-                                          }}
                                     />
                               </div>
                         </div>
@@ -197,7 +191,12 @@ export const ListServices = () => {
                   </div>
                   <div className={cx('table-services')}>
                         <CustomizeTable columns={columns} dataSource={dataSource} pageSize={pageSize} />
-                        <LinkAction title="Thêm dịch vụ" to={routesConfig.addServices} logo={<LogoPlus />} />
+                        <CustomizeButton
+                              type="Link"
+                              title="Thêm dịch vụ"
+                              to={routesConfig.addServices}
+                              logo={<LogoPlus />}
+                        />
                   </div>
             </div>
       );

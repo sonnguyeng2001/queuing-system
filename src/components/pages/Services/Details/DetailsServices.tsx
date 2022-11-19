@@ -7,7 +7,7 @@ import { HeaderContent } from '../../../componentChild/HeaderContent/HeaderConte
 import { useSelector } from 'react-redux';
 import { State } from '../../../../redux/store';
 import { useEffect, useState, useRef } from 'react';
-import { LinkAction } from '../../../componentChild/LinkAction/LinkAction';
+import { CustomizeButton } from '../../../componentChild/LinkAction/LinkAction';
 import { LogoEdit } from '../../../../assets/svg/LogoEdit';
 import { LogoSearch } from '../../../../assets/svg/LogoSearch';
 import { DatePicker, Select } from 'antd';
@@ -124,51 +124,51 @@ export const DetailsServices = () => {
                   return;
             }
       };
-      const optionServices: CheckboxOptionType[] = [
-            {
-                  label: (
-                        <div className={cx('object')}>
-                              <span className={cx('key')}>Tăng tự động từ:</span>
-                              <span className={cx('value')}>
-                                    <span className={cx('text-special')}>0001</span>
-                                    &nbsp; đến &nbsp;
-                                    <span className={cx('text-special')}>9999</span>
-                              </span>
-                        </div>
-                  ),
-                  value: 'autoBoost',
-            },
-            {
-                  label: (
-                        <div className={cx('object')} style={{ margin: '4px 0px' }}>
-                              <span className={cx('key')}>Prefix:</span>
-                              <span className={cx('value')}>
-                                    <span className={cx('text-special')}>0001</span>
-                              </span>
-                        </div>
-                  ),
-                  value: 'prefix',
-            },
-            {
-                  label: (
-                        <div className={cx('object')} style={{ margin: '4px 0px' }}>
-                              <span className={cx('key')}>Suffix:</span>
-                              <span className={cx('value')}>
-                                    <span className={cx('text-special')}>0001</span>
-                              </span>
-                        </div>
-                  ),
-                  value: 'suffix',
-            },
-            {
-                  label: (
-                        <div className={cx('object')}>
-                              <span className={cx('key')}>Reset mỗi ngày</span>
-                        </div>
-                  ),
-                  value: 'resetEveryday',
-            },
-      ];
+      // const optionServices: CheckboxOptionType[] = [
+      //       {
+      //             label: (
+      //                   <div className={cx('object')}>
+      //                         <span className={cx('key')}>Tăng tự động từ:</span>
+      //                         <span className={cx('value')}>
+      //                               <span className={cx('text-special')}>0001</span>
+      //                               &nbsp; đến &nbsp;
+      //                               <span className={cx('text-special')}>9999</span>
+      //                         </span>
+      //                   </div>
+      //             ),
+      //             value: 'autoBoost',
+      //       },
+      //       {
+      //             label: (
+      //                   <div className={cx('object')} style={{ margin: '4px 0px' }}>
+      //                         <span className={cx('key')}>Prefix:</span>
+      //                         <span className={cx('value')}>
+      //                               <span className={cx('text-special')}>0001</span>
+      //                         </span>
+      //                   </div>
+      //             ),
+      //             value: 'prefix',
+      //       },
+      //       {
+      //             label: (
+      //                   <div className={cx('object')} style={{ margin: '4px 0px' }}>
+      //                         <span className={cx('key')}>Suffix:</span>
+      //                         <span className={cx('value')}>
+      //                               <span className={cx('text-special')}>0001</span>
+      //                         </span>
+      //                   </div>
+      //             ),
+      //             value: 'suffix',
+      //       },
+      //       {
+      //             label: (
+      //                   <div className={cx('object')}>
+      //                         <span className={cx('key')}>Reset mỗi ngày</span>
+      //                   </div>
+      //             ),
+      //             value: 'resetEveryday',
+      //       },
+      // ];
 
       const pageSize = 6;
       const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
@@ -289,7 +289,8 @@ export const DetailsServices = () => {
                                     </div>
                               </div>
                         </div>
-                        <LinkAction
+                        <CustomizeButton
+                              type="Link"
                               title="Cập nhật danh sách"
                               logo={<LogoEdit />}
                               to={`${routesConfig.updateServices.replace('/:id', '')}/${id}`}
