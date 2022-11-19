@@ -12,6 +12,7 @@
       border: none;
       color: var(--color-orange-500);
 }
+
 .react-calendar__navigation {
       margin-bottom: 0;
 }
@@ -45,6 +46,9 @@ abbr[title] {
 }
 
 .react-calendar__tile--now {
+      border-radius: 8px;
+}
+.react-calendar__tile--active {
       background-color: var(--color-orange-500);
       border-radius: 8px;
       color: white;
@@ -69,7 +73,6 @@ abbr[title] {
 }
 
 .react-calendar__navigation button {
-    min-width: 40px;
-    background: none;
+      min-width: 40px;
+      background: none;
 }
-

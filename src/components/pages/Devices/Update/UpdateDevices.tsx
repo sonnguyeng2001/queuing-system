@@ -40,9 +40,31 @@ export const UpdateDevices = () => {
                               return isExists ? false : true;
                         }
                   }),
-            ipAddress: yup.string().trim().required('Vui lòng điền vào trường này'),
+            name: yup
+                  .string()
+                  .trim()
+                  .required('Vui lòng điền vào trường này')
+                  .test('isExists', 'Tên thiết bị đã tồn tại', (value) => {
+                        if (value === devices?.name) {
+                              return true;
+                        } else {
+                              const isExists = dataDevices.dataDevices.find((device) => device.name === value);
+                              return isExists ? false : true;
+                        }
+                  }),
+            ipAddress: yup
+                  .string()
+                  .trim()
+                  .required('Vui lòng điền vào trường này')
+                  .test('isExists', 'Địa chỉ IP đã tồn tại', (value) => {
+                        if (value === devices?.ipAddress) {
+                              return true;
+                        } else {
+                              const isExists = dataDevices.dataDevices.find((device) => device.ipAddress === value);
+                              return isExists ? false : true;
+                        }
+                  }),
             used: yup.array().min(1, 'Vui lòng chọn ít nhất 1 dịch vụ').required('Vui lòng ít nhất 1 dịch vụ'),
-            name: yup.string().trim().required('Vui lòng điền vào trường này'),
             isActive: yup.boolean().notRequired(),
             isConnected: yup.boolean().notRequired(),
             key: yup.string().trim().notRequired(),
@@ -84,7 +106,7 @@ export const UpdateDevices = () => {
             });
             setDevices(infoDevices);
             reset(infoDevices);
-      }, []);
+      }, [dataDevices.dataDevices, id, reset]);
 
       return (
             <div className={cx('wrapper')}>

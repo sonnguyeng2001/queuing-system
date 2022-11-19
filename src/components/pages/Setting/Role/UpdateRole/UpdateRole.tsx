@@ -29,7 +29,7 @@ export const UpdateRole = () => {
                   .string()
                   .required('Vui lòng điền vào trường này')
                   .test('isExists', 'Vai trò đã tồn tại', (value) => {
-                        if (role?.key === id) {
+                        if (role?.roleName === value) {
                               return true;
                         } else {
                               const isExists = dataRole.data.find(

@@ -11,6 +11,7 @@ import { CustomizeButton } from '../../../componentChild/LinkAction/LinkAction';
 import { LogoDownload } from '../../../../assets/svg/LogoDownload';
 import { State } from '../../../../redux/store';
 import moment from 'moment';
+import * as XLSX from 'xlsx';
 const cx = classNames.bind(style);
 
 export const ListReport = () => {
@@ -141,8 +142,38 @@ export const ListReport = () => {
                   return;
             }
       };
-
-      const pageSize = 9;
+      const handleExportData = () => {
+            const time = moment().locale('vi').format('LT');
+            const date = moment().locale('vi').format('L');
+            var dataExcel: {
+                  ordinalNumber: string;
+                  nameService: string | undefined;
+                  createAt: string;
+                  status: string;
+                  origin: string;
+            }[] = [];
+            dataSource.forEach((value) => {
+                  const infoService = dataService.dataServices.find((service) => service.id === value.serviceValue);
+                  dataExcel.push({
+                        ordinalNumber: value.ordinalNumber,
+                        nameService: infoService?.name,
+                        createAt: `${moment(value.timeStart).locale('vi').format('LT')} - ${moment(value.timeStart)
+                              .locale('vi')
+                              .format('L')}`,
+                        status:
+                              (value.status === 'skip' && 'Bỏ qua') ||
+                              (value.status === 'waiting' && 'Đang chờ') ||
+                              (value.status === 'complete' && 'Đã sử dụng') ||
+                              'Errors',
+                        origin: value.origin,
+                  });
+            });
+            var wb = XLSX.utils.book_new();
+            var ws = XLSX.utils.json_to_sheet(dataExcel);
+            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+            XLSX.writeFile(wb, `Excel-${time}-${date}.xlsx`);
+      };
+      const pageSize = 8;
       const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
       return (
             <div className={cx('report-wrapper')}>
@@ -169,6 +200,7 @@ export const ListReport = () => {
                   <div className="tableReport">
                         <CustomizeTable columns={columns} dataSource={dataSource} pageSize={pageSize} />
                         <CustomizeButton
+                              onClick={handleExportData}
                               title="Tải về"
                               type="button"
                               logo={<LogoDownload />}

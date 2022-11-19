@@ -108,7 +108,7 @@ export const ListActionHistory = () => {
             var dataExcel: {
                   userName: string;
                   fullName: string;
-                  timeAction: number;
+                  timeAction: string;
                   ipAction: string;
                   desc: string;
             }[] = [];
@@ -119,7 +119,11 @@ export const ListActionHistory = () => {
                               dataExcel.push({
                                     userName: user.userName,
                                     fullName: user.fullName,
-                                    timeAction: value.timeStart,
+                                    timeAction: `${moment(value.timeStart).locale('vi').format('LTS')} - ${moment(
+                                          value.timeStart,
+                                    )
+                                          .locale('vi')
+                                          .format('L')}`,
                                     ipAction: value.ip,
                                     desc: value.desc,
                               }),

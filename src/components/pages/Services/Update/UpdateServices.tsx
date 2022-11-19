@@ -12,7 +12,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { CheckboxOptionType } from 'antd/lib/checkbox';
 import { ServiceType } from '../../../propsType/ServiceProps';
 import * as yup from 'yup';
-import { info } from 'console';
 import { updateService } from '../../../../redux/features/ServiceSlice';
 import { routesConfig } from '../../../../routes/routeConfig';
 import { addActionHistory } from '../../../../redux/features/ActionHistorySlice';

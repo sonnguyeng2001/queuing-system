@@ -23,34 +23,43 @@ type formType = UserType & {
       confirmPassword: string;
 };
 
-const schema: yup.SchemaOf<Partial<formType>> = yup.object({
-      fullName: yup.string().required('Vui lòng điền vào trường này').trim(),
-      userName: yup.string().required('Vui lòng điền vào trường này').trim(),
-      phone: yup
-            .string()
-            .trim()
-            .phone('VN', true, 'Vui lòng nhập đúng định dạng số điện thoại')
-            .required('Vui lòng điền vào trường này'),
-      email: yup.string().trim().required('Vui lòng điền vào trường này').email('Vui lòng điền đúng định dạng email'),
-      password: yup.string().trim().required('Vui lòng điền vào trường này').min(10, 'Tối thiểu phải có 10 ký tự'),
-      confirmPassword: yup
-            .string()
-            .required('Vui lòng điền vào trường này')
-            .oneOf([yup.ref('password'), null], '2 mật khẩu phải trùng nhau'),
-      active: yup.boolean().notRequired(),
-      img: yup.string().notRequired(),
-      key: yup.string().notRequired(),
-      roleName: yup.string().notRequired(),
-});
+
 export const UpdateAccount = () => {
       const dataUser = useSelector((state: State) => state.user);
       const dataRole = useSelector((state: State) => state.role);
       const [user, setUser] = useState<formType | {}>({} as formType);
-      const currentFormData = useRef<formType>({} as formType);
       const [listRole, setListRole] = useState<RoleType[] | []>([]);
+      const currentFormData = useRef<formType>({} as formType);
       const dispatch = useDispatch<any>();
       const { id } = useParams();
       const navigate = useNavigate();
+
+      const schema: yup.SchemaOf<Partial<formType>> = yup.object({
+            fullName: yup.string().required('Vui lòng điền vào trường này').trim(),
+            userName: yup.string().required('Vui lòng điền vào trường này').trim(),
+            phone: yup
+                  .string()
+                  .trim()
+                  .phone('VN', true, 'Vui lòng nhập đúng định dạng số điện thoại'),
+            email: yup
+                  .string()
+                  .trim()
+                  .required('Vui lòng điền vào trường này')
+                  .email('Vui lòng điền đúng định dạng email'),
+            password: yup
+                  .string()
+                  .trim()
+                  .required('Vui lòng điền vào trường này')
+                  .min(10, 'Tối thiểu phải có 10 ký tự'),
+            confirmPassword: yup
+                  .string()
+                  .required('Vui lòng điền vào trường này')
+                  .oneOf([yup.ref('password'), null], '2 mật khẩu phải trùng nhau'),
+            active: yup.boolean().notRequired(),
+            img: yup.string().notRequired(),
+            key: yup.string().notRequired(),
+            roleName: yup.string().notRequired(),
+      });
 
       const {
             register,
@@ -100,6 +109,7 @@ export const UpdateAccount = () => {
             setListRole(dataRole.data);
             // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [dataUser.data, id]);
+
       return (
             <div className={cx('wrapper')}>
                   <HeaderContent title="Quản lý tài khoản" />

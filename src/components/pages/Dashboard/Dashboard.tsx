@@ -1,6 +1,6 @@
-import classNames from 'classnames/bind';
 import 'react-calendar/dist/Calendar.css';
 import './Dashboard.css';
+import classNames from 'classnames/bind';
 import { LogoBookmark } from '../../../assets/svg/LogoBookmark';
 import { LogoCalendar } from '../../../assets/svg/LogoCalendar';
 import { LogoCalendarCheck } from '../../../assets/svg/LogoCalendarCheck';
@@ -17,23 +17,23 @@ import { CardNoNameType } from '../../propsType/CardNoNameProps';
 import { LogoDevices } from '../../../assets/svg/LogoDevices';
 import { LogoServices } from '../../../assets/svg/LogoServices';
 import { LogoLevel } from '../../../assets/svg/LogoLevel';
-import Calendar, { OnChangeDateCallback, OnChangeDateRangeCallback } from 'react-calendar';
+import Calendar from 'react-calendar';
 import { HeaderContent } from '../../componentChild/HeaderContent/HeaderContent';
 import { useSelector } from 'react-redux';
 import { State } from '../../../redux/store';
 import { routesConfig } from '../../../routes/routeConfig';
 import { Select } from 'antd';
 import { LogoArrow } from '../../../assets/svg/LogoArrow';
+import moment from 'moment';
 
 const cx = classNames.bind(style);
 
 export const DashboardPage = () => {
-      const [data, setData] = useState<{ title: string; value: number }[]>([]);
       const dataDevices = useSelector((state: State) => state.device);
       const dataService = useSelector((state: State) => state.service);
       const dataCustomerService = useSelector((state: State) => state.customerService);
-      const [date, setDate] = useState(new Date());
-      const cardList: CardItemType[] = [
+
+      const templateDataCardList: CardItemType[] = [
             {
                   title: 'Số thứ tự đã cấp',
                   LogoCard: <LogoCalendar />,
@@ -67,6 +67,31 @@ export const DashboardPage = () => {
                   to: routesConfig.customerService,
             },
       ];
+
+      const templateDataChart: { title: string; value: number }[] = [
+            {
+                  title: 'Số thứ tự đã cấp',
+                  value: dataCustomerService.dataCustomerServices.length,
+            },
+            {
+                  title: 'Đang chờ',
+                  value: dataCustomerService.dataCustomerServices.filter((cs) => cs.status === 'waiting').length,
+            },
+            {
+                  title: 'Bỏ qua',
+                  value: dataCustomerService.dataCustomerServices.filter((cs) => cs.status === 'skip').length,
+            },
+            {
+                  title: 'Đã sử dụng',
+                  value: dataCustomerService.dataCustomerServices.filter((cs) => cs.status === 'complete').length,
+            },
+      ];
+
+      // data = dataChart
+      const [selectedDate, setSelectedDate] = useState(new Date());
+      const [data, setDataChart] = useState<{ title: string; value: number }[]>(templateDataChart);
+      const [cardList, setCardList] = useState<CardItemType[] | []>(templateDataCardList);
+
       const cardNoNameList: CardNoNameType[] = [
             {
                   colorPrimary: 'var(--color-orange-500)',
@@ -139,27 +164,175 @@ export const DashboardPage = () => {
             },
       ];
 
-      useEffect(() => {
-            const dataConfig: { title: string; value: number }[] = [
+      const handleClickMonthCalendar = (e: Date) => {
+            let endOfMonth = moment(e).endOf('month');
+            let startOfMonth = moment(e).startOf('month');
+            // ts === timeStamp
+            const tsStartDayOfMonth = new Date(
+                  startOfMonth.year(),
+                  startOfMonth.month(),
+                  startOfMonth.date(),
+                  startOfMonth.hours(),
+                  startOfMonth.minutes(),
+            ).getTime();
+            const tsEndDayOfMonth = new Date(
+                  endOfMonth.year(),
+                  endOfMonth.month(),
+                  endOfMonth.date(),
+                  startOfMonth.hours(),
+                  startOfMonth.minutes(),
+            ).getTime();
+
+            const totalComplete = dataCustomerService.dataCustomerServices.filter(
+                  (value) =>
+                        value.timeStart > tsStartDayOfMonth &&
+                        value.timeStart < tsEndDayOfMonth &&
+                        value.status === 'complete',
+            ).length;
+            const totalWaiting = dataCustomerService.dataCustomerServices.filter(
+                  (value) =>
+                        value.timeStart > tsStartDayOfMonth &&
+                        value.timeStart < tsEndDayOfMonth &&
+                        value.status === 'waiting',
+            ).length;
+            const totalSkip = dataCustomerService.dataCustomerServices.filter(
+                  (value) =>
+                        value.timeStart > tsStartDayOfMonth &&
+                        value.timeStart < tsEndDayOfMonth &&
+                        value.status === 'skip',
+            ).length;
+
+            setCardList([
                   {
                         title: 'Số thứ tự đã cấp',
-                        value: dataCustomerService.dataCustomerServices.length,
+                        LogoCard: <LogoCalendar />,
+                        LogoUp: <LogoUp />,
+                        quantity: totalComplete + totalSkip + totalWaiting,
+                        percent: '32.41',
+                        to: routesConfig.customerService,
                   },
                   {
-                        title: 'Đang chờ',
-                        value: dataCustomerService.dataCustomerServices.filter((cs) => cs.status === 'waiting').length,
+                        title: 'Số thứ tự đã sử dụng',
+                        LogoCard: <LogoCalendarCheck />,
+                        LogoUp: <LogoDown />,
+                        quantity: totalComplete,
+                        percent: '32.41',
+                        to: routesConfig.customerService,
                   },
                   {
-                        title: 'Bỏ qua',
-                        value: dataCustomerService.dataCustomerServices.filter((cs) => cs.status === 'skip').length,
+                        title: 'Số thứ tự đang chờ',
+                        LogoCard: <LogoPeopleCall />,
+                        LogoUp: <LogoUp />,
+                        quantity: totalWaiting,
+                        percent: '56.41',
+                        to: routesConfig.customerService,
+                  },
+                  {
+                        title: 'Số thứ tự đã bỏ qua',
+                        LogoCard: <LogoBookmark />,
+                        LogoUp: <LogoDown />,
+                        quantity: totalSkip,
+                        percent: '22.41',
+                        to: routesConfig.customerService,
+                  },
+            ]);
+            setDataChart([
+                  {
+                        title: 'Số thứ tự đã cấp',
+                        value: totalSkip + totalWaiting + totalComplete,
                   },
                   {
                         title: 'Đã sử dụng',
-                        value: dataCustomerService.dataCustomerServices.filter((cs) => cs.status === 'complete').length,
+                        value: totalComplete,
                   },
-            ];
-            setData(dataConfig);
-      }, [dataCustomerService.dataCustomerServices]);
+                  {
+                        title: 'Đang chờ',
+                        value: totalWaiting,
+                  },
+                  {
+                        title: 'Bỏ qua',
+                        value: totalSkip,
+                  },
+            ]);
+      };
+
+      useEffect(() => {
+            const year: number = parseInt(selectedDate.getFullYear().toString());
+            const month: number = parseInt(selectedDate.getMonth().toString());
+            const date: number = parseInt(selectedDate.getDate().toString());
+            const timeStampStart = new Date(year, month, date, 0, 0).getTime();
+            const timeStampEnd = new Date(year, month, date, 23, 59).getTime();
+
+            const totalComplete = dataCustomerService.dataCustomerServices.filter(
+                  (value) =>
+                        value.timeStart > timeStampStart &&
+                        value.timeStart < timeStampEnd &&
+                        value.status === 'complete',
+            ).length;
+            const totalWaiting = dataCustomerService.dataCustomerServices.filter(
+                  (value) =>
+                        value.timeStart > timeStampStart &&
+                        value.timeStart < timeStampEnd &&
+                        value.status === 'waiting',
+            ).length;
+            const totalSkip = dataCustomerService.dataCustomerServices.filter(
+                  (value) =>
+                        value.timeStart > timeStampStart && value.timeStart < timeStampEnd && value.status === 'skip',
+            ).length;
+
+            setCardList([
+                  {
+                        title: 'Số thứ tự đã cấp',
+                        LogoCard: <LogoCalendar />,
+                        LogoUp: <LogoUp />,
+                        quantity: totalComplete + totalSkip + totalWaiting,
+                        percent: '32.41',
+                        to: routesConfig.customerService,
+                  },
+                  {
+                        title: 'Số thứ tự đã sử dụng',
+                        LogoCard: <LogoCalendarCheck />,
+                        LogoUp: <LogoDown />,
+                        quantity: totalComplete,
+                        percent: '32.41',
+                        to: routesConfig.customerService,
+                  },
+                  {
+                        title: 'Số thứ tự đang chờ',
+                        LogoCard: <LogoPeopleCall />,
+                        LogoUp: <LogoUp />,
+                        quantity: totalWaiting,
+                        percent: '56.41',
+                        to: routesConfig.customerService,
+                  },
+                  {
+                        title: 'Số thứ tự đã bỏ qua',
+                        LogoCard: <LogoBookmark />,
+                        LogoUp: <LogoDown />,
+                        quantity: totalSkip,
+                        percent: '22.41',
+                        to: routesConfig.customerService,
+                  },
+            ]);
+            setDataChart([
+                  {
+                        title: 'Số thứ tự đã cấp',
+                        value: totalSkip + totalWaiting + totalComplete,
+                  },
+                  {
+                        title: 'Đã sử dụng',
+                        value: totalComplete,
+                  },
+                  {
+                        title: 'Đang chờ',
+                        value: totalWaiting,
+                  },
+                  {
+                        title: 'Bỏ qua',
+                        value: totalSkip,
+                  },
+            ]);
+      }, [selectedDate, dataCustomerService.dataCustomerServices]);
 
       const config = {
             data,
@@ -219,7 +392,11 @@ export const DashboardPage = () => {
                               return <CardNoName key={index} children={card} />;
                         })}
                         <div className={cx('calendar')}>
-                              <Calendar value={date} onChange={setDate} />
+                              <Calendar
+                                    onClickMonth={handleClickMonthCalendar}
+                                    value={selectedDate}
+                                    onChange={setSelectedDate}
+                              />
                         </div>
                   </div>
             </div>

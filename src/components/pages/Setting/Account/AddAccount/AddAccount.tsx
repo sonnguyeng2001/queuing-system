@@ -23,31 +23,47 @@ type formType = UserType & {
       confirmPassword: string;
 };
 
-const schema: yup.SchemaOf<Partial<formType>> = yup.object({
-      fullName: yup.string().required('Vui lòng điền vào trường này').trim(),
-      userName: yup.string().required('Vui lòng điền vào trường này').trim(),
-      phone: yup
-            .string()
-            .trim()
-            .required('Vui lòng điền vào trường này')
-            .phone('VN', true, 'Vui lòng nhập đúng định dạng số điện thoại'),
-      email: yup.string().trim().required('Vui lòng điền vào trường này').email('Vui lòng điền đúng định dạng email'),
-      password: yup.string().trim().required('Vui lòng điền vào trường này').min(10, 'Tối thiểu phải có 10 ký tự'),
-      confirmPassword: yup
-            .string()
-            .required('Vui lòng điền vào trường này')
-            .oneOf([yup.ref('password'), null], '2 mật khẩu phải trùng nhau'),
-      active: yup.boolean().notRequired(),
-      img: yup.string().notRequired(),
-      key: yup.string().notRequired(),
-      roleName: yup.string().notRequired(),
-});
-
 export const AddAccount = () => {
       const navigate = useNavigate();
       const [listRole, setListRole] = useState<RoleType[] | []>([]);
       const dataRole = useSelector((state: State) => state.role);
+      const dataUser = useSelector((state: State) => state.user);
       const dispatch = useDispatch<any>();
+      const schema: yup.SchemaOf<Partial<formType>> = yup.object({
+            fullName: yup.string().required('Vui lòng điền vào trường này').trim(),
+            userName: yup.string().required('Vui lòng điền vào trường này').trim(),
+            phone: yup
+                  .string()
+                  .trim()
+                  .required('Vui lòng điền vào trường này')
+                  .phone('VN', true, 'Vui lòng nhập đúng định dạng số điện thoại')
+                  .test('isExists', 'Số điện thoại đã tồn tại', (value) => {
+                        const isExists = dataUser.data.find((user) => user.phone.trim() === value?.trim());
+                        return isExists ? false : true;
+                  }),
+            email: yup
+                  .string()
+                  .trim()
+                  .required('Vui lòng điền vào trường này')
+                  .email('Vui lòng điền đúng định dạng email')
+                  .test('isExists', 'Email đã tồn tại', (value) => {
+                        const isExists = dataUser.data.find((user) => user.email.trim() === value?.trim());
+                        return isExists ? false : true;
+                  }),
+            password: yup
+                  .string()
+                  .trim()
+                  .required('Vui lòng điền vào trường này')
+                  .min(10, 'Tối thiểu phải có 10 ký tự'),
+            confirmPassword: yup
+                  .string()
+                  .required('Vui lòng điền vào trường này')
+                  .oneOf([yup.ref('password'), null], '2 mật khẩu phải trùng nhau'),
+            active: yup.boolean().notRequired(),
+            img: yup.string().notRequired(),
+            key: yup.string().notRequired(),
+            roleName: yup.string().notRequired(),
+      });
 
       const {
             register,
@@ -77,7 +93,7 @@ export const AddAccount = () => {
 
       useEffect(() => {
             setListRole(dataRole.data);
-      }, []);
+      }, [dataRole.data]);
 
       return (
             <div className={cx('wrapper')}>
