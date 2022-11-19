@@ -10,7 +10,7 @@ import { LogoUp } from '../../../assets/svg/LogoUp';
 import { CardItem } from '../../componentChild/CardItem/CardItem';
 import { CardItemType } from '../../propsType/CardItemProps';
 import style from './Dashboard.module.scss';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Area } from '@ant-design/plots';
 import { CardNoName } from '../../componentChild/CardNoName/CardNoName';
 import { CardNoNameType } from '../../propsType/CardNoNameProps';
@@ -164,6 +164,76 @@ export const DashboardPage = () => {
             },
       ];
 
+      const setDataByDate = useCallback(
+            (timeStart: number, timeEnd: number) => {
+                  const totalComplete = dataCustomerService.dataCustomerServices.filter(
+                        (value) =>
+                              value.timeStart > timeStart && value.timeStart < timeEnd && value.status === 'complete',
+                  ).length;
+                  const totalWaiting = dataCustomerService.dataCustomerServices.filter(
+                        (value) =>
+                              value.timeStart > timeStart && value.timeStart < timeEnd && value.status === 'waiting',
+                  ).length;
+                  const totalSkip = dataCustomerService.dataCustomerServices.filter(
+                        (value) => value.timeStart > timeStart && value.timeStart < timeEnd && value.status === 'skip',
+                  ).length;
+
+                  setCardList([
+                        {
+                              title: 'Số thứ tự đã cấp',
+                              LogoCard: <LogoCalendar />,
+                              LogoUp: <LogoUp />,
+                              quantity: totalComplete + totalSkip + totalWaiting,
+                              percent: '32.41',
+                              to: routesConfig.customerService,
+                        },
+                        {
+                              title: 'Số thứ tự đã sử dụng',
+                              LogoCard: <LogoCalendarCheck />,
+                              LogoUp: <LogoDown />,
+                              quantity: totalComplete,
+                              percent: '32.41',
+                              to: routesConfig.customerService,
+                        },
+                        {
+                              title: 'Số thứ tự đang chờ',
+                              LogoCard: <LogoPeopleCall />,
+                              LogoUp: <LogoUp />,
+                              quantity: totalWaiting,
+                              percent: '56.41',
+                              to: routesConfig.customerService,
+                        },
+                        {
+                              title: 'Số thứ tự đã bỏ qua',
+                              LogoCard: <LogoBookmark />,
+                              LogoUp: <LogoDown />,
+                              quantity: totalSkip,
+                              percent: '22.41',
+                              to: routesConfig.customerService,
+                        },
+                  ]);
+                  setDataChart([
+                        {
+                              title: 'Số thứ tự đã cấp',
+                              value: totalSkip + totalWaiting + totalComplete,
+                        },
+                        {
+                              title: 'Đã sử dụng',
+                              value: totalComplete,
+                        },
+                        {
+                              title: 'Đang chờ',
+                              value: totalWaiting,
+                        },
+                        {
+                              title: 'Bỏ qua',
+                              value: totalSkip,
+                        },
+                  ]);
+            },
+            [dataCustomerService.dataCustomerServices],
+      );
+
       const handleClickMonthCalendar = (e: Date) => {
             let endOfMonth = moment(e).endOf('month');
             let startOfMonth = moment(e).startOf('month');
@@ -182,78 +252,7 @@ export const DashboardPage = () => {
                   startOfMonth.hours(),
                   startOfMonth.minutes(),
             ).getTime();
-
-            const totalComplete = dataCustomerService.dataCustomerServices.filter(
-                  (value) =>
-                        value.timeStart > tsStartDayOfMonth &&
-                        value.timeStart < tsEndDayOfMonth &&
-                        value.status === 'complete',
-            ).length;
-            const totalWaiting = dataCustomerService.dataCustomerServices.filter(
-                  (value) =>
-                        value.timeStart > tsStartDayOfMonth &&
-                        value.timeStart < tsEndDayOfMonth &&
-                        value.status === 'waiting',
-            ).length;
-            const totalSkip = dataCustomerService.dataCustomerServices.filter(
-                  (value) =>
-                        value.timeStart > tsStartDayOfMonth &&
-                        value.timeStart < tsEndDayOfMonth &&
-                        value.status === 'skip',
-            ).length;
-
-            setCardList([
-                  {
-                        title: 'Số thứ tự đã cấp',
-                        LogoCard: <LogoCalendar />,
-                        LogoUp: <LogoUp />,
-                        quantity: totalComplete + totalSkip + totalWaiting,
-                        percent: '32.41',
-                        to: routesConfig.customerService,
-                  },
-                  {
-                        title: 'Số thứ tự đã sử dụng',
-                        LogoCard: <LogoCalendarCheck />,
-                        LogoUp: <LogoDown />,
-                        quantity: totalComplete,
-                        percent: '32.41',
-                        to: routesConfig.customerService,
-                  },
-                  {
-                        title: 'Số thứ tự đang chờ',
-                        LogoCard: <LogoPeopleCall />,
-                        LogoUp: <LogoUp />,
-                        quantity: totalWaiting,
-                        percent: '56.41',
-                        to: routesConfig.customerService,
-                  },
-                  {
-                        title: 'Số thứ tự đã bỏ qua',
-                        LogoCard: <LogoBookmark />,
-                        LogoUp: <LogoDown />,
-                        quantity: totalSkip,
-                        percent: '22.41',
-                        to: routesConfig.customerService,
-                  },
-            ]);
-            setDataChart([
-                  {
-                        title: 'Số thứ tự đã cấp',
-                        value: totalSkip + totalWaiting + totalComplete,
-                  },
-                  {
-                        title: 'Đã sử dụng',
-                        value: totalComplete,
-                  },
-                  {
-                        title: 'Đang chờ',
-                        value: totalWaiting,
-                  },
-                  {
-                        title: 'Bỏ qua',
-                        value: totalSkip,
-                  },
-            ]);
+            setDataByDate(tsStartDayOfMonth, tsEndDayOfMonth);
       };
 
       useEffect(() => {
@@ -262,77 +261,8 @@ export const DashboardPage = () => {
             const date: number = parseInt(selectedDate.getDate().toString());
             const timeStampStart = new Date(year, month, date, 0, 0).getTime();
             const timeStampEnd = new Date(year, month, date, 23, 59).getTime();
-
-            const totalComplete = dataCustomerService.dataCustomerServices.filter(
-                  (value) =>
-                        value.timeStart > timeStampStart &&
-                        value.timeStart < timeStampEnd &&
-                        value.status === 'complete',
-            ).length;
-            const totalWaiting = dataCustomerService.dataCustomerServices.filter(
-                  (value) =>
-                        value.timeStart > timeStampStart &&
-                        value.timeStart < timeStampEnd &&
-                        value.status === 'waiting',
-            ).length;
-            const totalSkip = dataCustomerService.dataCustomerServices.filter(
-                  (value) =>
-                        value.timeStart > timeStampStart && value.timeStart < timeStampEnd && value.status === 'skip',
-            ).length;
-
-            setCardList([
-                  {
-                        title: 'Số thứ tự đã cấp',
-                        LogoCard: <LogoCalendar />,
-                        LogoUp: <LogoUp />,
-                        quantity: totalComplete + totalSkip + totalWaiting,
-                        percent: '32.41',
-                        to: routesConfig.customerService,
-                  },
-                  {
-                        title: 'Số thứ tự đã sử dụng',
-                        LogoCard: <LogoCalendarCheck />,
-                        LogoUp: <LogoDown />,
-                        quantity: totalComplete,
-                        percent: '32.41',
-                        to: routesConfig.customerService,
-                  },
-                  {
-                        title: 'Số thứ tự đang chờ',
-                        LogoCard: <LogoPeopleCall />,
-                        LogoUp: <LogoUp />,
-                        quantity: totalWaiting,
-                        percent: '56.41',
-                        to: routesConfig.customerService,
-                  },
-                  {
-                        title: 'Số thứ tự đã bỏ qua',
-                        LogoCard: <LogoBookmark />,
-                        LogoUp: <LogoDown />,
-                        quantity: totalSkip,
-                        percent: '22.41',
-                        to: routesConfig.customerService,
-                  },
-            ]);
-            setDataChart([
-                  {
-                        title: 'Số thứ tự đã cấp',
-                        value: totalSkip + totalWaiting + totalComplete,
-                  },
-                  {
-                        title: 'Đã sử dụng',
-                        value: totalComplete,
-                  },
-                  {
-                        title: 'Đang chờ',
-                        value: totalWaiting,
-                  },
-                  {
-                        title: 'Bỏ qua',
-                        value: totalSkip,
-                  },
-            ]);
-      }, [selectedDate, dataCustomerService.dataCustomerServices]);
+            setDataByDate(timeStampStart, timeStampEnd);
+      }, [selectedDate, dataCustomerService.dataCustomerServices, setDataByDate]);
 
       const config = {
             data,
