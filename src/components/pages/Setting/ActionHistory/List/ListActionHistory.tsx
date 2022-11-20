@@ -68,10 +68,10 @@ export const ListActionHistory = () => {
             var value = 0;
 
             if (type === 'from') {
-                  value = new Date(year, month, date, parseInt('00'), parseInt('00')).getTime();
+                  value = new Date(year, month, date, 0,0,0).getTime();
                   selectedDate.current[0] = value;
             } else if (type === 'to') {
-                  value = new Date(year, month, date, 23, 59).getTime();
+                  value = new Date(year, month, date, 23, 59,59).getTime();
                   selectedDate.current[1] = value;
             }
 

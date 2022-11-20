@@ -92,10 +92,10 @@ export const DetailsServices = () => {
             var value = 0;
 
             if (type === 'from') {
-                  value = new Date(year, month, date, parseInt('00'), parseInt('00')).getTime();
+                  value = new Date(year, month, date, 0, 0, 0).getTime();
                   selectedDate.current[0] = value;
             } else if (type === 'to') {
-                  value = new Date(year, month, date, 23, 59).getTime();
+                  value = new Date(year, month, date, 23, 59, 59).getTime();
                   selectedDate.current[1] = value;
             }
 
@@ -124,51 +124,51 @@ export const DetailsServices = () => {
                   return;
             }
       };
-      // const optionServices: CheckboxOptionType[] = [
-      //       {
-      //             label: (
-      //                   <div className={cx('object')}>
-      //                         <span className={cx('key')}>Tăng tự động từ:</span>
-      //                         <span className={cx('value')}>
-      //                               <span className={cx('text-special')}>0001</span>
-      //                               &nbsp; đến &nbsp;
-      //                               <span className={cx('text-special')}>9999</span>
-      //                         </span>
-      //                   </div>
-      //             ),
-      //             value: 'autoBoost',
-      //       },
-      //       {
-      //             label: (
-      //                   <div className={cx('object')} style={{ margin: '4px 0px' }}>
-      //                         <span className={cx('key')}>Prefix:</span>
-      //                         <span className={cx('value')}>
-      //                               <span className={cx('text-special')}>0001</span>
-      //                         </span>
-      //                   </div>
-      //             ),
-      //             value: 'prefix',
-      //       },
-      //       {
-      //             label: (
-      //                   <div className={cx('object')} style={{ margin: '4px 0px' }}>
-      //                         <span className={cx('key')}>Suffix:</span>
-      //                         <span className={cx('value')}>
-      //                               <span className={cx('text-special')}>0001</span>
-      //                         </span>
-      //                   </div>
-      //             ),
-      //             value: 'suffix',
-      //       },
-      //       {
-      //             label: (
-      //                   <div className={cx('object')}>
-      //                         <span className={cx('key')}>Reset mỗi ngày</span>
-      //                   </div>
-      //             ),
-      //             value: 'resetEveryday',
-      //       },
-      // ];
+      const optionServices: CheckboxOptionType[] = [
+            {
+                  label: (
+                        <div className={cx('object')}>
+                              <span className={cx('key')}>Tăng tự động từ:</span>
+                              <span className={cx('value')}>
+                                    <span className={cx('text-special')}>0001</span>
+                                    &nbsp; đến &nbsp;
+                                    <span className={cx('text-special')}>9999</span>
+                              </span>
+                        </div>
+                  ),
+                  value: 'autoBoost',
+            },
+            {
+                  label: (
+                        <div className={cx('object')} style={{ margin: '4px 0px' }}>
+                              <span className={cx('key')}>Prefix:</span>
+                              <span className={cx('value')}>
+                                    <span className={cx('text-special')}>0001</span>
+                              </span>
+                        </div>
+                  ),
+                  value: 'prefix',
+            },
+            {
+                  label: (
+                        <div className={cx('object')} style={{ margin: '4px 0px' }}>
+                              <span className={cx('key')}>Suffix:</span>
+                              <span className={cx('value')}>
+                                    <span className={cx('text-special')}>0001</span>
+                              </span>
+                        </div>
+                  ),
+                  value: 'suffix',
+            },
+            {
+                  label: (
+                        <div className={cx('object')}>
+                              <span className={cx('key')}>Reset mỗi ngày</span>
+                        </div>
+                  ),
+                  value: 'resetEveryday',
+            },
+      ];
 
       const pageSize = 6;
       const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
@@ -178,49 +178,47 @@ export const DetailsServices = () => {
                   <div className={cx('content-wrapper')}>
                         <div className={cx('content')}>
                               <div className={cx('content-left')}>
-                                    <header className={cx('header-content')}>Thông tin dịch vụ</header>
-                                    <div className={cx('object')}>
-                                          <span className={cx('value')}>
-                                                <strong className={cx('title')}>Mã dịch vụ: </strong>
-                                                {services?.id}
-                                          </span>
-                                    </div>
-                                    <div className={cx('object')}>
-                                          <span className={cx('value')}>
-                                                <strong className={cx('title')}>Tên dịch vụ: </strong>
-                                                {services?.name}
-                                          </span>
-                                    </div>
-                                    <div className={cx('object')} style={{ height: '130px', overflow: 'overlay' }}>
-                                          <span className={cx('value')}>
-                                                <strong className={cx('title')}>Mô tả: </strong>
-                                                {services?.desc}
-                                          </span>
-                                    </div>
-                                    {/* --------------------------------------------------------------------------------------------------- */}
-                                    <br />
-                                    <header className={cx('header-content')}>Quy tắc cấp số</header>
-                                    <div className={cx('object')}>
-                                          <span className={cx('key')}>Tăng tự động:</span>
-                                          <span className={cx('value')}>
-                                                {' '}
-                                                <span className={cx('text-special')}>0001</span>
-                                                &nbsp; đến &nbsp;
-                                                <span className={cx('text-special')}>9999</span>
-                                          </span>
-                                    </div>
-                                    <div className={cx('object')} style={{ margin: '16px 0px' }}>
-                                          <span className={cx('key')}>Prefix:</span>
-                                          <span className={cx('value')}>
-                                                <span className={cx('text-special')}>0001</span>
-                                          </span>
-                                    </div>
-                                    <div className={cx('object')}>
-                                          <span className={cx('key')}>Reset mỗi ngày:</span>
-                                    </div>
-                                    <div className={cx('object')}>
-                                          <span className={cx('value')}>Ví dụ: 201 - 2001</span>
-                                    </div>
+                                    <>
+                                          <header className={cx('header-content')}>Thông tin dịch vụ</header>
+                                          <div className={cx('object')}>
+                                                <span className={cx('value')}>
+                                                      <strong className={cx('title')}>Mã dịch vụ: </strong>
+                                                      {services?.id}
+                                                </span>
+                                          </div>
+                                          <div className={cx('object')}>
+                                                <span className={cx('value')}>
+                                                      <strong className={cx('title')}>Tên dịch vụ: </strong>
+                                                      {services?.name}
+                                                </span>
+                                          </div>
+                                          <div
+                                                className={cx('object')}
+                                                style={{ height: '130px', overflow: 'overlay' }}
+                                          >
+                                                <span className={cx('value')}>
+                                                      <strong className={cx('title')}>Mô tả: </strong>
+                                                      {services?.desc}
+                                                </span>
+                                          </div>
+                                          {/* --------------------------------------------------------------------------------------------------- */}
+                                          <br />
+                                          <header className={cx('header-content')}>Quy tắc cấp số</header>
+                                          {services.listOption &&
+                                                services.listOption.map((option) => {
+                                                      const jsxElement = optionServices.find(
+                                                            (service) => option.valueOf() === service.value.valueOf(),
+                                                      );
+                                                      return (
+                                                            <div
+                                                                  style={{ marginBottom: '10px' }}
+                                                                  key={jsxElement?.value.toString()}
+                                                            >
+                                                                  {jsxElement?.label}
+                                                            </div>
+                                                      );
+                                                })}
+                                    </>
                               </div>
 
                               <div className={cx('content-right')}>
@@ -259,7 +257,7 @@ export const DetailsServices = () => {
                                                             format={dateFormatList}
                                                             placeholder="Đến ngày"
                                                             popupClassName="popup-date"
-                                                            onChange={(e) => handleChangeDate(e, 'from')}
+                                                            onChange={(e) => handleChangeDate(e, 'to')}
                                                       />
                                                 </div>
                                           </div>
