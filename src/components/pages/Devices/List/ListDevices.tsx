@@ -219,7 +219,6 @@ export const ListDevices = () => {
                   </div>
                   <div className={cx('tableDevice')}>
                         <CustomizeTable columns={columns} dataSource={dataSource} pageSize={pageSize} />
-
                         <CustomizeButton
                               type="Link"
                               title="Thêm thiết bị"

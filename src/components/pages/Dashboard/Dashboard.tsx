@@ -323,6 +323,7 @@ export const DashboardPage = () => {
                         })}
                         <div className={cx('calendar')}>
                               <Calendar
+                                    locale="en"
                                     onClickMonth={handleClickMonthCalendar}
                                     value={selectedDate}
                                     onChange={setSelectedDate}
