@@ -1,9 +1,9 @@
 import './ListDevices.css';
 import { Link } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useTransition } from 'react';
 import style from './ListDevices.module.scss';
 import classNames from 'classnames/bind';
-import { Select, Popover } from 'antd';
+import { Select, Popover, Spin } from 'antd';
 import { routesConfig } from '../../../../routes/routeConfig';
 import { HeaderContent } from '../../../componentChild/HeaderContent/HeaderContent';
 import { LogoArrow } from '../../../../assets/svg/LogoArrow';
@@ -11,7 +11,6 @@ import { LogoSearch } from '../../../../assets/svg/LogoSearch';
 import { LogoPlus } from '../../../../assets/svg/LogoPlus';
 import { DevicesType } from '../../../propsType/DevicesProps';
 import { useSelector } from 'react-redux';
-import useDebounce from '../../../../Hooks/useDebound';
 import { CustomizeButton } from '../../../componentChild/LinkAction/LinkAction';
 import { CustomizeTable } from '../../../componentChild/CustomizeTable/CustomizeTable';
 import { State } from '../../../../redux/store';
@@ -21,6 +20,7 @@ const cx = classNames.bind(style);
 
 export const ListDevices = () => {
       const [dataSource, setDataSource] = useState<DevicesType[] | []>([]);
+      const [isPending, startTransition] = useTransition();
       const data = useSelector((state: State) => state.device);
       const dataService = useSelector((state: State) => state.service);
       const [inputSearch, setInputSearch] = useState<string>('');
@@ -163,18 +163,13 @@ export const ListDevices = () => {
             }
       };
 
-      const debouncedValue = useDebounce(inputSearch, 500);
-      useEffect(() => {
-            setDataSource(
-                  dataRef.current.filter((key) => key.name.toLowerCase().includes(debouncedValue.toLowerCase())),
-            );
-      }, [debouncedValue]);
-
       const handleChangeInput = (e: any) => {
-            const searchValue = e.target.value;
-            if (!searchValue.startsWith(' ')) {
-                  setInputSearch(e.target.value);
-            }
+            startTransition(() => {
+                  setDataSource(
+                        dataRef.current.filter((key) => key.name.toLowerCase().includes(e.target.value.toLowerCase())),
+                  );
+            });
+            setInputSearch(e.target.value);
       };
 
       const pageSize = 5;
@@ -214,14 +209,23 @@ export const ListDevices = () => {
                                           placeholder="Nhập từ khóa..."
                                           className={cx('content')}
                                     />
-                                    <LogoSearch className={cx('logo-arrow')} />
+                                    {isPending ? (
+                                          <Spin className={cx('logo-arrow')} />
+                                    ) : (
+                                          <LogoSearch className={cx('logo-arrow')} />
+                                    )}
                               </div>
                         </div>
                   </div>
                   <div className={cx('tableDevice')}>
                         <CustomizeTable columns={columns} dataSource={dataSource} pageSize={pageSize} />
 
-                        <CustomizeButton type="Link" title="Thêm thiết bị" to={routesConfig.addDevices} logo={<LogoPlus />} />
+                        <CustomizeButton
+                              type="Link"
+                              title="Thêm thiết bị"
+                              to={routesConfig.addDevices}
+                              logo={<LogoPlus />}
+                        />
                   </div>
             </div>
       );
