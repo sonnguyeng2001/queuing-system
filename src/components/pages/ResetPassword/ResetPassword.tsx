@@ -7,7 +7,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useRef, useEffect } from 'react';
 import { updatePassword } from '../../../redux/features/UserSlice';
 import { UserType } from '../../propsType/UserProps';
-
+import { toast } from 'react-toastify';
 const cx = classNames.bind(style);
 export const ResetPassword = () => {
       const passwordRef = useRef<any>(null);
@@ -37,7 +37,7 @@ export const ResetPassword = () => {
                               password: passwordRef.current.value,
                         } as UserType),
                   );
-                  alert('Update Password Successfully');
+                  toast.success('Cập nhật thành công', { theme: 'dark' });
                   navigate('/');
             } else {
                   errorRef.current?.classList.add(cx('showError'));

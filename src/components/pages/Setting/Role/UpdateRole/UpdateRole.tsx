@@ -13,6 +13,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { updateRole } from '../../../../../redux/features/RoleSlice';
 import { CheckboxOptionType } from 'antd/lib/checkbox';
+import {toast} from 'react-toastify';
 const cx = classNames.bind(style);
 export const UpdateRole = () => {
       const [role, setRole] = useState<RoleType | undefined>({} as RoleType);
@@ -81,10 +82,11 @@ export const UpdateRole = () => {
       const onSubmit: SubmitHandler<RoleType> = async (data) => {
             await dispatch(updateRole(data))
                   .then((response: RoleType) => {
-                        response && alert('Cập nhật thành công');
+                        response && toast.success('Cập nhật thành công', { theme: 'dark' });
                         navigate(routesConfig.listRole);
                   })
                   .catch((errors: any) => {
+                         toast.error('Cập nhật thất bại', { theme: 'dark' });
                         console.log(errors);
                   });
       };

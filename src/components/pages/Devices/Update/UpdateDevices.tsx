@@ -9,7 +9,7 @@ import style from './UpdateDevices.module.scss';
 import classNames from 'classnames/bind';
 import { HeaderContent } from '../../../componentChild/HeaderContent/HeaderContent';
 import { LogoArrow } from '../../../../assets/svg/LogoArrow';
-
+import { toast } from 'react-toastify';
 //  import library handle form
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -93,9 +93,10 @@ export const UpdateDevices = () => {
                               keyUser: dataUser.currentUser.key,
                         }),
                   );
-                  alert('Cập nhật thành công');
+                  toast.success('Cập nhật thành công', { theme: 'dark' });
                   navigate(routesConfig.listDevices);
             } catch (error) {
+                  toast.error('Cập nhật thất bại', { theme: 'dark' });
                   console.log(error);
             }
       };

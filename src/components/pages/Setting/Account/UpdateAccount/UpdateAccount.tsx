@@ -17,12 +17,12 @@ import * as yup from 'yup';
 import 'yup-phone';
 import { updateRoleQuantity } from '../../../../../redux/features/RoleSlice';
 import { routesConfig } from '../../../../../routes/routeConfig';
+import { toast } from 'react-toastify';
 const cx = classNames.bind(style);
 
 type formType = UserType & {
       confirmPassword: string;
 };
-
 
 export const UpdateAccount = () => {
       const dataUser = useSelector((state: State) => state.user);
@@ -37,10 +37,7 @@ export const UpdateAccount = () => {
       const schema: yup.SchemaOf<Partial<formType>> = yup.object({
             fullName: yup.string().required('Vui lòng điền vào trường này').trim(),
             userName: yup.string().required('Vui lòng điền vào trường này').trim(),
-            phone: yup
-                  .string()
-                  .trim()
-                  .phone('VN', true, 'Vui lòng nhập đúng định dạng số điện thoại'),
+            phone: yup.string().trim().phone('VN', true, 'Vui lòng nhập đúng định dạng số điện thoại'),
             email: yup
                   .string()
                   .trim()
@@ -91,9 +88,10 @@ export const UpdateAccount = () => {
                               console.log('CurrentRole or PrevRole was undefined');
                         }
                   }
-                  alert('Cập nhật thành công');
+                  toast.success('Cập nhật thành công', { theme: 'dark' });
                   navigate(routesConfig.listAccount);
             } catch (error) {
+                  toast.error('Cập nhật thất bại', { theme: 'dark' });
                   console.error(error);
             }
       };

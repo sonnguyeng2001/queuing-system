@@ -13,6 +13,7 @@ import { CustomizeCheckbox } from '../../../../componentChild/CustomizeCheckbox/
 import uuid from 'react-uuid';
 import { routesConfig } from '../../../../../routes/routeConfig';
 import { CheckboxOptionType } from 'antd/lib/checkbox';
+import { toast } from 'react-toastify';
 const cx = classNames.bind(style);
 
 export const AddRole = () => {
@@ -68,10 +69,11 @@ export const AddRole = () => {
             const dataWithKey = { ...data, key: uuid().slice(0, 8).toUpperCase(), roleUserCount: 0 };
             await dispatch(addRole(dataWithKey))
                   .then((response: RoleType) => {
-                        response && alert('Thêm thành công');
+                        response && toast.success('Thêm thành công', { theme: 'dark' });
                         navigate(routesConfig.listRole);
                   })
                   .catch((errors: any) => {
+                        toast.error('Thêm thất bại', { theme: 'dark' });
                         console.log(errors);
                   });
       };

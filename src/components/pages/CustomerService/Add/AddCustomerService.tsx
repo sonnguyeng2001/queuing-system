@@ -15,8 +15,7 @@ import { CustomerServiceType } from '../../../propsType/CustomerServiceProps';
 import moment from 'moment';
 import { addCustomerService } from '../../../../redux/features/CustomerServicesSlice';
 import uuid from 'react-uuid';
-import { DateSchema } from 'yup';
-
+import { toast } from 'react-toastify';
 const cx = classNames.bind(style);
 
 export const AddCustomerService = () => {
@@ -30,7 +29,7 @@ export const AddCustomerService = () => {
             return await dispatch(addCustomerService(data));
       };
       const handlePrint = () => {
-            if (serviceRef.current) {
+            if (serviceRef.current.label && serviceRef.current.value) {
                   const year = new Date().getFullYear();
                   const month = new Date().getMonth();
                   const day = new Date().getDate();
@@ -70,7 +69,7 @@ export const AddCustomerService = () => {
                               console.log(error);
                         });
             } else {
-                  alert('Vui lòng chọn dịch vụ');
+                  toast.warning('Vui lòng chọn dịch vụ', { theme: 'dark' });
             }
       };
       const handleCancel = () => {

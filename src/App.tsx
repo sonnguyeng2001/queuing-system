@@ -15,6 +15,11 @@ import { getRoles } from './redux/features/RoleSlice';
 import { getCustomerServices } from './redux/features/CustomerServicesSlice';
 import { getServices } from './redux/features/ServiceSlice';
 import { getActionHistory } from './redux/features/ActionHistorySlice';
+import PageLoading from './components/componentChild/PageLoading/PageLoading';
+
+// React toastify
+  import { ToastContainer } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
 // React lazy
 const DefaultLayout = React.lazy(() =>
@@ -31,15 +36,15 @@ function App() {
             dispatch(getRoles());
             dispatch(getCustomerServices());
             dispatch(getServices());
-            dispatch(getActionHistory())
+            dispatch(getActionHistory());
       }, [dispatch]);
 
       return (
             <div className="App">
-                  <div className="wrapper">
-                        <Router>
-                              {dataUser.isLoggedIn ? (
-                                    <React.Suspense fallback={<div>App.tsx: Line 33</div>}>
+                  <Router>
+                        {dataUser.isLoggedIn ? (
+                              <React.Suspense fallback={<PageLoading />}>
+                                    <div className="wrapper">
                                           <Routes>
                                                 {privateRoutes.map((route, index) => {
                                                       const Page = route.component;
@@ -56,17 +61,20 @@ function App() {
                                                       );
                                                 })}
                                           </Routes>
-                                    </React.Suspense>
-                              ) : (
+                                    </div>
+                              </React.Suspense>
+                        ) : (
+                              <div className="wrapper">
                                     <Routes>
                                           {publicRoutes.map((route, index) => {
                                                 const Page = route.component;
                                                 return <Route key={index} path={route.path} element={<Page />} />;
                                           })}
                                     </Routes>
-                              )}
-                        </Router>
-                  </div>
+                              </div>
+                        )}
+                  </Router>
+                  <ToastContainer />
             </div>
       );
 }

@@ -10,6 +10,7 @@ import { useRef } from 'react';
 import { userLogin } from '../../../redux/features/UserSlice';
 import { routesConfig } from '../../../routes/routeConfig';
 import { UserType } from '../../propsType/UserProps';
+import { toast } from 'react-toastify';
 
 const cx = classNames.bind(style);
 export const LoginPage = () => {
@@ -30,7 +31,7 @@ export const LoginPage = () => {
             if (currentUser) {
                   errorRef.current?.classList.remove(cx('showError'));
                   dispatch(userLogin(currentUser));
-                  alert('Success');
+                  toast.success('Đăng nhập thành công', { theme: 'dark' });
                   navigate(routesConfig.dashboard);
             } else {
                   errorRef.current?.classList.add(cx('showError'));

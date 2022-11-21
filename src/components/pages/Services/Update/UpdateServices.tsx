@@ -15,7 +15,7 @@ import * as yup from 'yup';
 import { updateService } from '../../../../redux/features/ServiceSlice';
 import { routesConfig } from '../../../../routes/routeConfig';
 import { addActionHistory } from '../../../../redux/features/ActionHistorySlice';
-
+import { toast } from 'react-toastify';
 const cx = classNames.bind(style);
 
 export const UpdateServices = () => {
@@ -76,7 +76,8 @@ export const UpdateServices = () => {
                               keyUser: dataUser.currentUser.key,
                         }),
                   );
-                  alert('Cập nhật thành công');
+
+                  toast.success('Cập nhật thành công', { theme: 'dark' });
                   navigate(routesConfig.listServices);
             } catch (error) {
                   console.log(error);

@@ -17,6 +17,7 @@ import * as yup from 'yup';
 import 'yup-phone';
 import { updateRoleQuantity } from '../../../../../redux/features/RoleSlice';
 import { routesConfig } from '../../../../../routes/routeConfig';
+import { toast } from 'react-toastify';
 const cx = classNames.bind(style);
 
 type formType = UserType & {
@@ -81,12 +82,13 @@ export const AddAccount = () => {
                         response &&
                               (await dispatch(updateRoleQuantity({ arrayRole: [infoRole!], type: 'addition' })).then(
                                     (response: any) => {
-                                          alert('Thêm thành công ');
+                                          toast.success('Thêm thành công ', { theme: 'dark' });
                                           navigate(routesConfig.listAccount);
                                     },
                               ));
                   })
                   .catch((error: any) => {
+                        toast.error('Thêm thất bại', { theme: 'dark' });
                         console.log(error);
                   });
       };

@@ -14,13 +14,13 @@ import { DevicesType } from '../../../propsType/DevicesProps';
 import { addDevice } from '../../../../redux/features/DeviceSlice';
 import uuid from 'react-uuid';
 import { addActionHistory } from '../../../../redux/features/ActionHistorySlice';
-
+import { toast } from 'react-toastify';
 const cx = classNames.bind(style);
 
 export const AddDevices = () => {
       const dataDevices = useSelector((state: State) => state.device);
       const dataService = useSelector((state: State) => state.service);
-      const dataUser=useSelector((state: State) => state.user);
+      const dataUser = useSelector((state: State) => state.user);
       const navigate = useNavigate();
       const dispatch = useDispatch<any>();
 
@@ -78,11 +78,15 @@ export const AddDevices = () => {
             try {
                   await dispatch(addDevice(configData));
                   await dispatch(
-                        addActionHistory({ description: `Thêm thiết bị: ${configData.id} - ${configData.name}`, keyUser:dataUser.currentUser.key }),
+                        addActionHistory({
+                              description: `Thêm thiết bị: ${configData.id} - ${configData.name}`,
+                              keyUser: dataUser.currentUser.key,
+                        }),
                   );
-                  alert("Thêm thành công");
+                  toast.success('Thêm thành công', { theme: 'dark' });
                   navigate(-1);
             } catch (error) {
+                  toast.error('Thêm thất bại', { theme: 'dark' });
                   console.log(error);
             }
       };

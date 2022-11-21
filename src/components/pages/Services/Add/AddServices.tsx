@@ -15,6 +15,7 @@ import { State } from '../../../../redux/store';
 import { CustomizeCheckbox } from '../../../componentChild/CustomizeCheckbox/CustomizeCheckbox';
 import { CheckboxOptionType } from 'antd/lib/checkbox';
 import { addActionHistory } from '../../../../redux/features/ActionHistorySlice';
+import { toast } from 'react-toastify';
 const cx = classNames.bind(style);
 
 export const AddServices = () => {
@@ -61,9 +62,10 @@ export const AddServices = () => {
                               keyUser: dataUser.currentUser.key,
                         }),
                   );
-                  alert('Thêm thành công');
+                  toast.success('Thêm thành công', { theme: 'dark' });
                   navigate(routesConfig.listServices);
             } catch (error) {
+                  toast.error('Thêm thất bại', { theme: 'dark' });
                   console.log(error);
             }
       };
