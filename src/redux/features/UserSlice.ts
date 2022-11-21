@@ -139,7 +139,8 @@ export const userSlice = createSlice({
 
             // ------------------------- Logout
             [userLogout.fulfilled.toString()]: (state, action) => {
-                  state.isLoggedIn = !action.payload;
+                  state.isLoggedIn = false;
+                  state.currentUser = {} as UserType;
                   window.localStorage.removeItem('isLoggedIn');
             },
 

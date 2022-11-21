@@ -18,8 +18,9 @@ import { getActionHistory } from './redux/features/ActionHistorySlice';
 import PageLoading from './components/componentChild/PageLoading/PageLoading';
 
 // React toastify
-  import { ToastContainer } from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Page404 } from './components/pages/Page404/Page404';
 
 // React lazy
 const DefaultLayout = React.lazy(() =>
@@ -60,6 +61,7 @@ function App() {
                                                             />
                                                       );
                                                 })}
+                                                <Route path="*" element={<Page404 />} />
                                           </Routes>
                                     </div>
                               </React.Suspense>
@@ -70,6 +72,7 @@ function App() {
                                                 const Page = route.component;
                                                 return <Route key={index} path={route.path} element={<Page />} />;
                                           })}
+                                          <Route path="*" element={<Page404 />} />
                                     </Routes>
                               </div>
                         )}

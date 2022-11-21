@@ -46,6 +46,7 @@ import { routesConfig } from './routeConfig';
 import { AddAccount } from '../components/pages/Setting/Account/AddAccount/AddAccount';
 import { InfoUser } from '../components/pages/InfoUser/InfoUser';
 import { DetailsCustomerService } from '../components/pages/CustomerService/Details/DetailsCustomerService';
+import { Page404 } from '../components/pages/Page404/Page404';
 
 export type RouteProps = {
       path: string;
@@ -218,7 +219,7 @@ const privateRoutes: RouteProps[] = [
       // Setting Page => Action History
       {
             path: routesConfig.listActionHistory,
-            component:ListActionHistory ,
+            component: ListActionHistory,
             translate: 'Nhật ký hoạt động',
             pageHeader: routesConfig.listActionHistory,
       },
@@ -230,6 +231,8 @@ const privateRoutes: RouteProps[] = [
             translate: 'Thông tin cá nhân',
             pageHeader: routesConfig.infoUser,
       },
+
+     
 ];
 
 const publicRoutes: RouteProps[] = [
@@ -251,6 +254,7 @@ const publicRoutes: RouteProps[] = [
             translate: 'Đặt lại mật khẩu',
             pageHeader: routesConfig.resetPassword,
       },
+      
 ];
 
 export { publicRoutes, privateRoutes };
