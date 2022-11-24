@@ -18,7 +18,7 @@ const columns = [
       {
             title: 'Tên vai trò',
             dataIndex: 'roleName',
-            width: '10%',
+            width: '15%',
       },
       {
             title: 'Số người dùng',
@@ -88,7 +88,7 @@ export const ListRole = () => {
             }
       };
 
-      const pageSize = 7;
+      const pageSize = 5;
       return (
             <div className={cx('settingRoleWrapper')}>
                   <HeaderContent title="Danh sách vai trò" />
@@ -108,7 +108,12 @@ export const ListRole = () => {
                   <div className={cx('table-settingRole')}>
                         <CustomizeTable columns={columns} dataSource={dataSource} pageSize={pageSize} />
 
-                        <CustomizeButton type='Link' logo={<LogoPlus />} title="Thêm vai trò" to={routesConfig.addRole} />
+                        <CustomizeButton
+                              type="Link"
+                              logo={<LogoPlus />}
+                              title="Thêm vai trò"
+                              to={routesConfig.addRole}
+                        />
                   </div>
             </div>
       );

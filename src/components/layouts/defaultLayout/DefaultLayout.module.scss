@@ -1,18 +1,15 @@
 .wrapper {
-   display: flex;
+      display: flex;
 }
 .sidebar {
-   width: var(--width-sidebar);
-   height: var(--height-app);
-   background-color: white;
-   padding: var(--space-header-footer) 0px;
+      width: var(--width-sidebar);
+      height: var(--height-app);
+      background-color: white;
+      padding: var(--space-header-footer) 0px;
 }
 .content {
-   width: calc(100% - var(--width-sidebar));
-   background-color: var(--color-bg-content);
-   padding-left: 20px;
-   padding-bottom: var(--space-header-footer);
-}
-
-.children {
+      width: calc(100% - var(--width-sidebar));
+      background-color: var(--color-bg-content);
+      padding-left: 20px;
+      padding-bottom: var(--space-header-footer);
 }
