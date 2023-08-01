@@ -73,12 +73,11 @@ export const ListRole = () => {
 
       const debouncedValue = useDebounce(inputSearch, 500);
       useEffect(() => {
-            debouncedValue &&
-                  setDataSource(
-                        dataSourceRef.current.filter((key) => {
-                              return key.roleName.toLowerCase().includes(debouncedValue.toLowerCase());
-                        }),
-                  );
+            setDataSource(
+                  dataSourceRef.current.filter((key) => {
+                        return key.roleName.toLowerCase().includes(debouncedValue.toLowerCase());
+                  }),
+            );
       }, [debouncedValue]);
 
       const handleChangeInput = (e: any) => {

@@ -21,11 +21,12 @@
       --color-blue: #4277ff;
       --color-red: #e73f3f;
       --color-green: #35c75a;
-      --color-pink:#F178B6;
+      --color-pink: #f178b6;
 
       --space-header-footer: 30px;
       --width-app: 1500px;
       --height-app: calc(100vh - 20px);
+      --height-content-children: 500px;
       --width-sidebar: 200px;
       --width-table-content: 1160px;
       --width-full-content: calc(100% - 30px);
