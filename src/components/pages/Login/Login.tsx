@@ -23,8 +23,8 @@ export const LoginPage = () => {
       const handleClickLogin = () => {
             const currentUser = dataUser.data.find((user: UserType) => {
                   return (
-                        user.userName === usernameRef.current?.value &&
-                        user.password === passwordRef.current?.value &&
+                        user.userName === usernameRef.current?.value.trim() &&
+                        user.password === passwordRef.current?.value.trim() &&
                         user
                   );
             });
